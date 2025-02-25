@@ -1,0 +1,37 @@
+.sidenav {
+  background-color: var(--XXL-color);
+  color: #fff;
+  width: 13vw;
+  height: 88vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease-in-out;
+}
+
+.pages {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.pages a {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.pages a:hover {
+  background-color: var(--XL-color);
+}
+
+.pages a fa-icon {
+  margin-right: 10px;
+}
