@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    position: relative;
+    font-family: "Roboto", sans-serif;
+    background: #f4f7fa;
+  }
+  :root {
+    --primary-color: #1e293b; 
+    --secondary-color: #334155; 
+    --hover-color: #475569;  
+    --text-color: #fff;      
+   }
+
+  :root {
+    --sidebar-bg: #1e293b;      /* Dark Blue */
+    --sidebar-hover: #334155;   /* Lighter Blue */
+    --sidebar-text: #ffffff;    /* White */
+    --sidebar-active: #64748b;  /* Active Link */
+  }
+
+  :root {
+    --XXL-color: #1b2d48;
+    --XL-color: #2c456b;
+    --XXL-color: #3c649f;
+    --M-color: #4779c4;
+    --S-color: #83aff0;
+  }
+  
+
+
+  /* color pallate */
+  /* https://www.color-hex.com/color-palette/111548 */
