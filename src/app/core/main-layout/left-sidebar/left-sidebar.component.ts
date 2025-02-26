@@ -16,6 +16,7 @@ export class LeftSidebarComponent {
 
   public faBars: IconDefinition = faBars;
   public faSignOut: IconDefinition = faSignOut;
+  
   sidebarIcons = {
     dashboard: faTachometerAlt,
     orders: faClipboardList,    

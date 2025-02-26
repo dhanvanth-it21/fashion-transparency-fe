@@ -1,1 +1,86 @@
-<p>dashboard works</p>
+<div class="dashboard-container">
+  <div class="dashboard-overview">
+    <h2>Dashboard Overview</h2>
+
+    <div class="dashboard-cards">
+      <div class="card">
+        <h3>Total Orders</h3>
+        <p>{{ metrics.totalOrders }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Total Inventory</h3>
+        <p>{{ metrics.totalInventoryItems }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Total Employees</h3>
+        <p>{{ metrics.totalEmployees }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Total Unseen Damages Reported</h3>
+        <p>{{ metrics.totalUnseenDamagesReported }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-container">
+    <div class="order-section">
+      <h2>Pending Orders</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Retailer</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="table-body-container">
+                  <tr *ngFor="let order of pendingOrders">
+                    <td>{{ order.orderId }}</td>
+                    <td>{{ order.retailer }}</td>
+                    <td>{{ order.orderDate }}</td>
+                    <td>
+                      <span class="status-label {{ order.status }}">{{
+                        order.status
+                      }}</span>
+                    </td>
+                    <td>
+                      <button class="reject-btn">Reject</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="order-section">
+      <h2>Dispatched Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Retailer</th>
+            <th>Dispatched Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of dispatchedOrders">
+            <td>{{ order.orderId }}</td>
+            <td>{{ order.retailer }}</td>
+            <td>{{ order.dispatchDate }}</td>
+            <td>
+              <span class="status-label {{ order.status }}">{{
+                order.status
+              }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
