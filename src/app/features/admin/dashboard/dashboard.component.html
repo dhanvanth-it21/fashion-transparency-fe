@@ -27,38 +27,43 @@
 
   <div class="order-container">
     <div class="order-section">
-      <h2>Pending Orders</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Retailer</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="table-body-container">
-                  <tr *ngFor="let order of pendingOrders">
-                    <td>{{ order.orderId }}</td>
-                    <td>{{ order.retailer }}</td>
-                    <td>{{ order.orderDate }}</td>
-                    <td>
-                      <span class="status-label {{ order.status }}">{{
-                        order.status
-                      }}</span>
-                    </td>
-                    <td>
-                      <button class="reject-btn">Reject</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Retailer</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of pendingOrders">
+            <td>{{ order.orderId }}</td>
+            <td>{{ order.retailer }}</td>
+            <td>{{ order.orderDate }}</td>
+            <td>
+              <span class="status-label {{ order.status }}">{{
+                order.status
+              }}</span>
+            </td>
+            <td>
+              <button class="reject-btn">Reject</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <p>No. of pages: <span>3</span></p>
+        <div class="page-navigation">
+          <button><fa-icon [icon]="iconsUsed.prev"></fa-icon></button>
+          <p class="page-number">1</p>
+          <button><fa-icon [icon]="iconsUsed.next"></fa-icon></button>
         </div>
+      </div>
+      
     </div>
     <div class="order-section">
-      <h2>Dispatched Orders</h2>
       <table>
         <thead>
           <tr>
@@ -81,6 +86,40 @@
           </tr>
         </tbody>
       </table>
+      <div class="pagination">
+        <p>No. of pages: <span>3</span></p>
+        <div class="page-navigation">
+          <button><fa-icon [icon]="iconsUsed.prev"></fa-icon></button>
+          <p class="page-number">1</p>
+          <button><fa-icon [icon]="iconsUsed.next"></fa-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="low-damage-metrics">
+    <div class="low-stock-metrics">
+      <div class="low-stock-metric">
+        <p>Total Low Stock : <span>4</span></p>
+        <p>Critical Low Stock : <span>1</span></p>
+      </div>
+      <button class="view-deatils">View Detials</button>
+    </div>
+    <div class="damage-metrics">
+      <h2>Damage Alerts</h2>
+      <div class="damage-metric">
+        <div class="damage-box">
+        <h3>WareHouse : <span>2</span></h3>
+
+        </div>
+        <div class="damage-box">
+          <h3>Retail Shop : <span>3</span></h3>
+        </div>
+        <div class="damage-box">
+          <h3>Manufacturer : <span>0</span></h3>
+        </div>
+      </div>
+      <button class="view-deatils">View Detials</button>
     </div>
   </div>
 </div>

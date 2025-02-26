@@ -1,15 +1,23 @@
 import { Component } from '@angular/core';
 import { OverviewMetrics } from '../models/overview-metrics.model';
 import { CommonModule } from '@angular/common';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [ CommonModule, FontAwesomeModule ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+
+    iconsUsed = {
+      prev: faArrowLeft,
+      next: faArrowRight,      
+    };
 
   metrics: OverviewMetrics = {
     totalOrders: 0,
