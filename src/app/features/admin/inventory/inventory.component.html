@@ -1,1 +1,10 @@
-<p>inventory works!</p>
+<button
+(click)="openAddTileComponent()"
+>Add Tile</button>
+
+<div class="modal-overlay" *ngIf="isAddTileComponentOpen">
+    <div class="modal-container">
+      <app-add-tile (closeModal)="closeAddTileComponent()"></app-add-tile>
+    </div>
+  </div>
+
