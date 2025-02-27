@@ -19,10 +19,16 @@ export class InventoryComponent {
   ) {}
 
   ngOnInit() {
+    if(this.router.url === "/admin/inventory/add-tile") {
+      this.isAddTileComponentOpen = true;
+    }
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         if(event.url === "/admin/inventory/add-tile"){
           this.isAddTileComponentOpen = true;
+        }
+        else {
+          this.isAddTileComponentOpen = false;
         }
       }
     })
@@ -34,7 +40,7 @@ export class InventoryComponent {
   }
   
   closeAddTileComponent() {
-    this.router.navigate([".."], { relativeTo: this.activatedRoute });
+    this.router.navigate(["/admin/inventory"]);
   }
 
 }

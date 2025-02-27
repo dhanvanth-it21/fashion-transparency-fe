@@ -1,6 +1,79 @@
 <div class="add-tile-container">
-    <button (click)="submitTitle()"
-    >submit</button>
-    <button (click)="closeDialog()"
-    >Close</button>
+    <div class="add-tile-heading">
+        <h1>Add New Tile</h1>
+    </div>
+  <div class="add-tile-form">
+    <form [formGroup]="newAddTileFormBuilder">
+      <div class="tile-detail">
+        <label for="modelName">Model Name: </label>
+        <input id="modelName" type="text" formControlName="modelName" />
+      </div>
+
+      <div class="tile-detail">
+        <label for="brandName">Brand Name: </label>
+        <input id="brandName" type="text" formControlName="brandName" />
+      </div>
+
+      <div class="tile-detail">
+        <label for="tileSize">Tile Size: </label>
+        <input id="tileSize" type="text" formControlName="tileSize" />
+      </div>
+
+      <div class="tile-detail">
+        <label for="qty">Quantity: </label>
+        <input id="qty" type="number" formControlName="qty" />
+      </div>
+
+      <div class="tile-detail">
+        <label for="piecesPerBox">Pieces Per Box: </label>
+        <input id="piecesPerBox" type="number" formControlName="piecesPerBox" />
+      </div>
+
+      <div class="tile-detail">
+        <label for="color">Colour: </label>
+        <input id="color" type="text" formControlName="color" />
+      </div>
+
+      <div class="tile-detail">
+        <label for="category">Category: </label>
+        <select id="category" formControlName="category">
+          <option *ngFor="let kind of category" [value]="kind">
+            {{ kind }}
+          </option>
+        </select>
+      </div>
+
+      <div class="tile-detail">
+        <label for="subCategory">SubCategory: </label>
+        <select id="subCategory" formControlName="subCategory">
+          <option *ngFor="let kind of selectedSubCategory" [value]="kind">
+            {{ kind }}
+          </option>
+        </select>
+      </div>
+
+      <div class="tile-detail">
+        <label for="finishing">Finishing: </label>
+        <select id="finishing" formControlName="finishing">
+          <option *ngFor="let kind of finishing" [value]="kind">
+            {{ kind }}
+          </option>
+        </select>
+      </div>
+
+      <div class="tile-detail">
+        <label for="minimumStockLevel">Minimum Stock Level: </label>
+        <input
+          id="minimumStockLevel"
+          type="number"
+          formControlName="minimumStockLevel"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="form-action-btn">
+    <button (click)="submitForm()" class="submit-btn">Submit</button>
+    <button (click)="closeDialog()" class="discard-btn">Discard</button>
+  </div>
 </div>
