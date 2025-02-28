@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 
 * {
@@ -27,3 +28,6 @@
 
   /* color pallate */
   /* https://www.color-hex.com/color-palette/111548 */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

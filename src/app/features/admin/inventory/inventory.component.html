@@ -1,10 +1,76 @@
-<button
-(click)="openAddTileComponent()"
->Add Tile</button>
+<div class="inventory-container">
+  <div class="list-container">
+    <div class="list-heading">
+      <input type="text">
+      <button (click)="openAddTileComponent()">Add Tile</button>
+    </div>
+    <div class="list-area">
 
-<div class="modal-overlay" *ngIf="isAddTileComponentOpen">
-    <div class="modal-container">
-      <app-add-tile (closeModal)="closeAddTileComponent()"></app-add-tile>
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="skuCode">
+          <th mat-header-cell *matHeaderCellDef> Sku-Code </th>
+          <td mat-cell *matCellDef="let element"> {{element.skuCode}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="brandName">
+          <th mat-header-cell *matHeaderCellDef> Brand Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.brandName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="modelName">
+          <th mat-header-cell *matHeaderCellDef> Model Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.modelName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tileSize">
+          <th mat-header-cell *matHeaderCellDef> Tile Size </th>
+          <td mat-cell *matCellDef="let element"> {{element.tileSize}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity/pieces">
+          <th mat-header-cell *matHeaderCellDef> Quantity / Pieces per box </th>
+          <td mat-cell *matCellDef="let element"> {{element.qty}} / {{element.piecesPerBox}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef> Details </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+                <mat-icon class="mat-18">reorder</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="update">
+            <th mat-header-cell *matHeaderCellDef> Update </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                  <mat-icon class="mat-18">system_update</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef> Delete </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                    <mat-icon class="mat-18">delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
     </div>
   </div>
+</div>
 
+
+
+<div class="modal-overlay" *ngIf="isAddTileComponentOpen">
+  <div class="modal-container">
+    <app-add-tile (closeModal)="closeAddTileComponent()"></app-add-tile>
+  </div>
+</div>

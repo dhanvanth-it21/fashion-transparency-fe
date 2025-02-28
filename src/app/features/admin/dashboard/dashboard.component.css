@@ -179,7 +179,7 @@ td:nth-child(2) {
 .low-stock-metrics {
   height: 35%;
   width: 100%;
-  background-color: #ffaeae;
+  background-color: #b8cef0;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
@@ -191,7 +191,7 @@ td:nth-child(2) {
   height: 65%;
   width: 100%;
   border-radius: 8px;
-  background-color: #ffaeae;
+  background-color: #b8cef0;
   padding: 10px;
   text-align: center;
 }
@@ -268,7 +268,7 @@ td:nth-child(2) {
 }
 
 .damage-metrics h2 {
-  color: #f25e5c;
+  color: #000;
 }
 
 .damage-metric {
@@ -297,3 +297,10 @@ td:nth-child(2) {
   color: #000;
   text-align: left;
 }
+
+.damage-box h3 span {
+  font-size: 1.3rem;
+  color: #ff0000;
+  text-align: left;
+}
+
