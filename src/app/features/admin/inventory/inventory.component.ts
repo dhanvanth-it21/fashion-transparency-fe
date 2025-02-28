@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/ro
 import { AddTileComponent } from "./add-tile/add-tile.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../shared/services/api.service';
-import { faArchive, faArrowLeft, faArrowRight, faEdit, faExpand, faX } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faUpDown, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Tile } from '../models/tile.modle';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +27,8 @@ export class InventoryComponent {
     details: faExpand,
     prev: faArrowLeft,
     next: faArrowRight,
+    asc: faArrowDown,
+    desc: faArrowUp,
 
   }
 
@@ -37,8 +39,21 @@ export class InventoryComponent {
     is_first: true,
     is_last: true,
     total_elements: 0,
+    sort_by: "_id",
+    sort_direction: "asc"
   }
 
+
+  tabelHeader = [
+    {name: "S No.", class: "make-center", sortBy: "_id", sortDirection: "asc"},
+    {name: "Sku Code", class: "", sortBy: "skuCode", sortDirection: "asc"},
+    {name: "Tile Size", class: "", sortBy: "tileSize", sortDirection: "asc"},
+    {name: "Brand Name", class: "", sortBy: "brandName", sortDirection: "asc"},
+    {name: "Model Name", class: "", sortBy: "modelName", sortDirection: "asc"},
+    {name: "Qty", class: "make-center", sortBy: "qty", sortDirection: "asc"},
+    {name: "Pieces / Box", class: "make-center", sortBy: "piecesPerBox", sortDirection: "asc"},
+    {name: "Action", class: ""},
+  ]
 
   displayData!: Tile[];
 
@@ -81,8 +96,8 @@ export class InventoryComponent {
     this.router.navigate(["/admin/inventory"]);
   }
 
-  getTilesList(page: number, size: number) {
-    this.apiService.getTilesList(page, size).subscribe(
+  getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = this.paging.sort_direction) {
+    this.apiService.getTilesList(page, size, sortBy, sortDirection).subscribe(
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
@@ -107,21 +122,27 @@ export class InventoryComponent {
   }
 
   previousPage() {
-    if(!this.paging.is_first) {
+    if (!this.paging.is_first) {
       this.paging.page_number = this.paging.page_number - 1;
       this.updateTileTable();
     }
   }
 
   nextPage() {
-    if(!this.paging.is_last) {
+    if (!this.paging.is_last) {
       this.paging.page_number = this.paging.page_number + 1;
       this.updateTileTable();
     }
   }
 
-  updateTileTable() {
-    this.getTilesList(this.paging.page_number, this.paging.page_size);
+  updateTileTable(sortBy: string =  "", sortDirection: string = "asc") {
+    if(sortBy === "") {
+      this.getTilesList(this.paging.page_number, this.paging.page_size);
+    }
+    else {
+      this.paging.sort_direction = sortDirection === "asc" ? "desc" : "asc";
+      this.getTilesList(this.paging.page_number, this.paging.page_size, sortBy);
+    }
   }
 
   updatePaging() {
@@ -131,6 +152,10 @@ export class InventoryComponent {
 
 
 
+  doSorting(sortBy: string, sortDirection: string) {
+    this.paging.sort_direction = sortDirection === "asc" ? "desc" : "asc";
+    this.updateTileTable(sortBy);
+  }
 
 
 

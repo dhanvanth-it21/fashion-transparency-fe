@@ -13,25 +13,38 @@
       <table>
         <thead>
           <tr>
-            <th>S No.</th>
-            <th>Sku Code</th>
-            <th>Tile Size</th>
-            <th>Brand Name</th>
-            <th>Model Name</th>
-            <th>Qty</th>
-            <th>Pieces / Box</th>
-            <th>Action</th>
+            <th
+            *ngFor="let heading of tabelHeader; let i = index"
+            [ngClass]="tabelHeader[i].class !== '' ? tabelHeader[i].class : ''"
+            (click)="doSorting(heading.sortBy!, heading.sortDirection!)"
+            >
+            <div class="t-head">
+              {{heading.name}}
+            <span class="hide"
+            >
+              <fa-icon 
+              *ngIf="heading.sortDirection === 'asc'"
+              [icon]="iconsUsed.asc"
+              >
+            </fa-icon>
+            <fa-icon 
+            *ngIf="heading.sortDirection === 'desc'"
+              [icon]="iconsUsed.desc"></fa-icon
+              >
+            </span>
+            </div>
+          </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let tile of displayData; let i = index">
-            <td class="text-left">{{ (paging.page_number * paging.page_size) + (i + 1) }}</td>
-            <td class="text-left">{{ tile.skuCode }}</td>
-            <td class="text-left">{{ tile.tileSize }}</td>
-            <td class="text-left">{{ tile.brandName }}</td>
-            <td class="text-left">{{ tile.modelName }}</td>
-            <td>{{ tile.qty }}</td>
-            <td>{{ tile.piecesPerBox }}</td>
+            <td class="make-center">{{ (paging.page_number * paging.page_size) + (i + 1) }}</td>
+            <td >{{ tile.skuCode }}</td>
+            <td >{{ tile.tileSize }}</td>
+            <td >{{ tile.brandName }}</td>
+            <td >{{ tile.modelName }}</td>
+            <td class="make-center">{{ tile.qty }}</td>
+            <td class="make-center">{{ tile.piecesPerBox }}</td>
             <td>
               <div class="tile-action-container">
                 <button (click)="showDetailsOfTileId(tile._id)">

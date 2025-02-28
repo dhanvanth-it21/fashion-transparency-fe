@@ -13,8 +13,9 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
-  getTilesList(page: number, size: number) {
-    const apiuri = `http://${this.serverIp}/api/tiles/table-details?page=${page}&size=${size}`;
+  getTilesList(page: number, size: number, sortBy: string, sortDirection: string) {
+    const apiuri = `http://${this.serverIp}/api/tiles/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}`;
+    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }

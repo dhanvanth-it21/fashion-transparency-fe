@@ -87,10 +87,30 @@ th {
   font-size: 0.8rem;
   cursor: pointer;
   user-select: none;
+
+}
+
+.t-head {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.t-head span {
+  position: absolute;
+  right: 0;
+}
+
+.hide {
+  display: none;
 }
 
 th:hover {
   background-color: #34495e;
+}
+
+th:hover .hide{
+  display: block;
 }
 
 tbody tr:nth-child(odd) {
@@ -191,3 +211,8 @@ tbody tr:hover .tile-action-container fa-icon {
   border: none;
   border-radius: 4px;
 }
+
+.make-center {
+  text-align: center;
+}
+
