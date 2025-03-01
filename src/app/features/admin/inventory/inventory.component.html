@@ -14,71 +14,106 @@
         <thead>
           <tr>
             <th
-            *ngFor="let heading of tabelHeader; let i = index"
-            [ngClass]="tabelHeader[i].class !== '' ? tabelHeader[i].class : ''"
-            (click)="doSorting(heading.sortBy!, heading.sortDirection!)"
+              *ngFor="let heading of tabelHeader; let i = index"
+              [ngClass]="
+                tabelHeader[i].class !== '' ? tabelHeader[i].class : ''
+              "
+              (click)="doSorting(heading.sortBy!, heading.sortDirection!)"
             >
-            <div class="t-head">
-              {{heading.name}}
-            <span class="hide"
-            >
-              <fa-icon 
-              *ngIf="heading.sortDirection === 'asc'"
-              [icon]="iconsUsed.asc"
-              >
-            </fa-icon>
-            <fa-icon 
-            *ngIf="heading.sortDirection === 'desc'"
-              [icon]="iconsUsed.desc"></fa-icon
-              >
-            </span>
-            </div>
-          </th>
+              <div class="t-head">
+                {{ heading.name }}
+                <span class="hide">
+                  <fa-icon
+                    *ngIf="heading.sortDirection === 'asc'"
+                    [icon]="iconsUsed.asc"
+                  >
+                  </fa-icon>
+                  <fa-icon
+                    *ngIf="heading.sortDirection === 'desc'"
+                    [icon]="iconsUsed.desc"
+                  ></fa-icon>
+                </span>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tile of displayData; let i = index">
-            <td class="make-center">{{ (paging.page_number * paging.page_size) + (i + 1) }}</td>
-            <td >{{ tile.skuCode }}</td>
-            <td >{{ tile.tileSize }}</td>
-            <td >{{ tile.brandName }}</td>
-            <td >{{ tile.modelName }}</td>
-            <td class="make-center">{{ tile.qty }}</td>
-            <td class="make-center">{{ tile.piecesPerBox }}</td>
-            <td>
-              <div class="tile-action-container">
-                <button (click)="showDetailsOfTileId(tile._id)">
-                  <fa-icon [icon]="iconsUsed.details"></fa-icon>
-                </button>
-                <button>
-                  <fa-icon [icon]="iconsUsed.update"></fa-icon>
-                </button>
-                <button>
-                  <fa-icon [icon]="iconsUsed.archive"></fa-icon>
-                </button>
-              </div>
-            </td>
+          <ng-container *ngFor="let tile of displayData; let i = index">
+            <!-- First row: Main data -->
+            <tr>
+              <td class="make-center">
+                {{ paging.page_number * paging.page_size + (i + 1) }}
+              </td>
+              <td>{{ tile.skuCode }}</td>
+              <td>{{ tile.tileSize }}</td>
+              <td>{{ tile.brandName }}</td>
+              <td>{{ tile.modelName }}</td>
+              <td class="make-center">{{ tile.qty }}</td>
+              <td class="make-center">{{ tile.piecesPerBox }}</td>
+              <td>
+                <div class="tile-action-container">
+                  <button (click)="showDetailsOfTileId(tile._id)">
+                    <fa-icon [icon]="iconsUsed.details"></fa-icon>
+                  </button>
+                  <button>
+                    <fa-icon [icon]="iconsUsed.update"></fa-icon>
+                  </button>
+                  <button>
+                    <fa-icon [icon]="iconsUsed.archive"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr class="detail-veiw" *ngIf="tileDetailId === tile._id">
+              <td colspan="8">
+                <div class="tile-detail">
+                  <h3>{{ tileDetail!.modelName }}</h3>
+                <p><strong>Brand:</strong> {{ tileDetail!.brandName }}</p>
+                <p><strong>Tile Size:</strong> {{ tileDetail!.tileSize }}</p>
+                <p><strong>Color:</strong> {{ tileDetail!.color }}</p>
+                <p><strong>Category:</strong> {{ tileDetail!.category }}</p>
+                <p>
+                  <strong>Subcategory:</strong> {{ tileDetail!.subCategory }}
+                </p>
+                <p><strong>Finishing:</strong> {{ tileDetail!.finishing }}</p>
+                <p>
+                  <strong>Minimum Stock Level:</strong>
+                  {{ tileDetail!.minimumStockLevel }}
+                </p>
+                <p>
+                  <strong>Create On:</strong>
+                  {{ tileDetail!.createdAt| date : "medium" }}
+                </p>
+                <p>
+                  <strong>Last Updated:</strong>
+                  {{ tileDetail!.updatedAt | date : "medium" }}
+                </p>
+                </div>
+              </td>
           </tr>
+          </ng-container>
         </tbody>
       </table>
       <div class="page-control">
         <div class="pagination">
           <div class="page-navigation">
-            <button
-            (click)="previousPage()"
-            [disabled]="paging.is_first"
-            ><fa-icon [icon]="iconsUsed.prev"></fa-icon></button>
-            <p class="page-number">{{paging.page_number + 1}} / {{paging.total_pages}}</p>
-            <button
-            (click)="nextPage()"
-            [disabled]="paging.is_last"
-            ><fa-icon [icon]="iconsUsed.next"></fa-icon></button>
+            <button (click)="previousPage()" [disabled]="paging.is_first">
+              <fa-icon [icon]="iconsUsed.prev"></fa-icon>
+            </button>
+            <p class="page-number">
+              {{ paging.page_number + 1 }} / {{ paging.total_pages }}
+            </p>
+            <button (click)="nextPage()" [disabled]="paging.is_last">
+              <fa-icon [icon]="iconsUsed.next"></fa-icon>
+            </button>
           </div>
         </div>
         <div class="page-size">
-          <select name="pageSize" id="page-size" 
-          [(ngModel)]="paging.page_size"
-          (change)="updatePaging()"
+          <select
+            name="pageSize"
+            id="page-size"
+            [(ngModel)]="paging.page_size"
+            (change)="updatePaging()"
           >
             <option value="5">5</option>
             <option value="8">8</option>

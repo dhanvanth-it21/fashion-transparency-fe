@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../shared/services/api.service';
 import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faUpDown, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Tile } from '../models/tile.modle';
+import { Tile, TileDetial } from '../models/tile.modle';
 import { FormsModule } from '@angular/forms';
 
 
@@ -40,7 +40,6 @@ export class InventoryComponent {
     is_last: true,
     total_elements: 0,
     sort_by: "_id",
-    sort_direction: "asc"
   }
 
 
@@ -56,6 +55,9 @@ export class InventoryComponent {
   ]
 
   displayData!: Tile[];
+
+  tileDetail: TileDetial | null= null;
+  tileDetailId: string | null = null;
 
   constructor(
     private router: Router,
@@ -96,7 +98,7 @@ export class InventoryComponent {
     this.router.navigate(["/admin/inventory"]);
   }
 
-  getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = this.paging.sort_direction) {
+  getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = "asc") {
     this.apiService.getTilesList(page, size, sortBy, sortDirection).subscribe(
       {
         next: (response: any) => {
@@ -115,10 +117,22 @@ export class InventoryComponent {
     )
   }
 
+  getTileDetail(id: string) {
+    this.apiService.getTileDetail(id).subscribe({
+      next: (response: any) => {
+        if (response.status === "success" && response.data) {
+          this.tileDetail = response.data;
+        }
+      },
+      error: (e) => { console.error(e) },
+    })
+  }
+
 
 
   showDetailsOfTileId(_id: string) {
-    console.log(_id)
+    this.tileDetailId = _id;
+    this.tileDetail = this.getTileDetail(_id)!;
   }
 
   previousPage() {
@@ -140,8 +154,7 @@ export class InventoryComponent {
       this.getTilesList(this.paging.page_number, this.paging.page_size);
     }
     else {
-      this.paging.sort_direction = sortDirection === "asc" ? "desc" : "asc";
-      this.getTilesList(this.paging.page_number, this.paging.page_size, sortBy);
+      this.getTilesList(this.paging.page_number, this.paging.page_size, sortBy, sortDirection);
     }
   }
 
@@ -153,8 +166,12 @@ export class InventoryComponent {
 
 
   doSorting(sortBy: string, sortDirection: string) {
-    this.paging.sort_direction = sortDirection === "asc" ? "desc" : "asc";
-    this.updateTileTable(sortBy);
+    const direction = sortDirection === "asc" ? "desc" : "asc";
+    this.tabelHeader.filter((data) => {
+      data.sortBy === sortBy;
+      data.sortDirection = direction;
+    })
+    this.updateTileTable(sortBy, direction);
   }
 
 

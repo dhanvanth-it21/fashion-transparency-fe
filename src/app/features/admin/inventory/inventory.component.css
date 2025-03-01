@@ -216,3 +216,54 @@ tbody tr:hover .tile-action-container fa-icon {
   text-align: center;
 }
 
+
+/* .tile-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+} */
+
+
+.tile-detail {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
+}
+
+.tile-detail h3 {
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.tile-detail p {
+  flex: 1 1 calc(50% - 8px); /* Ensures two columns while using space efficiently */
+  font-size: 16px;
+  color: #555;
+  margin: 4px 0;
+  min-width: 200px; /* Prevents items from shrinking too much */
+}
+
+.tile-detail strong {
+  color: #222;
+}
+
+/* Responsive - Single column on smaller screens */
+@media (max-width: 600px) {
+  .tile-detail p {
+    flex: 1 1 100%; /* Switch to single column on small screens */
+  }
+}
+

@@ -45,3 +45,25 @@ export interface Tile {
     qty: number;
     piecesPerBox: number;
 }
+
+export interface TileDetial {
+
+    skuCode: string,
+    tileSize: TileSize,
+    brandName: string,
+    modelName: string,
+    color: string,
+    qty: 50,
+    piecesPerBox: 4,
+    category: TileCategory,
+    subCategory: TileSubCategory,
+    finishing: Finishing,
+    minimumStockLevel: 10,
+    archived: false,
+    createdAt: Date,
+    updatedAt: Date
+
+}
+
+
+

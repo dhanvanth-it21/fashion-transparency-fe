@@ -15,9 +15,15 @@ export class ApiService {
 
   getTilesList(page: number, size: number, sortBy: string, sortDirection: string) {
     const apiuri = `http://${this.serverIp}/api/tiles/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}`;
-    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
+
+  getTileDetail(id: string) {
+    const apiuri =` http://${this.serverIp}/api/tiles/tile-detail/${id}`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
 }
 
