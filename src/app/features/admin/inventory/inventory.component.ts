@@ -7,12 +7,13 @@ import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, f
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Tile, TileDetial } from '../models/tile.modle';
 import { FormsModule } from '@angular/forms';
+import { UpdateTileComponent } from "./update-tile/update-tile.component";
 
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [RouterModule, AddTileComponent, CommonModule, FontAwesomeModule, FormsModule],
+  imports: [RouterModule, AddTileComponent, CommonModule, FontAwesomeModule, FormsModule, UpdateTileComponent],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
@@ -20,6 +21,7 @@ export class InventoryComponent {
 
 
   isAddTileComponentOpen: Boolean = false;
+  isUpdateTileComponentOpen: Boolean = false;
 
   iconsUsed = {
     update: faEdit,
@@ -59,6 +61,8 @@ export class InventoryComponent {
   tileDetail: TileDetial | null= null;
   tileDetailId: string | null = null;
 
+  updatingTileId!: string;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -74,13 +78,22 @@ export class InventoryComponent {
     if (this.router.url === "/admin/inventory/add-tile") {
       this.isAddTileComponentOpen = true;
     }
+    else if(this.router.url.startsWith("/admin/inventory/update-tile")) {
+      this.isUpdateTileComponentOpen = true;
+    }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (event.url === "/admin/inventory/add-tile") {
           this.isAddTileComponentOpen = true;
+          this.isUpdateTileComponentOpen = false;
+        }
+        else if (event.url.startsWith("/admin/inventory/update-tile")) {
+          this.isUpdateTileComponentOpen = true;
+          this.isAddTileComponentOpen = false;
         }
         else {
           this.isAddTileComponentOpen = false;
+          this.isUpdateTileComponentOpen = false;
         }
       }
     })
@@ -97,6 +110,18 @@ export class InventoryComponent {
   closeAddTileComponent() {
     this.router.navigate(["/admin/inventory"]);
   }
+
+
+  openUpdateTileComponent(id: string) {
+    this.updatingTileId = id;
+    this.router.navigate(["update-tile", id], { relativeTo: this.activatedRoute });
+  }
+
+  closeUpdateTileComponent() {
+    this.router.navigate(["/admin/inventory"]);
+  }
+
+
 
   getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = "asc") {
     this.apiService.getTilesList(page, size, sortBy, sortDirection).subscribe(
@@ -131,6 +156,11 @@ export class InventoryComponent {
 
 
   showDetailsOfTileId(_id: string) {
+    if(this.tileDetailId === _id) {
+      this.tileDetailId = null;
+      this.tileDetail = null;
+      return;
+    }
     this.tileDetailId = _id;
     this.tileDetail = this.getTileDetail(_id)!;
   }
@@ -174,6 +204,9 @@ export class InventoryComponent {
     this.updateTileTable(sortBy, direction);
   }
 
+  updateTileDetails(id: string) {
+    this.updatingTileId = id;
+  }
 
 
 

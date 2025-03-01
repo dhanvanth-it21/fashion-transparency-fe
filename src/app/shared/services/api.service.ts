@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TileDetial } from '../../features/admin/models/tile.modle';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,18 @@ export class ApiService {
   }
 
   getTileDetail(id: string) {
-    const apiuri =` http://${this.serverIp}/api/tiles/tile-detail/${id}`;
+    const apiuri =`http://${this.serverIp}/api/tiles/tile-detail/${id}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData
   }
 
+  updateTileDetail(id: string, tile: TileDetial) {
+    console.log("", id, tile);
+    const apiuri = `http://${this.serverIp}/api/tiles/${id}`;
+    const body = tile;
+    const returnData: Observable<Object> = this.http.put(apiuri, body);
+    return returnData
+
 }
 
+}

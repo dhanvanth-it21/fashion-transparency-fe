@@ -1,0 +1,55 @@
+<div class="form-container">
+    <form [formGroup]="tileDetailFormBuilder" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+            <div class="form-item">
+                <label for="skuCode">SKU Code</label>
+                <input type="text" id="skuCode" formControlName="skuCode">
+            </div>
+            <div class="form-item">
+                <label for="tileSize">Tile Size</label>
+                <input type="text" id="tileSize" formControlName="tileSize">
+            </div>
+            <div class="form-item">
+                <label for="brandName">Brand Name</label>
+                <input type="text" id="brandName" formControlName="brandName">
+            </div>
+            <div class="form-item">
+                <label for="modelName">Model Name</label>
+                <input type="text" id="modelName" formControlName="modelName">
+            </div>
+            <div class="form-item">
+                <label for="color">Color</label>
+                <input type="text" id="color" formControlName="color">
+            </div>
+            <div class="form-item">
+                <label for="qty">Quantity</label>
+                <input type="number" id="qty" formControlName="qty">
+            </div>
+            <div class="form-item">
+                <label for="piecesPerBox">Pieces Per Box</label>
+                <input type="number" id="piecesPerBox" formControlName="piecesPerBox">
+            </div>
+            <div class="form-item">
+                <label for="category">Category</label>
+                <input type="text" id="category" formControlName="category">
+            </div>
+            <div class="form-item">
+                <label for="subCategory">Sub Category</label>
+                <input type="text" id="subCategory" formControlName="subCategory">
+            </div>
+            <div class="form-item">
+                <label for="finishing">Finishing</label>
+                <input type="text" id="finishing" formControlName="finishing">
+            </div>
+            <div class="form-item">
+                <label for="minimumStockLevel">Minimum Stock Level</label>
+                <input type="number" id="minimumStockLevel" formControlName="minimumStockLevel">
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button type="submit" class="btn-primary">Update</button>
+            <button type="button" class="btn-secondary" (click)="onDiscard()">Discard</button>
+        </div>
+    </form>
+</div>

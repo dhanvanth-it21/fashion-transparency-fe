@@ -1,7 +1,8 @@
 <div class="inventory-container">
   <div
     class="list-container"
-    [ngClass]="{ 'make-blur': isAddTileComponentOpen }"
+    [ngClass]="{ 'make-blur': isAddTileComponentOpen || isUpdateTileComponentOpen}"
+  >
   >
     <div class="list-heading">
       <input type="text" placeholder="Search..." />
@@ -39,8 +40,7 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let tile of displayData; let i = index">
-            <!-- First row: Main data -->
-            <tr>
+            <tr [ngClass]="tile._id === this.tileDetailId ? 'highlight' : ''">
               <td class="make-center">
                 {{ paging.page_number * paging.page_size + (i + 1) }}
               </td>
@@ -55,7 +55,7 @@
                   <button (click)="showDetailsOfTileId(tile._id)">
                     <fa-icon [icon]="iconsUsed.details"></fa-icon>
                   </button>
-                  <button>
+                  <button (click)="openUpdateTileComponent(tile._id)">
                     <fa-icon [icon]="iconsUsed.update"></fa-icon>
                   </button>
                   <button>
@@ -64,33 +64,36 @@
                 </div>
               </td>
             </tr>
-            <tr class="detail-veiw" *ngIf="tileDetailId === tile._id">
+            <tr
+              class="detail-veiw"
+              *ngIf="tileDetailId === tile._id && tileDetail"
+            >
               <td colspan="8">
                 <div class="tile-detail">
                   <h3>{{ tileDetail!.modelName }}</h3>
-                <p><strong>Brand:</strong> {{ tileDetail!.brandName }}</p>
-                <p><strong>Tile Size:</strong> {{ tileDetail!.tileSize }}</p>
-                <p><strong>Color:</strong> {{ tileDetail!.color }}</p>
-                <p><strong>Category:</strong> {{ tileDetail!.category }}</p>
-                <p>
-                  <strong>Subcategory:</strong> {{ tileDetail!.subCategory }}
-                </p>
-                <p><strong>Finishing:</strong> {{ tileDetail!.finishing }}</p>
-                <p>
-                  <strong>Minimum Stock Level:</strong>
-                  {{ tileDetail!.minimumStockLevel }}
-                </p>
-                <p>
-                  <strong>Create On:</strong>
-                  {{ tileDetail!.createdAt| date : "medium" }}
-                </p>
-                <p>
-                  <strong>Last Updated:</strong>
-                  {{ tileDetail!.updatedAt | date : "medium" }}
-                </p>
+                  <p><strong>Brand:</strong> {{ tileDetail!.brandName }}</p>
+                  <p><strong>Tile Size:</strong> {{ tileDetail!.tileSize }}</p>
+                  <p><strong>Color:</strong> {{ tileDetail!.color }}</p>
+                  <p><strong>Category:</strong> {{ tileDetail!.category }}</p>
+                  <p>
+                    <strong>Subcategory:</strong> {{ tileDetail!.subCategory }}
+                  </p>
+                  <p><strong>Finishing:</strong> {{ tileDetail!.finishing }}</p>
+                  <p>
+                    <strong>Minimum Stock Level:</strong>
+                    {{ tileDetail!.minimumStockLevel }}
+                  </p>
+                  <p>
+                    <strong>Create On:</strong>
+                    {{ tileDetail!.createdAt | date : "medium" }}
+                  </p>
+                  <p>
+                    <strong>Last Updated:</strong>
+                    {{ tileDetail!.updatedAt | date : "medium" }}
+                  </p>
                 </div>
               </td>
-          </tr>
+            </tr>
           </ng-container>
         </tbody>
       </table>
@@ -130,5 +133,14 @@
 <div class="add-tile-container" *ngIf="isAddTileComponentOpen">
   <div class="pop-up">
     <app-add-tile (closeModal)="closeAddTileComponent()"></app-add-tile>
+  </div>
+</div>
+
+<div class="update-tile-container" *ngIf="isUpdateTileComponentOpen">
+  <div class="pop-up">
+    <app-update-tile
+      [tileId]="updatingTileId"
+      (closeModal)="closeUpdateTileComponent()"
+    ></app-update-tile>
   </div>
 </div>

@@ -2,7 +2,8 @@
   padding: 10px 20px;
 }
 
-.add-tile-container {
+.add-tile-container,
+.update-tile-container {
   position: absolute;
   width: calc(100% - 500px);
   height: calc(100% - 100px);
@@ -217,53 +218,41 @@ tbody tr:hover .tile-action-container fa-icon {
 }
 
 
-/* .tile-detail {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-} */
-
 
 .tile-detail {
   display: flex;
   flex-wrap: wrap; 
-  gap: 16px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  gap: 1rem;
+  background-color: #f0f5ff;
   border-radius: 8px;
-  padding: 16px;
-  margin: 12px 0;
+  padding: 1rem;
+  margin: 12px auto;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  align-items: flex-start;
+  align-items: center;
 }
 
 .tile-detail h3 {
   width: 100%;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: bold;
-  color: #333;
+  color: #2c3e50;
   margin-bottom: 10px;
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid var(--XXL-color);
   padding-bottom: 5px;
 }
 
 .tile-detail p {
-  flex: 1 1 calc(50% - 8px); /* Ensures two columns while using space efficiently */
-  font-size: 16px;
-  color: #555;
-  margin: 4px 0;
-  min-width: 200px; /* Prevents items from shrinking too much */
+  flex: 1 1 calc(50% - 8px); 
+  font-size: 1rem;
+  color: #000;
+  margin: 4px auto;
+  min-width: 200px; 
 }
 
 .tile-detail strong {
   color: #222;
 }
 
-/* Responsive - Single column on smaller screens */
-@media (max-width: 600px) {
-  .tile-detail p {
-    flex: 1 1 100%; /* Switch to single column on small screens */
-  }
-}
+
+
 

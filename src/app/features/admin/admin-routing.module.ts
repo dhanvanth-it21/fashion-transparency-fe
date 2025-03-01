@@ -32,7 +32,13 @@ const routes: Routes = [
             path: "add-tile",
             loadComponent: () => import("./inventory/inventory.component")
             .then(m => m.InventoryComponent),
+          },
+          {
+            path: "update-tile/:id",
+            loadComponent: () => import("./inventory/update-tile/update-tile.component")
+              .then(m => m.UpdateTileComponent),
           }
+          
         ]
       },
       {
