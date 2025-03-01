@@ -3,9 +3,9 @@
     class="list-container"
     [ngClass]="{ 'make-blur': isAddTileComponentOpen || isUpdateTileComponentOpen}"
   >
-  >
     <div class="list-heading">
-      <input type="text" placeholder="Search..." />
+      <span class="total-elements">{{paging.total_elements}}</span>
+      <input [(ngModel)]="searchText" (input)="searchBy()" type="text" placeholder="Search..." />
       <div class="add-new-time-btn">
         <button (click)="openAddTileComponent()">Add Tile</button>
       </div>

@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Tile, TileDetial } from '../models/tile.modle';
 import { FormsModule } from '@angular/forms';
 import { UpdateTileComponent } from "./update-tile/update-tile.component";
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 
 @Component({
@@ -63,6 +64,9 @@ export class InventoryComponent {
 
   updatingTileId!: string;
 
+  searchText: string = "";
+  searchSubject = new Subject<string>();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -97,6 +101,14 @@ export class InventoryComponent {
         }
       }
     })
+
+    this.searchSubject.pipe(
+      debounceTime(500), 
+      distinctUntilChanged() 
+    ).subscribe(searchTerm => {
+      console.log(searchTerm);
+      this.updateTileTable(undefined, undefined, searchTerm);
+    });
   }
 
 
@@ -121,13 +133,18 @@ export class InventoryComponent {
     this.router.navigate(["/admin/inventory"]);
   }
 
+  searchBy() {
+    this.searchSubject.next(this.searchText);
+  }
 
 
-  getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = "asc") {
-    this.apiService.getTilesList(page, size, sortBy, sortDirection).subscribe(
+
+  getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = "asc", search: string = this.searchText) {
+    this.apiService.getTilesList(page, size, sortBy, sortDirection, search).subscribe(
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
+            console.log(response.metadata);
             this.displayData = response.data;
             this.paging.is_first = response.metadata.isFirst;
             this.paging.is_last = response.metadata.isLast;
@@ -179,12 +196,12 @@ export class InventoryComponent {
     }
   }
 
-  updateTileTable(sortBy: string =  "", sortDirection: string = "asc") {
+  updateTileTable(sortBy: string =  "", sortDirection: string = "asc", search: string = this.searchText) {
     if(sortBy === "") {
-      this.getTilesList(this.paging.page_number, this.paging.page_size);
+      this.getTilesList(this.paging.page_number, this.paging.page_size, undefined, undefined, search);
     }
     else {
-      this.getTilesList(this.paging.page_number, this.paging.page_size, sortBy, sortDirection);
+      this.getTilesList(this.paging.page_number, this.paging.page_size, sortBy, sortDirection, search);
     }
   }
 

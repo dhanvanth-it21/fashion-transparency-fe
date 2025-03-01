@@ -23,11 +23,13 @@ button {
   margin-bottom: 10px;
 }
 
+
+
 .list-heading input {
   flex: 1;
   max-width: 500px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--XXL-color);
   border-radius: 1rem;
   font-size: 1rem;
 }
@@ -36,6 +38,15 @@ button {
   border-color: var(--XXL-color);
   outline: none;
   box-shadow: 0px 0px 5px rgba(27, 45, 72, 0.9);
+}
+
+.total-elements {
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: var(--XXL-color);
+  border-radius: 50%;
+  color: #fff;
+  padding: 5px 5px;
 }
 
 .add-new-time-btn button {
