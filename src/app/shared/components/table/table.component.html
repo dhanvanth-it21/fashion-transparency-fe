@@ -1,0 +1,96 @@
+
+<div class="list-area">
+    <table>
+      <thead>
+        <tr>
+          <th
+            *ngFor="let heading of tabelHeader; let i = index"
+            [ngClass]="
+              tabelHeader[i].class !== '' ? tabelHeader[i].class : ''
+            "
+            (click)="doSorting(heading.sortBy!, heading.sortDirection!)"
+          >
+            <div class="t-head">
+              {{ heading.name }}
+              <span class="hide">
+                <fa-icon
+                  *ngIf="heading.sortDirection === 'asc'"
+                  [icon]="iconsUsed.asc"
+                >
+                </fa-icon>
+                <fa-icon
+                  *ngIf="heading.sortDirection === 'desc'"
+                  [icon]="iconsUsed.desc"
+                ></fa-icon>
+              </span>
+            </div>
+          </th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of displayData; let i = index">
+          <tr>
+            <td class="make-center">
+              {{ paging.page_number * paging.page_size + (i + 1) }}
+            </td>
+            <ng-container *ngFor="let tdata of tabelHeader; let i = index">
+              <td *ngIf="i >= 1">{{ data[tdata.sortBy] }}</td>
+            </ng-container>
+            <td>
+              <div class="tile-action-container">
+                <button (click)="showDetailsOfRetailShopId(data._id)">
+                  <fa-icon [icon]="iconsUsed.details"></fa-icon>
+                </button>
+                <button (click)="openUpdateTileComponent(data._id)">
+                  <fa-icon [icon]="iconsUsed.update"></fa-icon>
+                </button>
+                <button>
+                  <fa-icon [icon]="iconsUsed.archive"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="detail-veiw"
+            *ngIf="dataDetailId === data._id && dataDetail"
+          >
+            <td colspan="8">
+              <div class="tile-detail">
+              <p>{{ dataDetail }}</p>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div class="page-control">
+      <div class="pagination">
+        <div class="page-navigation">
+          <button (click)="previousPage()" [disabled]="paging.is_first">
+            <fa-icon [icon]="iconsUsed.prev"></fa-icon>
+          </button>
+          <p class="page-number">
+            {{ paging.page_number + 1 }} / {{ paging.total_pages }}
+          </p>
+          <button (click)="nextPage()" [disabled]="paging.is_last">
+            <fa-icon [icon]="iconsUsed.next"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="page-size">
+        <select
+          name="pageSize"
+          id="page-size"
+          [(ngModel)]="paging.page_size"
+          (change)="updatePaging($event)"
+        >
+          <option value="5">5</option>
+          <option value="8">8</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+    </div>
+  </div>

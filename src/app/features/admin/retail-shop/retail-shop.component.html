@@ -1,0 +1,11 @@
+<div class="retail-shop-container">
+  <app-table 
+  [paging]="paging" 
+  [tabelHeader]="tableHeader"
+  [displayData]="displayData"
+  [(dataDetail)]="dataDetail"
+  [(dataDetailId)]="dataDetailId"
+  (sortChanged)="sortChanged($event)"
+  (pageChanged)="pageChanged($event)"
+  > </app-table>
+</div>

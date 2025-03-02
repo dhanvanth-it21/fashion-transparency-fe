@@ -45,7 +45,12 @@ const routes: Routes = [
         path: "employees",
         loadComponent: () => import("./employees/employees.component")
         .then(m => m.EmployeesComponent),
-      }
+      },
+      {
+        path: "retail-shop",
+        loadComponent: () => import("./retail-shop/retail-shop.component")
+        .then(m => m.RetailShopComponent),
+      },
     ]
   }
 ];

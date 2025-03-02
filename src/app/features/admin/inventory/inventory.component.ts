@@ -57,6 +57,9 @@ export class InventoryComponent {
     {name: "Action", class: ""},
   ]
 
+
+
+
   displayData!: Tile[];
 
   tileDetail: TileDetial | null= null;

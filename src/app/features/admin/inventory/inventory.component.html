@@ -1,11 +1,18 @@
 <div class="inventory-container">
   <div
     class="list-container"
-    [ngClass]="{ 'make-blur': isAddTileComponentOpen || isUpdateTileComponentOpen}"
+    [ngClass]="{
+      'make-blur': isAddTileComponentOpen || isUpdateTileComponentOpen
+    }"
   >
     <div class="list-heading">
-      <span class="total-elements">{{paging.total_elements}}</span>
-      <input [(ngModel)]="searchText" (input)="searchBy()" type="text" placeholder="Search..." />
+      <span class="total-elements">{{ paging.total_elements }}</span>
+      <input
+        [(ngModel)]="searchText"
+        (input)="searchBy()"
+        type="text"
+        placeholder="Search..."
+      />
       <div class="add-new-time-btn">
         <button (click)="openAddTileComponent()">Add Tile</button>
       </div>
@@ -40,7 +47,7 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let tile of displayData; let i = index">
-            <tr [ngClass]="tile._id === this.tileDetailId ? 'highlight' : ''">
+            <tr>
               <td class="make-center">
                 {{ paging.page_number * paging.page_size + (i + 1) }}
               </td>
