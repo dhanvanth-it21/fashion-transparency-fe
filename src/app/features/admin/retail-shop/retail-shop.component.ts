@@ -1,19 +1,34 @@
 import { Component } from '@angular/core';
 import { TableComponent } from "../../../shared/components/table/table.component";
 import { ApiService } from '../../../shared/services/api.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { AddFormComponent } from "../../../shared/components/add-form/add-form.component";
 
 @Component({
   selector: 'app-retail-shop',
   standalone: true,
-  imports: [TableComponent],
+  imports: [TableComponent, ReactiveFormsModule, CommonModule, FormsModule, AddFormComponent],
   templateUrl: './retail-shop.component.html',
   styleUrl: './retail-shop.component.css'
 })
 export class RetailShopComponent {
 
 
+  //two way data binding variables
   private _dataDetailId: string = "";
+  private _dataDetail: any = null;
+  private _searchText: string = "";
 
+
+  private updateDataDetailId: string = "";
+  private updateDataDetail: any;
+  updateDetailFormGroup: FormGroup = new FormGroup([]);
+
+
+  //(start)---------------getters and setters for the two way binding variables------------
   get dataDetailId(): string {
     return this._dataDetailId;
   }
@@ -22,9 +37,6 @@ export class RetailShopComponent {
     this._dataDetailId = value;
     this.onDataDetailIdChange();
   }
- 
-
-  private _dataDetail: any = null;
 
   get dataDetail(): any {
     return this._dataDetail;
@@ -35,7 +47,22 @@ export class RetailShopComponent {
     this.onDataDetailChange();
   }
 
-  
+  get searchText(): string {
+    return this._searchText;
+  }
+
+  set searchText(value: string) {
+    this._searchText = value;
+    this.onSearchTextChange();
+  }
+  //(end)---------------getters and setters for the two way binding variables------------
+
+  searchSubject = new Subject<string>();
+  isAddRetailShopOpen: Boolean = false;
+  isUpdateRetailShopOpen: Boolean = false;
+
+  formGroup!: FormGroup;
+
 
 
   paging = {
@@ -50,21 +77,58 @@ export class RetailShopComponent {
 
 
   tableHeader: any[] = [
-    {name: "S No.", class: "", sortBy: "_id", sortDirection: "asc"},
-    {name: "Shop Name", class: "", sortBy: "shopName", sortDirection: "asc"},
-    {name: "Phone", class: "", sortBy: "phone", sortDirection: "asc"},
+    { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
+    { name: "Shop Name", class: "", sortBy: "shopName", sortDirection: "asc" },
+    { name: "Phone", class: "", sortBy: "phone", sortDirection: "asc" },
   ]
- 
+
+  formConfig = [
+    { key: 'shopName', label: 'Shop Name', type: 'text', required: true },
+    { key: 'contactPersonName', label: 'Contact Person Name', type: 'text', required: true },
+    { key: 'email', label: 'Email', type: 'text', required: true, validation: 'email' },
+    { key: 'phone', label: 'Phone', type: 'text', required: true, validation: 'phone' },
+    { key: 'address', label: 'Address', type: 'text', required: true },
+    { key: 'creditNote', label: 'Credit Note (Rs.)', type: 'number', required: true, min: 0 }
+  ];
+
+  formUseAdd: {heading: string, submit: string, discard: string} =
+    {
+      heading: "Add New Retail Shop",
+      submit: "Submit",
+      discard: "Discard"
+    }
+
+  formUseUpdate: {heading: string, submit: string, discard: string} =
+    {
+      heading: "Update Retail Shop",
+      submit: "Update",
+      discard: "Discard"
+    }
+
+  
+
 
   displayData!: any[];
 
 
   constructor(
     private apiService: ApiService,
-  ) {}
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
     this.getRetailShopsList();
+    this.searchSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      console.log(searchTerm);
+      this.getRetailShopsList(undefined, undefined, undefined, undefined, searchTerm);
+    });
+    this.subscriveToRouteChange();
+    this.initailizeFormGroup();
   }
 
   sortChanged(event: { sortBy: string, sortDirection: string }) {
@@ -87,6 +151,96 @@ export class RetailShopComponent {
   }
 
 
+  onSearchTextChange() {
+    this.searchSubject.next(this.searchText);
+  }
+
+
+  openAddRetailShopForm() {
+    this.router.navigate(["add-retail-shop"], { relativeTo: this.activatedRoute });
+  }
+
+  subscriveToRouteChange() {
+    if (this.router.url === "/admin/retail-shop/add-retail-shop") {
+      this.isAddRetailShopOpen = true;
+      this.isUpdateRetailShopOpen = false;
+    }
+    else if (this.router.url.startsWith("/admin/retail-shop/update-retail-shop")) {
+      this.isUpdateRetailShopOpen = false;
+      this.isAddRetailShopOpen = false;
+      this.router.navigate(['/admin/retail-shop'])
+    }
+    this.router.events.subscribe(event => {
+          if (event instanceof NavigationEnd) {
+            console.log(event.url === "/admin/retail-shop/add-retail-shop");
+            if (event.url === "/admin/retail-shop/add-retail-shop") {
+              this.isAddRetailShopOpen = true;
+              this.isUpdateRetailShopOpen = false;
+            }
+            else if (event.url.startsWith("/admin/retail-shop/update-retail-shop")) {
+              this.isUpdateRetailShopOpen = true;
+              this.isAddRetailShopOpen = false;
+            } 
+            else {
+              this.isAddRetailShopOpen = false;
+              this.isUpdateRetailShopOpen = false;
+            }
+          }
+        })
+  }
+
+  //need to handle
+  addFormSubmit(event: any) {
+    console.log(event);
+  }
+
+  addFormDiscard() {
+    this.router.navigate(['/admin/retail-shop'])
+  }
+
+  //need to handle
+  updateFormSubmit(event: any) {
+    console.log(event);
+  }
+
+  updateFormDiscard() {
+    this.updateDataDetail = null;
+    this.updateDataDetailId = "";
+    this.router.navigate(['/admin/retail-shop']);
+  }
+
+
+  initailizeFormGroup() {
+    this.formGroup = this.formBuilder.group({
+      shopName: ['', Validators.required],
+      contactPersonName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
+      address: ['', Validators.required],
+      creditNote: [0, [Validators.required, Validators.min(0)]],
+    });
+  }
+
+  updateRetailShop(id: string) {
+    this.updateDataDetailId = id;
+    this.getRetailShopDetailById(id);
+    setTimeout(() => {
+      this.router.navigate(["update-retail-shop", id],  { relativeTo: this.activatedRoute });
+    }, 100)
+
+  }
+
+  initailzeUpdateFormGroup() {
+    this.updateDetailFormGroup = this.formBuilder.group({
+      _id: this.updateDataDetailId,
+      shopName: [this.updateDataDetail.shopName, Validators.required],
+      contactPersonName: [this.updateDataDetail.contactPersonName, Validators.required],
+      email: [this.updateDataDetail.email, [Validators.required, Validators.email]],
+      phone: [this.updateDataDetail.phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
+      address: [this.updateDataDetail.address, Validators.required],
+      creditNote: [this.updateDataDetail.creditNote, [Validators.required, Validators.min(0)]],
+    });
+  }
 
 
   //------------------------------------------------------------------
@@ -116,6 +270,19 @@ export class RetailShopComponent {
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.dataDetail = response.data;
+        }
+      },
+      error: (e) => { console.error(e) },
+    })
+  }
+
+  getRetailShopDetailById(id: string) {
+    this.apiService.getRetailShopById(id).subscribe({
+      next: (response: any) => {
+        if (response.status === "success" && response.data) {
+          console.log(response.data);
+          this.updateDataDetail = response.data;
+          this.initailzeUpdateFormGroup();
         }
       },
       error: (e) => { console.error(e) },

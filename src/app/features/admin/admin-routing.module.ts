@@ -50,6 +50,19 @@ const routes: Routes = [
         path: "retail-shop",
         loadComponent: () => import("./retail-shop/retail-shop.component")
         .then(m => m.RetailShopComponent),
+        children: [
+          {
+            path: "add-retail-shop",
+            loadComponent: () => import("./retail-shop/retail-shop.component")
+            .then(m => m.RetailShopComponent),
+          },
+          {
+            path: "update-retail-shop/:id",
+            loadComponent: () => import("./retail-shop/retail-shop.component")
+            .then(m => m.RetailShopComponent),
+          },
+          
+        ]
       },
     ]
   }

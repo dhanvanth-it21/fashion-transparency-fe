@@ -42,7 +42,7 @@ export class TableComponent {
   pageChanged = new EventEmitter<number>();
 
   @Output()
-  updateTile = new EventEmitter<string>();
+  updateRetailShop = new EventEmitter<string>();
 
 
   @Output()
@@ -86,8 +86,8 @@ export class TableComponent {
     this.dataDetailIdChange.emit(this.dataDetailId);
   }
 
-  openUpdateTileComponent(id: string) {
-    this.updateTile.emit(id);
+  openUpdateRetailShop(id: string) {
+    this.updateRetailShop.emit(id);
   }
 
   previousPage() {

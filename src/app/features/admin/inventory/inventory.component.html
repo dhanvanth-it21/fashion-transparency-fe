@@ -140,6 +140,7 @@
 <div class="add-tile-container" *ngIf="isAddTileComponentOpen">
   <div class="pop-up">
     <app-add-tile (closeModal)="closeAddTileComponent()"></app-add-tile>
+    <!-- <app-add-form [formConfig]="tileFormConfig" (formSubmit)="handleTileSubmit($event)" (formClose)="closeDialog()"></app-add-form> -->
   </div>
 </div>
 

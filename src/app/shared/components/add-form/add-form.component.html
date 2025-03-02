@@ -1,1 +1,27 @@
-<p>add-form works!</p>
+<div class="add-form-container">
+    <h2>{{formUse.heading}}</h2>
+    <form [formGroup]="formGroup">
+      <div *ngFor="let field of formConfig" class="form-group">
+        <label [for]="field.key">{{ field.label }}</label>
+  
+        <input
+          *ngIf="field.type === 'text' || field.type === 'number'"
+          [id]="field.key"
+          [type]="field.type"
+          [formControlName]="field.key"
+        />
+  
+        <select *ngIf="field.type === 'select'" [id]="field.key" [formControlName]="field.key">
+          <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
+        </select>
+  
+        <input *ngIf="field.type === 'checkbox'" type="checkbox" [formControlName]="field.key" />
+      </div>
+    </form>
+  
+    <div class="form-action-btn">
+      <button (click)="submitForm()">{{formUse.submit}}</button>
+      <button (click)="closeForm()">{{formUse.discard}}</button>
+    </div>
+  </div>
+  

@@ -9,12 +9,21 @@ import { Tile, TileDetial } from '../models/tile.modle';
 import { FormsModule } from '@angular/forms';
 import { UpdateTileComponent } from "./update-tile/update-tile.component";
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { AddFormComponent } from "../../../shared/components/add-form/add-form.component";
 
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [RouterModule, AddTileComponent, CommonModule, FontAwesomeModule, FormsModule, UpdateTileComponent],
+  imports: [
+    RouterModule, 
+    AddTileComponent, 
+    CommonModule, 
+    FontAwesomeModule, 
+    FormsModule, 
+    UpdateTileComponent, 
+    // AddFormComponent
+  ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
@@ -229,5 +238,38 @@ export class InventoryComponent {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+  tileFormConfig = [
+    { key: 'modelName', label: 'Model Name', type: 'text', required: true },
+    { key: 'brandName', label: 'Brand Name', type: 'text', required: true },
+    { key: 'tileSize', label: 'Tile Size', type: 'text', required: true },
+    { key: 'qty', label: 'Quantity', type: 'number', required: true, min: 1 },
+    { key: 'piecesPerBox', label: 'Pieces Per Box', type: 'number', required: true, min: 1 },
+    { key: 'color', label: 'Colour', type: 'text', required: true },
+    { key: 'category', label: 'Category', type: 'select', required: true, options: ['WALL', 'FLOOR'] },
+    { key: 'subCategory', label: 'SubCategory', type: 'select', required: true, options: ['KITCHEN', 'BATHROOM'] },
+    { key: 'finishing', label: 'Finishing', type: 'select', required: true, options: ['GLOSSY', 'MATT'] },
+    { key: 'minimumStockLevel', label: 'Minimum Stock Level', type: 'number', required: true, min: 10 },
+  ];
+
+  handleTileSubmit(formData: any) {
+    console.log("fdfdfdfd");
+    console.log('Tile Data:', formData);
+  }
+
+  closeDialog() {
+    console.log('Form closed');
+  }
 
 }
