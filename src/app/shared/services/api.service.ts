@@ -59,4 +59,22 @@ getRetailShopById(id: string) {
 }
 
 
+getSuppliersList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
+  let searchText = "";
+    if(search !== "") {
+      searchText = `&search=${search}`;
+    }
+  const apiuri = `http://${this.serverIp}/api/supplier/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
+  console.log(apiuri);
+  const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData;
+}
+
+getSupplierById(id: string) {
+  const apiuri = `http://${this.serverIp}/api/supplier/${id}`;
+  const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+}
+
+
 }

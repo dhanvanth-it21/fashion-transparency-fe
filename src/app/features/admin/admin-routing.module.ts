@@ -64,6 +64,24 @@ const routes: Routes = [
           
         ]
       },
+      {
+        path: "supplier",
+        loadComponent: () => import("./suppliers/suppliers.component")
+        .then(m => m.SuppliersComponent),
+        children: [
+          {
+            path: "add-supplier",
+            loadComponent: () => import("./suppliers/suppliers.component")
+            .then(m => m.SuppliersComponent),
+          },
+          {
+            path: "update-supplier/:id",
+            loadComponent: () => import("./suppliers/suppliers.component")
+            .then(m => m.SuppliersComponent),
+          },
+          
+        ]
+      },
     ]
   }
 ];

@@ -1,32 +1,28 @@
-import { Component } from '@angular/core';
-import { TableComponent } from "../../../shared/components/table/table.component";
-import { ApiService } from '../../../shared/services/api.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AddFormComponent } from '../../../shared/components/add-form/add-form.component';
+import { TableComponent } from '../../../shared/components/table/table.component';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ApiService } from '../../../shared/services/api.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AddFormComponent } from "../../../shared/components/add-form/add-form.component";
 
 @Component({
-  selector: 'app-retail-shop',
+  selector: 'app-suppliers',
   standalone: true,
   imports: [TableComponent, ReactiveFormsModule, CommonModule, FormsModule, AddFormComponent],
-  templateUrl: './retail-shop.component.html',
-  styleUrl: './retail-shop.component.css'
+  templateUrl: './suppliers.component.html',
+  styleUrl: './suppliers.component.css'
 })
-export class RetailShopComponent {
-
-
+export class SuppliersComponent {
   //two way data binding variables
   private _dataDetailId: string = "";
   private _dataDetail: any = null;
   private _searchText: string = "";
 
-
   private updateDataDetailId: string = "";
   private updateDataDetail: any;
   updateDetailFormGroup: FormGroup = new FormGroup([]);
-
 
   //(start)---------------getters and setters for the two way binding variables------------
   get dataDetailId(): string {
@@ -58,12 +54,10 @@ export class RetailShopComponent {
   //(end)---------------getters and setters for the two way binding variables------------
 
   searchSubject = new Subject<string>();
-  isAddRetailShopOpen: Boolean = false;
-  isUpdateRetailShopOpen: Boolean = false;
+  isAddSupplierOpen: Boolean = false;
+  isUpdateSupplierOpen: Boolean = false;
 
   formGroup!: FormGroup;
-
-
 
   paging = {
     page_number: 0,
@@ -75,38 +69,33 @@ export class RetailShopComponent {
     sort_by: "_id",
   }
 
-
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
-    { name: "Shop Name", class: "", sortBy: "shopName", sortDirection: "asc" },
+    { name: "Brand Name", class: "", sortBy: "brandName", sortDirection: "asc" },
     { name: "Phone", class: "", sortBy: "phone", sortDirection: "asc" },
   ]
 
   formConfig = [
-    { key: 'shopName', label: 'Shop Name', type: 'text', required: true },
+    { key: 'brandName', label: 'Brand Name', type: 'text', required: true },
     { key: 'contactPersonName', label: 'Contact Person Name', type: 'text', required: true },
     { key: 'email', label: 'Email', type: 'text', required: true, validation: 'email' },
     { key: 'phone', label: 'Phone', type: 'text', required: true, validation: 'phone' },
     { key: 'address', label: 'Address', type: 'text', required: true },
-    { key: 'creditNote', label: 'Credit Note (Rs.)', type: 'number', required: true, min: 0 }
   ];
 
-  formUseAdd: {heading: string, submit: string, discard: string} =
+  formUseAdd: { heading: string, submit: string, discard: string } =
     {
-      heading: "Add Retail Shop",
+      heading: "Add Supplier",
       submit: "Submit",
       discard: "Discard"
     }
 
-  formUseUpdate: {heading: string, submit: string, discard: string} =
+  formUseUpdate: { heading: string, submit: string, discard: string } =
     {
-      heading: "Update Retail Shop",
+      heading: "Update Supplier",
       submit: "Update",
       discard: "Discard"
     }
-
-  
-
 
   displayData!: any[];
 
@@ -118,28 +107,30 @@ export class RetailShopComponent {
     private formBuilder: FormBuilder,
   ) { }
 
+
   ngOnInit() {
-    this.getRetailShopsList();
+    this.getSuppliersList();
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
       console.log(searchTerm);
-      this.getRetailShopsList(undefined, undefined, undefined, undefined, searchTerm);
+      this.getSuppliersList(undefined, undefined, undefined, undefined, searchTerm);
     });
     this.subscriveToRouteChange();
     this.initailizeFormGroup();
   }
 
+
   sortChanged(event: { sortBy: string, sortDirection: string }) {
     this.paging.sort_by = event.sortBy;
-    this.getRetailShopsList(this.paging.page_number, this.paging.page_size, this.paging.sort_by, event.sortDirection);
+    this.getSuppliersList(this.paging.page_number, this.paging.page_size, this.paging.sort_by, event.sortDirection);
   }
 
 
   pageChanged(page: number) {
     this.paging.page_number = page;
-    this.getRetailShopsList(this.paging.page_number, this.paging.page_size);
+    this.getSuppliersList(this.paging.page_number, this.paging.page_size);
   }
 
   onDataDetailChange() {
@@ -147,7 +138,7 @@ export class RetailShopComponent {
   }
 
   onDataDetailIdChange() {
-    this.getRetailShopById(this.dataDetailId);
+    this.getSupplierById(this.dataDetailId);
   }
 
 
@@ -155,39 +146,39 @@ export class RetailShopComponent {
     this.searchSubject.next(this.searchText);
   }
 
-
-  openAddRetailShopForm() {
-    this.router.navigate(["add-retail-shop"], { relativeTo: this.activatedRoute });
+  openAddSupplierForm() {
+    this.router.navigate(["add-supplier"], { relativeTo: this.activatedRoute });
   }
 
   subscriveToRouteChange() {
-    if (this.router.url === "/admin/retail-shop/add-retail-shop") {
-      this.isAddRetailShopOpen = true;
-      this.isUpdateRetailShopOpen = false;
+    if (this.router.url === "/admin/supplier/add-supplier") {
+      this.isAddSupplierOpen = true;
+      this.isUpdateSupplierOpen = false;
     }
-    else if (this.router.url.startsWith("/admin/retail-shop/update-retail-shop")) {
-      this.isUpdateRetailShopOpen = false;
-      this.isAddRetailShopOpen = false;
-      this.router.navigate(['/admin/retail-shop'])
+    else if (this.router.url.startsWith("/admin/supplier/update-supplier")) {
+      this.isUpdateSupplierOpen = false;
+      this.isAddSupplierOpen = false;
+      this.router.navigate(['/admin/supplier'])
     }
     this.router.events.subscribe(event => {
-          if (event instanceof NavigationEnd) {
-            console.log(event.url === "/admin/retail-shop/add-retail-shop");
-            if (event.url === "/admin/retail-shop/add-retail-shop") {
-              this.isAddRetailShopOpen = true;
-              this.isUpdateRetailShopOpen = false;
-            }
-            else if (event.url.startsWith("/admin/retail-shop/update-retail-shop")) {
-              this.isUpdateRetailShopOpen = true;
-              this.isAddRetailShopOpen = false;
-            } 
-            else {
-              this.isAddRetailShopOpen = false;
-              this.isUpdateRetailShopOpen = false;
-            }
-          }
-        })
+      if (event instanceof NavigationEnd) {
+        console.log(event.url === "/admin/supplier/add-supplier");
+        if (event.url === "/admin/supplier/add-supplier") {
+          this.isAddSupplierOpen = true;
+          this.isUpdateSupplierOpen = false;
+        }
+        else if (event.url.startsWith("/admin/supplier/update-supplier")) {
+          this.isUpdateSupplierOpen = true;
+          this.isAddSupplierOpen = false;
+        }
+        else {
+          this.isAddSupplierOpen = false;
+          this.isUpdateSupplierOpen = false;
+        }
+      }
+    })
   }
+
 
   //need to handle
   addFormSubmit(event: any) {
@@ -195,7 +186,7 @@ export class RetailShopComponent {
   }
 
   addFormDiscard() {
-    this.router.navigate(['/admin/retail-shop'])
+    this.router.navigate(['/admin/supplier'])
   }
 
   //need to handle
@@ -206,46 +197,43 @@ export class RetailShopComponent {
   updateFormDiscard() {
     this.updateDataDetail = null;
     this.updateDataDetailId = "";
-    this.router.navigate(['/admin/retail-shop']);
+    this.router.navigate(['/admin/supplier']);
   }
-
 
   initailizeFormGroup() {
-    this.formGroup = this.formBuilder.group({
-      shopName: ['', Validators.required],
-      contactPersonName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
-      address: ['', Validators.required],
-      creditNote: [0, [Validators.required, Validators.min(0)]],
-    });
-  }
+      this.formGroup = this.formBuilder.group({
+        brandName: ['', Validators.required],
+        contactPersonName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
+        address: ['', Validators.required],
+      });
+    }
 
-  updateRetailShop(id: string) {
-    this.updateDataDetailId = id;
-    this.getRetailShopDetailById(id);
-    setTimeout(() => {
-      this.router.navigate(["update-retail-shop", id],  { relativeTo: this.activatedRoute });
-    }, 100)
+    updateSupplier(id: string) {
+      this.updateDataDetailId = id;
+      this.getSupplierDetailById(id);
+      setTimeout(() => {
+        this.router.navigate(["update-supplier", id],  { relativeTo: this.activatedRoute });
+      }, 200)
+  
+    }
 
-  }
-
-  initailzeUpdateFormGroup() {
-    this.updateDetailFormGroup = this.formBuilder.group({
-      _id: this.updateDataDetailId,
-      shopName: [this.updateDataDetail.shopName, Validators.required],
-      contactPersonName: [this.updateDataDetail.contactPersonName, Validators.required],
-      email: [this.updateDataDetail.email, [Validators.required, Validators.email]],
-      phone: [this.updateDataDetail.phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
-      address: [this.updateDataDetail.address, Validators.required],
-      creditNote: [this.updateDataDetail.creditNote, [Validators.required, Validators.min(0)]],
-    });
-  }
+    initailzeUpdateFormGroup() {
+      this.updateDetailFormGroup = this.formBuilder.group({
+        _id: this.updateDataDetailId,
+        brandName: [this.updateDataDetail.brandName, Validators.required],
+        contactPersonName: [this.updateDataDetail.contactPersonName, Validators.required],
+        email: [this.updateDataDetail.email, [Validators.required, Validators.email]],
+        phone: [this.updateDataDetail.phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
+        address: [this.updateDataDetail.address, Validators.required],
+      });
+    }
 
 
-  //------------------------------------------------------------------
-  getRetailShopsList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = "") {
-    this.apiService.getRetailShopsList(page, size, sortBy, sortDirection, search).subscribe(
+    //------------------------------------------------------------------
+  getSuppliersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = "") {
+    this.apiService.getSuppliersList(page, size, sortBy, sortDirection, search).subscribe(
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
@@ -265,8 +253,8 @@ export class RetailShopComponent {
   }
 
 
-  getRetailShopById(id: string) {
-    this.apiService.getRetailShopById(id).subscribe({
+  getSupplierById(id: string) {
+    this.apiService.getSupplierById(id).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.dataDetail = response.data;
@@ -276,8 +264,8 @@ export class RetailShopComponent {
     })
   }
 
-  getRetailShopDetailById(id: string) {
-    this.apiService.getRetailShopById(id).subscribe({
+  getSupplierDetailById(id: string) {
+    this.apiService.getSupplierById(id).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           console.log(response.data);
@@ -288,6 +276,11 @@ export class RetailShopComponent {
       error: (e) => { console.error(e) },
     })
   }
+
+
+
+
+
 
 
 

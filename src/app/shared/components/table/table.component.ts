@@ -42,7 +42,7 @@ export class TableComponent {
   pageChanged = new EventEmitter<number>();
 
   @Output()
-  updateRetailShop = new EventEmitter<string>();
+  updateList = new EventEmitter<string>();
 
 
   @Output()
@@ -76,7 +76,7 @@ export class TableComponent {
     this.sortChanged.emit({ sortBy, sortDirection: direction });
   }
 
-  showDetailsOfRetailShopId(id: string) {
+  showDetailsOfItemId(id: string) {
     if(this.dataDetailId === id) {
       this.dataDetailId = "";
       this.dataDetail = null;
@@ -86,8 +86,8 @@ export class TableComponent {
     this.dataDetailIdChange.emit(this.dataDetailId);
   }
 
-  openUpdateRetailShop(id: string) {
-    this.updateRetailShop.emit(id);
+  openUpdateList(id: string) {
+    this.updateList.emit(id);
   }
 
   previousPage() {
