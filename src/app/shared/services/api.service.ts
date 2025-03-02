@@ -77,4 +77,18 @@ getSupplierById(id: string) {
 }
 
 
+//-----------------------------------------------
+getShops(search: string) {
+  const apiuri = `http://${this.serverIp}/api/retailer-shop/search?search=${search}`;
+  const returnData: Observable<Object> = this.http.get(apiuri);
+  return returnData;
+}
+
+getTiles(search: string) {
+  const apiuri = `http://${this.serverIp}/api/tiles/search?search=${search}`;
+  const returnData: Observable<Object> = this.http.get(apiuri);
+  return returnData;
+}
+
+
 }

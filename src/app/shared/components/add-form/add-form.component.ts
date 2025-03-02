@@ -5,11 +5,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 interface FormField {
   key: string;
   label: string;
-  // type: 'text' | 'number' | 'select' | 'checkbox';
   type: string;
   options?: string[]; 
   required?: boolean;
   min?: number;
+  disabled?: boolean;
+
 }
 
 @Component({

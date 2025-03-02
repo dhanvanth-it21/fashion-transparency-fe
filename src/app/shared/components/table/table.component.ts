@@ -87,6 +87,7 @@ export class TableComponent {
   }
 
   openUpdateList(id: string) {
+    console.log("fdfdfdf", id);
     this.updateList.emit(id);
   }
 
