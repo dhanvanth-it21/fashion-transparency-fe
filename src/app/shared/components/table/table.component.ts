@@ -60,7 +60,7 @@ export class TableComponent {
     iconsUsed = {
       update: faEdit,
       archive: faArchive,
-      details: faInfoCircle,
+      details: faExpand,
       prev: faArrowLeft,
       next: faArrowRight,
       asc: faArrowDown,

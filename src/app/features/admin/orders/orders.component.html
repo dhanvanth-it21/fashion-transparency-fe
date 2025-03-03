@@ -1,9 +1,37 @@
 <div class="order-container">
-  <div class="create-order">
-    <button
-      (click)="openCreateOrderForm()"
-    >
-      Create Order
-    </button>
+  <div class="list-container">
+    <div class="list-heading">
+      <span class="total-elements">{{ paging.total_elements }}</span>
+      <input [(ngModel)]="searchText" type="text" placeholder="Search..." />
+      <div class="create-order">
+        <button (click)="openCreateOrderForm()">Create Order</button>
+      </div>
+    </div>
+    <div class="list-area">
+      <app-table
+        [paging]="paging"
+        [tabelHeader]="tableHeader"
+        [displayData]="displayData"
+        [(dataDetail)]="dataDetail"
+        [(dataDetailId)]="dataDetailId"
+        (sortChanged)="sortChanged($event)"
+        (pageChanged)="pageChanged($event)"
+        (updateList)="updateOrder($event)"
+      >
+      </app-table>
+    </div>
+  </div>
+</div>
+
+
+<div class="update-order-container" *ngIf="isUpdateOrderOpen">
+  <div class="pop-up">
+    <app-add-form
+    [formGroup]="updateDetailFormGroup"
+    [formConfig]="formConfig"
+    [formUse]="formUseUpdate"
+    (formSubmit)="updateFormSubmit($event)"
+    (formClose)="updateFormDiscard()"
+    ></app-add-form>
   </div>
 </div>

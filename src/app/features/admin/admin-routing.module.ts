@@ -22,6 +22,14 @@ const routes: Routes = [
         path: "orders",
         loadComponent: () => import("./orders/orders.component")
         .then(m => m.OrdersComponent),
+        children: [
+          {
+            path: "update-order/:id",
+            loadComponent: () => import("./orders/orders.component")
+            .then(m => m.OrdersComponent),
+          },
+          
+        ]
       },
       {
         path: "orders/create-order",

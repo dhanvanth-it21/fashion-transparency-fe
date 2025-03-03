@@ -25,6 +25,8 @@
   }
   
   .total-elements {
+    width: 2rem;
+    height: 2rem;
     font-size: 1rem;
     font-weight: bold;
     background-color: var(--XXL-color);
