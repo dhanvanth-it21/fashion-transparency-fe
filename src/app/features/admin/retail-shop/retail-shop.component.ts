@@ -124,7 +124,6 @@ export class RetailShopComponent {
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
-      console.log(searchTerm);
       this.getRetailShopsList(undefined, undefined, undefined, undefined, searchTerm);
     });
     this.subscriveToRouteChange();
@@ -172,7 +171,6 @@ export class RetailShopComponent {
     }
     this.router.events.subscribe(event => {
           if (event instanceof NavigationEnd) {
-            console.log(event.url === "/admin/retail-shop/add-retail-shop");
             if (event.url === "/admin/retail-shop/add-retail-shop") {
               this.isAddRetailShopOpen = true;
               this.isUpdateRetailShopOpen = false;
@@ -256,7 +254,6 @@ export class RetailShopComponent {
             this.paging.page_size = response.metadata.pageable.pageSize;
             this.paging.total_elements = response.metadata.totalElements;
             this.paging.total_pages = response.metadata.totalPages;
-            console.log("response", response);
           }
         },
         error: (e) => { console.error(e) },

@@ -24,7 +24,7 @@
   }
   
   .form-group {
-    flex: 1 1 calc(50% - 10px); /* Two columns in one row */
+    flex: 1 1 calc(50% - 10px);
     display: flex;
     flex-direction: column;
   }
@@ -49,8 +49,13 @@
   
   input:focus,
   select:focus {
-    border-color: #007bff;
+    border-color: var(--XXL-color);
     box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3);
+  }
+
+  input:disabled {
+    cursor: not-allowed;
+    background-color: #dddddd;
   }
   
   input[type="checkbox"] {
@@ -59,7 +64,6 @@
     margin-top: 5px;
   }
   
-  /* Form Action Buttons */
   .form-action-btn {
     display: flex;
     justify-content: flex-end;
@@ -77,12 +81,12 @@
   }
   
   button:first-child {
-    background-color: #007bff;
+    background-color:  var(--XXL-color);
     color: white;
   }
   
   button:first-child:hover {
-    background-color: #0056b3;
+    background-color:  var(--XL-color);
   }
   
   button:last-child {

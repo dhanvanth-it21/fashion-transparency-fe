@@ -73,7 +73,7 @@ export class UpdateTileComponent {
             this.fillDefaultFormBuilder();
           }
         },
-        error: (e) => { console.log(e) },
+        error: (e) => { console.error(e) },
       }
     )
   }
@@ -86,7 +86,7 @@ export class UpdateTileComponent {
             this.closeModal.emit();
           }
         },
-        error: (e) => { console.log(e) },
+        error: (e) => { console.error(e) },
       }
     )
   }

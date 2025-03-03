@@ -114,7 +114,6 @@ export class SuppliersComponent {
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
-      console.log(searchTerm);
       this.getSuppliersList(undefined, undefined, undefined, undefined, searchTerm);
     });
     this.subscriveToRouteChange();
@@ -162,7 +161,6 @@ export class SuppliersComponent {
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log(event.url === "/admin/supplier/add-supplier");
         if (event.url === "/admin/supplier/add-supplier") {
           this.isAddSupplierOpen = true;
           this.isUpdateSupplierOpen = false;
@@ -244,7 +242,6 @@ export class SuppliersComponent {
             this.paging.page_size = response.metadata.pageable.pageSize;
             this.paging.total_elements = response.metadata.totalElements;
             this.paging.total_pages = response.metadata.totalPages;
-            console.log("response", response);
           }
         },
         error: (e) => { console.error(e) },
@@ -268,7 +265,6 @@ export class SuppliersComponent {
     this.apiService.getSupplierById(id).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
-          console.log(response.data);
           this.updateDataDetail = response.data;
           this.initailzeUpdateFormGroup();
         }

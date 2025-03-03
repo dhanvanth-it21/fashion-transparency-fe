@@ -29,8 +29,10 @@
     >
     </app-add-form>
   </div>
-  <div class="right-side">
-    <div class="tile-select-container">
+  <div class="right-side" >
+    <div class="tile-select-container" [ngClass]="{
+      'make-blur': isUpdateSupplierOpen
+    }">
       <div class="search-container">
         <input
           type="text"
@@ -56,13 +58,15 @@
           [tabelHeader]="tableHeader"
           [paging]="paging"
           [displayData]="displayData"
+          [allowPagination]="allowPagination"
           (updateList)="updateTileQty($event)"
+          
         >
         </app-table>
       </div>
     </div>
 
-    <div class="update-supplier-container" *ngIf="isUpdateSupplierOpen">
+    <div class="update-order-container" *ngIf="isUpdateSupplierOpen">
       <div class="pop-up">
         <app-add-form
           [formGroup]="updateDetailFormGroup"

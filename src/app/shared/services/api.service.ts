@@ -47,7 +47,6 @@ getRetailShopsList(page: number, size: number, sortBy: string, sortDirection: st
       searchText = `&search=${search}`;
     }
   const apiuri = `http://${this.serverIp}/api/retailer-shop/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
-  console.log(apiuri);
   const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
 }
@@ -65,7 +64,6 @@ getSuppliersList(page: number, size: number, sortBy: string, sortDirection: stri
       searchText = `&search=${search}`;
     }
   const apiuri = `http://${this.serverIp}/api/supplier/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
-  console.log(apiuri);
   const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
 }
@@ -87,6 +85,15 @@ getShops(search: string) {
 getTiles(search: string) {
   const apiuri = `http://${this.serverIp}/api/tiles/search?search=${search}`;
   const returnData: Observable<Object> = this.http.get(apiuri);
+  return returnData;
+}
+
+//----------------------------------------------------
+
+postNewOrder(order: any) {
+  const apiuri = `http://${this.serverIp}/api/order`;
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const returnData: Observable<Object> = this.http.post(apiuri, order, { headers });
   return returnData;
 }
 

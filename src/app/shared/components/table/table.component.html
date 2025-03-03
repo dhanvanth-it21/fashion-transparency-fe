@@ -29,6 +29,14 @@
         </tr>
       </thead>
       <tbody>
+        <ng-container *ngIf="displayData.length === 0">
+          <tr>
+            <td *ngFor="let tdata of tabelHeader;let i = index;">
+              -
+            </td>
+            <td>-</td>
+          </tr>
+        </ng-container>
         <ng-container *ngFor="let data of displayData; let i = index">
           <tr>
             <td class="make-center">
@@ -64,7 +72,9 @@
         </ng-container>
       </tbody>
     </table>
-    <div class="page-control">
+    <div class="page-control"
+    *ngIf="allowPagination.isPaginated"
+    >
       <div class="pagination">
         <div class="page-navigation">
           <button (click)="previousPage()" [disabled]="paging.is_first">

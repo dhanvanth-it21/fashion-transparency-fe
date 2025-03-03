@@ -25,6 +25,7 @@ export class CreateOrderComponent {
 
   isUpdateSupplierOpen: Boolean = false;
   updateDetailFormGroup!: FormGroup;
+  // setQtyFormGroup!: FormGroup;
 
   private _searchTextOfShopName: string = "";
   get searchTextOfShopName(): string {
@@ -71,7 +72,8 @@ export class CreateOrderComponent {
 
   formConfigOfUpdate = [
     { key: "skuCode", label: "Sku Code", type: "text", required: true },
-    { key: "qty", label: "Qty", type: "number", required: true, min: 1 }
+    { key: "qty", label: "Qty", type: "number", required: true, min: 1 },
+    { key: "requiredQty", label: "Required Qty", type: "number", required: true, min: 1 },
   ];
 
   formUseOrder: { heading: string, submit: string, discard: string } =
@@ -92,12 +94,17 @@ export class CreateOrderComponent {
     sort_by: "_id",
   }
 
-  displayData: { _id: string, skuCode: string, qty: number }[] = [];
+  allowPagination: {isPaginated: boolean} = {
+    isPaginated: false
+  }
+
+  displayData: { _id: string, skuCode: string, qty: number, requiredQty: number }[] = [];
 
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
     { name: "Sku Code", class: "", sortBy: "skuCode", sortDirection: "asc" },
-    { name: "Qty", class: "", sortBy: "qty", sortDirection: "asc" },
+    { name: "Availabel Qty", class: "", sortBy: "qty", sortDirection: "asc" },
+    { name: "Required Qty", class: "", sortBy: "requiredQty", sortDirection: "asc" },
   ]
 
   constructor(
@@ -178,27 +185,30 @@ export class CreateOrderComponent {
     this.searchTextOfShopName = "";
   }
   selectTile(tile: any) {
-    console.log(tile);
     if (this.checkDuplicate(tile.skuCode)) {
       this.searchResultsOfTile = [];
       this.searchTextOfTile = "";
       return;
     }
-    this.displayData.push({ _id: tile._id, skuCode: tile.skuCode, qty: tile.qty });
+    this.displayData.push({ _id: tile._id, skuCode: tile.skuCode, qty:tile.qty, requiredQty: 1 });
     this.itemList.push(
       this.formBuilder.group({
         tileId: [tile._id, Validators.required],
-        skuCode: [{ value: tile.skuCode, disabled: true }],
-        qty: [tile.qty, [Validators.required, Validators.min(1)]]
+        skuCode: [{ value: tile.skuCode, disabled: true}],
+        qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(1)]],
+        requiredQty: [1, [Validators.required, Validators.min(1), Validators.max(tile.qty)]]
       })
     );
-    console.log(this.createOrderForm.value);
     this.searchResultsOfTile = [];
     this.searchTextOfTile = "";
   }
 
   submitOrder() {
-    console.log(this.createOrderForm.value);
+    console.log(this.createOrderForm.value)
+    this.apiService.postNewOrder(this.createOrderForm.value).subscribe({
+      next: (repsonse: any) => {console.log(repsonse.data)},
+      error: e => console.error(e),
+    })
     this.router.navigate(['/admin/orders']);
   }
 
@@ -219,17 +229,15 @@ export class CreateOrderComponent {
       item.value.tileId === id
     ) as FormGroup;
 
-    console.log(item.value);
     this.updateDetailFormGroup = item;
     this.isUpdateSupplierOpen = true;
   }
 
   submitUpdate(event: any) {
-    console.log(this.createOrderForm.value);
 
     const displayItem = this.displayData.find(item => item._id === event.tileId);
     if (displayItem) {
-      displayItem.qty = event.qty;
+      displayItem.requiredQty = event.requiredQty;
     }
     this.isUpdateSupplierOpen = false;
   }
@@ -240,3 +248,22 @@ export class CreateOrderComponent {
 
 
 }
+
+
+
+
+// {
+//   "salesId": "00001",
+//   "shopId": "67c4033aa33f5a4245fde006",
+//   "damagePercentage": 0,
+//   "itemList": [
+//       {
+//           "tileId": "67c096788284830652f401b5",
+//           "requiredQty": "10"
+//       },
+//       {
+//           "tileId": "67c0967b8284830652f401b6",
+//           "requiredQty": "20"
+//       }
+//   ]
+// }

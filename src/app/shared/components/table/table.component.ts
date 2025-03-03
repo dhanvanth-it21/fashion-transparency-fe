@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-table',
@@ -28,6 +28,11 @@ export class TableComponent {
 
   @Input()
   dataDetail: any = null;
+
+  @Input()
+  allowPagination: {isPaginated: boolean} = {
+    isPaginated: true
+  }
 
   @Output()
   dataDetailIdChange = new EventEmitter<string>();
@@ -55,7 +60,7 @@ export class TableComponent {
     iconsUsed = {
       update: faEdit,
       archive: faArchive,
-      details: faExpand,
+      details: faInfoCircle,
       prev: faArrowLeft,
       next: faArrowRight,
       asc: faArrowDown,
@@ -87,7 +92,6 @@ export class TableComponent {
   }
 
   openUpdateList(id: string) {
-    console.log("fdfdfdf", id);
     this.updateList.emit(id);
   }
 

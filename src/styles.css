@@ -26,6 +26,8 @@
   
 
 
+
+
   /* color pallate */
   /* https://www.color-hex.com/color-palette/111548 */
 
@@ -34,3 +36,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.left-side .form-group {
+  flex: 1 1 calc(70% - 10px) !important;
+}
