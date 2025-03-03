@@ -1,6 +1,6 @@
 <div class="supplier-container">
     <div class="list-container" [ngClass]="{
-      'make-blur': isAddSupplierOpen
+      'make-blur': isAddSupplierOpen || isUpdateSupplierOpen
     }">
       <div class="list-heading">
         <span class="total-elements">{{ paging.total_elements }}</span>

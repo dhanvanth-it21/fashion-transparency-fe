@@ -115,4 +115,11 @@ getOrderById(id: string) {
     return returnData
 }
 
+updateOrderStatusById(id: string, status: string) {
+  const apiuri = `http://${this.serverIp}/api/order/status/${id}?status=${status}`;
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const returnData: Observable<Object> = this.http.put(apiuri,{ headers });
+  return returnData;
+}
+
 }

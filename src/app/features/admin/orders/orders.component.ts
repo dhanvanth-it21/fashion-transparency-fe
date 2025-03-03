@@ -57,7 +57,6 @@ export class OrdersComponent {
 
 
   searchSubject = new Subject<string>();
-  isAddOrderOpen: Boolean = false;
   isUpdateOrderOpen: Boolean = false;
 
   formGroup!: FormGroup;
@@ -87,7 +86,7 @@ export class OrdersComponent {
 
   formUseUpdate: { heading: string, submit: string, discard: string } =
     {
-      heading: "Update Order",
+      heading: "Update Order Status",
       submit: "Update",
       discard: "Discard"
     }
@@ -110,7 +109,6 @@ export class OrdersComponent {
       this.getOrdersList(undefined, undefined, undefined, undefined, searchTerm);
     });
     this.subscriveToRouteChange();
-    this.initailizeFormGroup();
   }
 
 
@@ -144,27 +142,16 @@ export class OrdersComponent {
 
 
   subscriveToRouteChange() {
-    if (this.router.url === "/admin/order/add-order") {
-      this.isAddOrderOpen = true;
+    if (this.router.url.startsWith("/admin/orders/update-order")) {
       this.isUpdateOrderOpen = false;
-    }
-    else if (this.router.url.startsWith("/admin/order/update-order")) {
-      this.isUpdateOrderOpen = false;
-      this.isAddOrderOpen = false;
-      this.router.navigate(['/admin/order'])
+      this.router.navigate(['/admin/orders'])
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (event.url === "/admin/order/add-order") {
-          this.isAddOrderOpen = true;
-          this.isUpdateOrderOpen = false;
-        }
-        else if (event.url.startsWith("/admin/order/update-order")) {
+        if (event.url.startsWith("/admin/orders/update-order")) {
           this.isUpdateOrderOpen = true;
-          this.isAddOrderOpen = false;
         }
         else {
-          this.isAddOrderOpen = false;
           this.isUpdateOrderOpen = false;
         }
       }
@@ -172,44 +159,33 @@ export class OrdersComponent {
   }
 
 
-  addFormSubmit(event: any) {
-    console.log(event);
-  }
-
-  addFormDiscard() {
-    this.router.navigate(['/admin/order'])
-  }
 
   //need to handle
   updateFormSubmit(event: any) {
+    if(this.updateDataDetail.status == event.status) {
+      console.log("No changes made");
+      return;
+    }
     console.log(event);
+    this.updateOrderStatusById(event._id, event.status);
+    this.router.navigate(['/admin/orders']);
   }
 
 
   updateFormDiscard() {
     this.updateDataDetail = null;
     this.updateDataDetailId = "";
-    this.router.navigate(['/admin/order']);
+    this.router.navigate(['/admin/orders']);
   }
 
 
-
-  initailizeFormGroup() {
-    this.formGroup = this.formBuilder.group({
-      brandName: ['', Validators.required],
-      contactPersonName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      address: ['', Validators.required],
-    });
-  }
 
 
   updateOrder(id: string) {
     this.updateDataDetailId = id;
     this.getOrderDetailById(id);
     setTimeout(() => {
-      this.router.navigate(["update-order", id],  { relativeTo: this.activatedRoute });
+      this.router.navigate(["update-order", id], { relativeTo: this.activatedRoute });
     }, 200)
 
   }
@@ -217,9 +193,7 @@ export class OrdersComponent {
   initailzeUpdateFormGroup() {
     this.updateDetailFormGroup = this.formBuilder.group({
       _id: this.updateDataDetailId,
-      shopName: [this.updateDataDetail.brandName, Validators.required],
-      email: [this.updateDataDetail.email, [Validators.required, Validators.email]],
-      phone: [this.updateDataDetail.phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
+      shopName: [{value: this.updateDataDetail.shopName, disabled: true}, Validators.required],
       status: [this.updateDataDetail.status, [Validators.required, Validators.pattern('^(PENDING|PICKING|DISPATCHED|DELIVERED)$')]],
     });
   }
@@ -265,6 +239,17 @@ export class OrdersComponent {
         if (response.status === "success" && response.data) {
           this.updateDataDetail = response.data;
           this.initailzeUpdateFormGroup();
+        }
+      },
+      error: (e) => { console.error(e) },
+    })
+  }
+
+  updateOrderStatusById(id: string, status: string) {
+    this.apiService.updateOrderStatusById(id, status).subscribe({
+      next: (response: any) => {
+        if (response.status === "success") {
+          this.getOrdersList();
         }
       },
       error: (e) => { console.error(e) },

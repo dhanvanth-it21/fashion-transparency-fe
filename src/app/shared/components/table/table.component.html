@@ -29,9 +29,9 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngIf="displayData.length === 0">
+        <ng-container *ngIf="displayData?.length === 0">
           <tr>
-            <td *ngFor="let tdata of tabelHeader;let i = index;">
+            <td *ngFor="let tdata of tabelHeader; let i = index">
               -
             </td>
             <td>-</td>
@@ -43,7 +43,19 @@
               {{ paging.page_number * paging.page_size + (i + 1) }}
             </td>
             <ng-container *ngFor="let tdata of tabelHeader; let i = index">
-              <td *ngIf="i >= 1">{{ data[tdata.sortBy] }}</td>
+              <td *ngIf="i >= 1">
+                <span
+                [ngClass]="{
+                  'yellow': data[tdata.sortBy] === 'PENDING',
+                  'blue': data[tdata.sortBy] === 'PICKING',
+                  'green': data[tdata.sortBy] === 'DISPATCHED',
+                  'red': data[tdata.sortBy] === 'DELIVERED'
+                }"
+                >
+                  {{ data[tdata.sortBy] }}
+
+                </span>
+              </td>
             </ng-container>
             <td>
               <div class="tile-action-container">

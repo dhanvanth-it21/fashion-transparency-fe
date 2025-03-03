@@ -1,4 +1,8 @@
-<div class="order-container">
+<div class="order-container" 
+[ngClass]="{
+  'make-blur': isUpdateOrderOpen
+}"
+>
   <div class="list-container">
     <div class="list-heading">
       <span class="total-elements">{{ paging.total_elements }}</span>

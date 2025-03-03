@@ -192,4 +192,43 @@ table {
     color: #222;
   }
   
+
+  .color-code {
+
+  }
+
+
+  .yellow {
+    background-color: #efc416;
+    color: #000                       ;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  .blue {
+    background-color: #3498db;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  .green {
+    background-color: #2ecc71;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  .red {
+    background-color: #e74c3c;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+ 
+ 
   
