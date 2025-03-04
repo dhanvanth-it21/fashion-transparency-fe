@@ -64,7 +64,12 @@ export class ApiService {
     return returnData;
   }
 
-
+  updateRetailShopById(id: string, formGroup: any) {
+    const apiuri = `http://${this.serverIp}/api/retailer-shop/${id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.put(apiuri, formGroup, {headers});
+    return returnData;
+  }
   //-----------------------------------------------
   getSuppliersList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
     let searchText = "";

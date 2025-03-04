@@ -221,8 +221,23 @@ export class RetailShopComponent {
   }
 
   //need to handle
-  updateFormSubmit(event: any) {
-    console.log(event);
+  updateFormSubmit(value: any) {
+    if(this.updateDetailFormGroup.valid){
+      this.apiService.updateRetailShopById(this.updateDataDetailId, value).subscribe({
+        next: (response: any) => {
+          //need to add sweet alert
+          this.router.navigate(['/admin/retail-shop'])
+        },
+        error: (e) => {
+          //need to add sweet alert
+          console.error(e)
+        }
+      })
+      
+    }
+    else{
+      //need to add sweet alert
+    }
   }
 
   updateFormDiscard() {
