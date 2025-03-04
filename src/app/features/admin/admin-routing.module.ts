@@ -37,6 +37,24 @@ const routes: Routes = [
         .then(m => m.CreateOrderComponent),
       },
       {
+        path: "purchases",
+        loadComponent: () => import("./purchase/purchase.component")
+        .then(m => m.PurchasesComponent),
+        children: [
+          {
+            path: "update-purchase/:id",
+            loadComponent: () => import("./purchase/purchase.component")
+            .then(m => m.PurchasesComponent),
+          },
+          
+        ]
+      },
+      {
+        path: "purchases/add-purchase",
+        loadComponent: () => import("./purchase/create-purchase/create-purchase.component")
+        .then(m => m.CreatePurchaseComponent),
+      },
+      {
         path: "inventory",
         loadComponent: () => import("./inventory/inventory.component")
         .then(m => m.InventoryComponent),

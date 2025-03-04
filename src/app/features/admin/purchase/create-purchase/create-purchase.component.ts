@@ -8,34 +8,34 @@ import { Router } from '@angular/router';
 import { TableComponent } from "../../../../shared/components/table/table.component";
 
 @Component({
-  selector: 'app-create-order',
+  selector: 'app-create-purchase',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, AddFormComponent, TableComponent],
-  templateUrl: './create-order.component.html',
-  styleUrl: './create-order.component.css'
+  templateUrl: './create-purchase.component.html',
+  styleUrl: './create-purchase.component.css'
 })
-export class CreateOrderComponent {
+export class CreatePurchaseComponent {
 
-  createOrderForm!: FormGroup;
+  createPurchaseForm!: FormGroup;
   itemList!: FormArray;
 
-  searchResultsOfShopName: any[] = [];
+  searchResultsOfBrandName: any[] = [];
   searchResultsOfTile: any[] = [];
 
 
   isUpdateSupplierOpen: Boolean = false;
   updateDetailFormGroup!: FormGroup;
-  // setQtyFormGroup!: FormGroup;
 
-  private _searchTextOfShopName: string = "";
-  get searchTextOfShopName(): string {
-    return this._searchTextOfShopName;
+
+  private _searchTextOfBrandName: string = "";
+  get searchTextOfBrandName(): string {
+    return this._searchTextOfBrandName;
   }
 
-  set searchTextOfShopName(value: string) {
-    this._searchTextOfShopName = value;
-    if (this.searchTextOfShopName !== "") {
-      this.onSearchTextChangeOfShopName();
+  set searchTextOfBrandName(value: string) {
+    this._searchTextOfBrandName = value;
+    if (this.searchTextOfBrandName !== "") {
+      this.onSearchTextChangeOfBrandName();
     }
   }
 
@@ -53,7 +53,7 @@ export class CreateOrderComponent {
 
 
 
-  searchSubjectOfShopName = new Subject<string>();
+  searchSubjectOfBrandName = new Subject<string>();
   searchSubjectOfTile = new Subject<string>();
 
 
@@ -65,20 +65,22 @@ export class CreateOrderComponent {
     }
 
   formConfig = [
-    { key: 'shopName', label: 'Shop Name', type: 'text', required: true },
-    { key: 'salesId', label: 'Sales ID', type: 'text', required: true },
+    { key: 'brandName', label: 'Brand Name', type: 'text', required: true },
+    { key: 'purchaseId', label: 'Purchase ID', type: 'text', required: true },
     { key: 'damagePercentage', label: 'Damage %', type: 'number', required: true, min: 0, max: 100 }
   ];
+
+  // 67bbfe2f8d85f862f666bb10
 
   formConfigOfUpdate = [
     { key: "skuCode", label: "Sku Code", type: "text", required: true },
     { key: "qty", label: "Qty", type: "number", required: true, min: 1 },
-    { key: "requiredQty", label: "Required Qty", type: "number", required: true, min: 1 },
+    { key: "addQty", label: "Add Qty", type: "number", required: true, min: 0 },
   ];
 
-  formUseOrder: { heading: string, submit: string, discard: string } =
+  formUsePurchase: { heading: string, submit: string, discard: string } =
     {
-      heading: "Order Form",
+      heading: "Purchase Form",
       submit: "Create",
       discard: "Discard"
     }
@@ -98,13 +100,13 @@ export class CreateOrderComponent {
     isPaginated: false
   }
 
-  displayData: { _id: string, skuCode: string, qty: number, requiredQty: number }[] = [];
+  displayData: { _id: string, skuCode: string, qty: number, addQty: number }[] = [];
 
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
     { name: "Sku Code", class: "", sortBy: "skuCode", sortDirection: "asc" },
-    { name: "Availabel Qty", class: "", sortBy: "qty", sortDirection: "asc" },
-    { name: "Required Qty", class: "", sortBy: "requiredQty", sortDirection: "asc" },
+    { name: "Available Qty", class: "", sortBy: "qty", sortDirection: "asc" },
+    { name: "Add Qty", class: "", sortBy: "addQty", sortDirection: "asc" },
   ]
 
   constructor(
@@ -115,10 +117,10 @@ export class CreateOrderComponent {
 
   ngOnInit() {
     this.initializeForm();
-    this.searchSubjectOfShopName
+    this.searchSubjectOfBrandName
       .pipe(debounceTime(500))
       .subscribe((searchTerm) => {
-        this.searchForShopName(searchTerm);
+        this.searchForBrandName(searchTerm);
       });
     this.searchSubjectOfTile
       .pipe(debounceTime(500))
@@ -128,24 +130,26 @@ export class CreateOrderComponent {
   }
 
   initializeForm() {
-    this.createOrderForm = this.formBuilder.group({
-      salesId: ['', Validators.required],
-      shopId: ['', Validators.required],
-      shopName: [{ value: '', disabled: true }, Validators.required],
+    this.createPurchaseForm = this.formBuilder.group({
+      purchaseId: ['', Validators.required],
+      addQty: [0, [Validators.required, Validators.min(0)]],
+      recordedByUserId: ['67bbfe2f8d85f862f666bb10', Validators.required],
+      supplierId: ['', Validators.required],
+      brandName: [{ value: '', disabled: true }, Validators.required],
       damagePercentage: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
       itemList: this.formBuilder.array([])
     });
 
-    this.itemList = this.createOrderForm.controls['itemList'] as FormArray;
+    this.itemList = this.createPurchaseForm.controls['itemList'] as FormArray;
   }
 
 
 
-  searchForShopName(searchTerm: string) {
-    this.apiService.getShops(searchTerm).subscribe({
+  searchForBrandName(searchTerm: string) {
+    this.apiService.getSuppliers(searchTerm).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
-          this.searchResultsOfShopName = response.data;
+          this.searchResultsOfBrandName = response.data;
         }
       },
       error: (e) => {
@@ -153,6 +157,7 @@ export class CreateOrderComponent {
       }
     })
   }
+
 
   searchForTile(searchTerm: string) {
     this.apiService.getTiles(searchTerm).subscribe({
@@ -167,8 +172,8 @@ export class CreateOrderComponent {
     })
   }
 
-  onSearchTextChangeOfShopName() {
-    this.searchSubjectOfShopName.next(this.searchTextOfShopName);
+  onSearchTextChangeOfBrandName() {
+    this.searchSubjectOfBrandName.next(this.searchTextOfBrandName);
   }
 
   onSearchTextChangeOfTile() {
@@ -176,13 +181,13 @@ export class CreateOrderComponent {
   }
 
 
-  selectShop(shop: any) {
-    this.createOrderForm.patchValue({
-      shopId: shop._id,
-      shopName: shop.shopName
+  selectSupplier(supplier: any) {
+    this.createPurchaseForm.patchValue({
+      supplierId: supplier._id,
+      brandName: supplier.brandName
     });
-    this.searchResultsOfShopName = [];
-    this.searchTextOfShopName = "";
+    this.searchResultsOfBrandName = [];
+    this.searchTextOfBrandName = "";
   }
   selectTile(tile: any) {
     if (this.checkDuplicate(tile.skuCode)) {
@@ -190,30 +195,30 @@ export class CreateOrderComponent {
       this.searchTextOfTile = "";
       return;
     }
-    this.displayData.push({ _id: tile._id, skuCode: tile.skuCode, qty:tile.qty, requiredQty: 1 });
+    this.displayData.push({ _id: tile._id, skuCode: tile.skuCode, qty:tile.qty, addQty: 1 });
     this.itemList.push(
       this.formBuilder.group({
         tileId: [tile._id, Validators.required],
         skuCode: [{ value: tile.skuCode, disabled: true}],
         qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(1)]],
-        requiredQty: [1, [Validators.required, Validators.min(1), Validators.max(tile.qty)]]
+        addQty: [1, [Validators.required, Validators.min(1), Validators.max(tile.qty)]]
       })
     );
     this.searchResultsOfTile = [];
     this.searchTextOfTile = "";
   }
 
-  submitOrder() {
-    console.log(this.createOrderForm.value)
-    this.apiService.postNewOrder(this.createOrderForm.value).subscribe({
+  submitPurchase() {
+    console.log(this.createPurchaseForm.value)
+    this.apiService.postNewPurchase(this.createPurchaseForm.value).subscribe({
       next: (repsonse: any) => {console.log(repsonse.data)},
       error: e => console.error(e),
     })
-    this.router.navigate(['/admin/orders']);
+    this.router.navigate(['/admin/purchases']);
   }
 
   closeForm() {
-    this.router.navigate(['/admin/orders']);
+    this.router.navigate(['/admin/purchases']);
   }
 
   checkDuplicate(skuCode: string): boolean {
@@ -228,8 +233,7 @@ export class CreateOrderComponent {
     const item = this.itemList.controls.find(item =>
       item.value.tileId === id || item.value._id === id
     ) as FormGroup;
-    console.log(item);
-
+console.log(item);
     this.updateDetailFormGroup = item;
     this.isUpdateSupplierOpen = true;
   }
@@ -238,7 +242,7 @@ export class CreateOrderComponent {
 
     const displayItem = this.displayData.find(item => item._id === event.tileId);
     if (displayItem) {
-      displayItem.requiredQty = event.requiredQty;
+      displayItem.addQty = event.addQty;
     }
     this.isUpdateSupplierOpen = false;
   }
@@ -253,18 +257,3 @@ export class CreateOrderComponent {
 
 
 
-// {
-//   "salesId": "00001",
-//   "shopId": "67c4033aa33f5a4245fde006",
-//   "damagePercentage": 0,
-//   "itemList": [
-//       {
-//           "tileId": "67c096788284830652f401b5",
-//           "requiredQty": "10"
-//       },
-//       {
-//           "tileId": "67c0967b8284830652f401b6",
-//           "requiredQty": "20"
-//       }
-//   ]
-// }

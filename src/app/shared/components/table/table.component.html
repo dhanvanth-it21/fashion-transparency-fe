@@ -49,7 +49,8 @@
                   'yellow': data[tdata.sortBy] === 'PENDING',
                   'blue': data[tdata.sortBy] === 'PICKING',
                   'green': data[tdata.sortBy] === 'DISPATCHED',
-                  'red': data[tdata.sortBy] === 'DELIVERED'
+                  'red': data[tdata.sortBy] === 'DELIVERED',
+                  'reject': data[tdata.sortBy] === 'REJECTED'
                 }"
                 >
                   {{ data[tdata.sortBy] }}

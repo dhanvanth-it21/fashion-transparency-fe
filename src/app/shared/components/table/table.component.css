@@ -193,9 +193,6 @@ table {
   }
   
 
-  .color-code {
-
-  }
 
 
   .yellow {
@@ -222,7 +219,8 @@ table {
     font-weight: bold;
   }
 
-  .red {
+  .red,
+  .reject {
     background-color: #e74c3c;
     color: #000;
     padding: 4px 8px;

@@ -23,7 +23,8 @@ export class LeftSidebarComponent {
     employees: faUsers,         
     inventory: faBoxes,  
     shop: faShop,
-    supplier: faTruck
+    supplier: faTruck,
+    purchase: faTruck
   };
 
   username: string =  "Dhanvanth S B";
