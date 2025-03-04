@@ -57,7 +57,15 @@ export class ApiService {
     return returnData
   }
 
+  postNewRetailShop(formGroup: any) {
+    const apiuri = `http://${this.serverIp}/api/retailer-shop`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, {headers});
+    return returnData;
+  }
 
+
+  //-----------------------------------------------
   getSuppliersList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
     let searchText = "";
     if (search !== "") {
@@ -75,6 +83,20 @@ export class ApiService {
   }
 
 
+  postNewSupplier(formGroup: any) {
+    const apiuri = `http://${this.serverIp}/api/supplier`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, {headers});
+    return returnData;
+  }
+
+
+  updateSupplierById(id: string, formGroup: any) {
+    const apiuri = `http://${this.serverIp}/api/supplier/${id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.put(apiuri, formGroup, {headers});
+    return returnData;
+  }
   //-----------------------------------------------
   getShops(search: string) {
     const apiuri = `http://${this.serverIp}/api/retailer-shop/search?search=${search}`;
@@ -142,6 +164,12 @@ export class ApiService {
 
   getPurchaseById(id: string) {
     const apiuri = `http://${this.serverIp}/api/purchase/get-purchase/${id}`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
+  getPurchaseDetailById(id: string) {
+    const apiuri = `http://${this.serverIp}/api/purchase/${id}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData
   }

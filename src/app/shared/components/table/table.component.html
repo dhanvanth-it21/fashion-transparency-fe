@@ -78,8 +78,32 @@
           >
             <td colspan="8">
               <div class="tile-detail">
-              <p>{{ dataDetail }}</p>
-              </div>
+                <p
+                *ngFor="let exp of expandDetail"
+                >
+                <strong>{{exp.label}}</strong> : 
+                {{dataDetail[exp.key]}}
+              </p>
+
+            </div>
+            <div class="item-list-container" *ngIf="dataDetail.itemList?.length">
+              <strong>Item List:</strong>
+              <table class="item-list-table">
+                <thead>
+                  <tr>
+                    <th>Tile ID</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of dataDetail.itemList">
+                    <td>{{ item.tileId }}</td>
+                    <td>{{ item.addQty || item.requiredQty }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
             </td>
           </tr>
         </ng-container>

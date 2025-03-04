@@ -15,11 +15,6 @@ import { OrdersComponent } from "../orders/orders.component";
 })
 export class DashboardComponent {
 
-    iconsUsed = {
-      prev: faArrowLeft,
-      next: faArrowRight,      
-    };
-
     allowed: {isHeadingNeeded: boolean, allowPagination: {isPaginated: boolean, pageSize: boolean},} = {
       isHeadingNeeded: false,
       allowPagination: {
@@ -40,21 +35,6 @@ export class DashboardComponent {
   
 
   constructor() {}
-
-  //sample data
-  pendingOrders = [
-    { orderId: '1001', retailer: 'Retailer A', orderDate: '2025-02-25', status: 'Pending' },
-    { orderId: '1002', retailer: 'Retailer B', orderDate: '2025-02-24', status: 'Pending' },
-    { orderId: '1002', retailer: 'Retailer B', orderDate: '2025-02-24', status: 'Pending' },
-    { orderId: '1002', retailer: 'Retailer B', orderDate: '2025-02-24', status: 'Pending' },
-    { orderId: '1002', retailer: 'Retailer B', orderDate: '2025-02-24', status: 'Pending' },
-  ];
-
-  //smaple data
-  dispatchedOrders = [
-    { orderId: '2001', retailer: 'Retailer C', dispatchDate: '2025-02-26', status: 'Dispatched' },
-    { orderId: '2002', retailer: 'Retailer D', dispatchDate: '2025-02-26', status: 'Dispatched' },
-  ];
 
 
 }

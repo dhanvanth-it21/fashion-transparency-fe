@@ -3,10 +3,10 @@ import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/ro
 import { AddTileComponent } from "./add-tile/add-tile.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../shared/services/api.service';
-import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faUpDown, faX } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faL, faUpDown, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Tile, TileDetial } from '../models/tile.modle';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { UpdateTileComponent } from "./update-tile/update-tile.component";
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { AddFormComponent } from "../../../shared/components/add-form/add-form.component";
@@ -17,12 +17,12 @@ import { AddFormComponent } from "../../../shared/components/add-form/add-form.c
   standalone: true,
   imports: [
     RouterModule, 
-    AddTileComponent, 
+    // AddTileComponent, 
     CommonModule, 
     FontAwesomeModule, 
     FormsModule, 
     UpdateTileComponent, 
-    // AddFormComponent
+    AddFormComponent
   ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
@@ -79,10 +79,14 @@ export class InventoryComponent {
   searchText: string = "";
   searchSubject = new Subject<string>();
 
+
+  newAddTileFormBuilder!: FormGroup;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -92,7 +96,8 @@ export class InventoryComponent {
 
 
     if (this.router.url === "/admin/inventory/add-tile") {
-      this.isAddTileComponentOpen = true;
+      this.isAddTileComponentOpen = false;
+      this.router.navigate(['/admin/inventory']);
     }
     else if(this.router.url.startsWith("/admin/inventory/update-tile")) {
       this.isUpdateTileComponentOpen = true;
@@ -100,6 +105,7 @@ export class InventoryComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (event.url === "/admin/inventory/add-tile") {
+          this.initializeFormGroup()
           this.isAddTileComponentOpen = true;
           this.isUpdateTileComponentOpen = false;
         }
@@ -120,6 +126,13 @@ export class InventoryComponent {
     ).subscribe(searchTerm => {
       this.updateTileTable(undefined, undefined, searchTerm);
     });
+  }
+
+  formUseAdd: { heading: string, submit: string, discard: string } =
+  {
+    heading: "Add New Tile",
+    submit: "Submit",
+    discard: "Discard"
   }
 
 
@@ -245,29 +258,74 @@ export class InventoryComponent {
 
 
 
+  subCategoryOptions: { [key: string]: string[]} = {
+    WALL: ['KITCHEN', 'BATHROOM', 'ELEVATION'],
+    FLOOR: ['INDOOR', 'PARKING', 'ROOFING'],
+  };
+
+  
+
+
+  tileFormConfig = [
+    { key: 'modelName', label: 'Model Name', type: 'text', required: true },
+    { key: 'brandName', label: 'Brand Name', type: 'text', required: true },
+    { key: 'tileSize', label: 'Tile Size', type: 'select', required: true, options: ['SIZE_1X1', 'SIZE_1_5X1', 'SIZE_2X1', 'SIZE_2X2', 'SIZE_3X3', 'SIZE_4X2', 'SIZE_4X4', 'SIZE_6X4', 'SIZE_8X4'] },
+    { key: 'qty', label: 'Quantity', type: 'number', required: true, min: 1 },
+    { key: 'piecesPerBox', label: 'Pieces Per Box', type: 'number', required: true, min: 1 },
+    { key: 'color', label: 'Colour', type: 'text', required: true },
+    { key: 'category', label: 'Category', type: 'select', required: true, options: ['WALL', 'FLOOR'] },
+    { key: 'subCategory', label: 'SubCategory', type: 'select', required: true, options: [] },
+    { key: 'finishing', label: 'Finishing', type: 'select', required: true, options: [ 'GLOSSY', 'HIGH_GLOSSY', 'MATT', 'SUGAR', 'CARVING', 'FULL_BODY'] },
+    { key: 'minimumStockLevel', label: 'Minimum Stock Level', type: 'number', required: true, min: 10 },
+  ];
+
+
+  initializeFormGroup() {
+    this.newAddTileFormBuilder = this.formBuilder.group({
+      modelName: ['', Validators.required],
+      brandName: ['', Validators.required],
+      tileSize: ['', Validators.required],
+      qty: [null, [Validators.required, Validators.min(1)]],
+      piecesPerBox: [null, [Validators.required, Validators.min(1)]],
+      color: ['', Validators.required],
+      category: ['', [Validators.required]],
+      subCategory: ['', [Validators.required]],
+      finishing: ['', [Validators.required]],
+      minimumStockLevel: [null, [Validators.required, Validators.min(10)]],
+    });
+
+   
+    this.newAddTileFormBuilder.get('category')?.valueChanges.subscribe((selectedCategory) => {
+      this.updateSubCategoryOptions(selectedCategory);
+    });
+
+    const initialCategory = this.newAddTileFormBuilder.get('category')?.value;
+    this.updateSubCategoryOptions(initialCategory);
+  }
+
+
+  updateSubCategoryOptions(selectedCategory: string) {
+    const subCategoryField = this.tileFormConfig.find(field => field.key === 'subCategory');
+    
+    if (subCategoryField) {
+      subCategoryField.options = this.subCategoryOptions[selectedCategory] || [];
+    }
+
+    this.newAddTileFormBuilder.get('subCategory')?.setValue('');
+  }
 
 
 
-  // tileFormConfig = [
-  //   { key: 'modelName', label: 'Model Name', type: 'text', required: true },
-  //   { key: 'brandName', label: 'Brand Name', type: 'text', required: true },
-  //   { key: 'tileSize', label: 'Tile Size', type: 'text', required: true },
-  //   { key: 'qty', label: 'Quantity', type: 'number', required: true, min: 1 },
-  //   { key: 'piecesPerBox', label: 'Pieces Per Box', type: 'number', required: true, min: 1 },
-  //   { key: 'color', label: 'Colour', type: 'text', required: true },
-  //   { key: 'category', label: 'Category', type: 'select', required: true, options: ['WALL', 'FLOOR'] },
-  //   { key: 'subCategory', label: 'SubCategory', type: 'select', required: true, options: ['KITCHEN', 'BATHROOM'] },
-  //   { key: 'finishing', label: 'Finishing', type: 'select', required: true, options: ['GLOSSY', 'MATT'] },
-  //   { key: 'minimumStockLevel', label: 'Minimum Stock Level', type: 'number', required: true, min: 10 },
-  // ];
+    
+  handleTileSubmit(formData: any) {
+    if(this.newAddTileFormBuilder.valid){
+      console.log('Tile Data:', formData);
+      this.router.navigate(['/admin/inventory'])
+    }
+  }
 
-  // handleTileSubmit(formData: any) {
-  //   console.log("fdfdfdfd");
-  //   console.log('Tile Data:', formData);
-  // }
-
-  // closeDialog() {
-  //   console.log('Form closed');
-  // }
+  closeDialog() {
+    this.router.navigate(['/admin/inventory'])
+  }
 
 }

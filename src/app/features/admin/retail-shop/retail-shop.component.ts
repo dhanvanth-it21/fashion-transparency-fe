@@ -91,6 +91,15 @@ export class RetailShopComponent {
     { key: 'creditNote', label: 'Credit Note (Rs.)', type: 'number', required: true, min: 0 }
   ];
 
+  expandDetail = [
+    { key: 'shopName', label: 'Shop Name' },
+    { key: 'contactPersonName', label: 'Contact Person Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'phone', label: 'Phone' },
+    { key: 'address', label: 'Address' },
+    { key: 'creditNote', label: 'Credit Note (Rs.)' }
+  ]
+
   formUseAdd: {heading: string, submit: string, discard: string} =
     {
       heading: "Add Retail Shop",
@@ -188,8 +197,23 @@ export class RetailShopComponent {
   }
 
   //need to handle
-  addFormSubmit(event: any) {
-    console.log(event);
+  addFormSubmit(value: any) {
+    if(this.formGroup.valid){
+      this.apiService.postNewRetailShop(value).subscribe({
+        next: (response: any) => {
+          //need to add sweet alert
+          this.getRetailShopsList();
+          this.router.navigate(['/admin/retail-shop'])
+        },
+        error: (e) => {
+          //need to add sweet alert
+          console.error(e)
+        }
+      })
+    }
+    else {
+      //need to add sweet alter
+    }
   }
 
   addFormDiscard() {

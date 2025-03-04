@@ -41,9 +41,9 @@ export class AddFormComponent {
   constructor(private fb: FormBuilder) {}
 
   submitForm() {
-    // if (this.addForm.valid) {
+    if (this.formGroup.valid) {
       this.formSubmit.emit(this.formGroup.value);
-    // }
+    }
   }
 
   closeForm() {

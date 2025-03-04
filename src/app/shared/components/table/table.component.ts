@@ -35,6 +35,9 @@ export class TableComponent {
     pageSize: true,
   }
 
+  @Input()
+  expandDetail: any[] = [];
+
   @Output()
   dataDetailIdChange = new EventEmitter<string>();
 

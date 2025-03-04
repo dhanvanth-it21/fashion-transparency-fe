@@ -236,4 +236,42 @@ table {
   }
  
  
+
+
+
+  .item-list-container {
+    background-color: var(--XXL-color); 
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .item-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: var(--S-color); 
+    color: #000;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .item-list-table th, .item-list-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #000;
+    color: #000;
+  }
+  
+  .item-list-table th {
+    background-color: var(--L-color);
+    color: #000;
+    color: white;
+  }
+  
+  .item-list-table tbody tr:hover {
+    background-color: var(--S-color); 
+    color: #000;
+  }
+  
   

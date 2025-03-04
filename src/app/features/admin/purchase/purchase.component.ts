@@ -85,6 +85,16 @@ export class PurchasesComponent {
   ];
 
 
+  expandDetail = [
+    { key: 'purchaseId', label: 'Purchase ID' },
+    { key: 'supplierId', label: 'Supplier ID' },
+    { key: 'damagePercentage', label: 'Damage Percentage' },
+    { key: 'status', label: 'Status' },
+    { key: 'recordedByUserId', label: 'Recorded By User ID' },
+    { key: 'approvedByUserId', label: 'Approved By User ID' },
+    { key: 'createdAt', label: 'Created At' },
+  ];
+
   formUseUpdate: { heading: string, submit: string, discard: string } =
     {
       heading: "Update Purchase Status",
@@ -227,10 +237,11 @@ export class PurchasesComponent {
   }
 
   getPurchaseById(id: string) {
-    this.apiService.getPurchaseById(id).subscribe({
+    this.apiService.getPurchaseDetailById(id).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.dataDetail = response.data;
+          console.log(this.dataDetail);
         }
       },
       error: (e) => { console.error(e) },

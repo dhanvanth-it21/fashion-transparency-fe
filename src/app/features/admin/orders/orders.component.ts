@@ -96,6 +96,17 @@ export class OrdersComponent {
     { key: 'status', label: 'Status', type: 'select', required: true, options: ['PENDING', 'PICKING', 'DISPATCHED', 'DELIVERED'] },
   ];
 
+  expandDetail = [
+    { key: 'salesId', label: 'Sales ID' },
+    { key: 'shopId', label: 'Shop ID' },
+    { key: 'shopName', label: 'Shop Name' },
+    { key: 'status', label: 'Status' },
+    { key: 'damagePercentage', label: 'Damage Percentage' },
+    { key: 'createdAt', label: 'Created At' },
+    { key: 'updatedAt', label: 'Updated At' }
+  ];
+  
+
 
   formUseUpdate: { heading: string, submit: string, discard: string } =
     {
@@ -241,6 +252,7 @@ export class OrdersComponent {
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.dataDetail = response.data;
+          console.log(this.dataDetail)
         }
       },
       error: (e) => { console.error(e) },

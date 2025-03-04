@@ -83,6 +83,14 @@ export class SuppliersComponent {
     { key: 'address', label: 'Address', type: 'text', required: true },
   ];
 
+  expandDetail = [
+    { key: 'brandName', label: 'Brand Name'},
+    { key: 'contactPersonName', label: 'Contact Person Name'},
+    { key: 'email', label: 'Email'},
+    { key: 'phone', label: 'Phone' },
+    { key: 'address', label: 'Address'},
+  ]
+
   formUseAdd: { heading: string, submit: string, discard: string } =
     {
       heading: "Add Supplier",
@@ -179,8 +187,23 @@ export class SuppliersComponent {
 
 
   //need to handle
-  addFormSubmit(event: any) {
-    console.log(event);
+  addFormSubmit(value: any) {
+    if(this.formGroup.valid){
+      this.apiService.postNewSupplier(value).subscribe({
+        next: (response: any) => {
+          //need to add sweet alert
+          this.getSuppliersList();
+          this.router.navigate(['/admin/supplier'])
+        },
+        error: (e) => {
+          //need to add sweet alert
+          console.error(e)
+        }
+      })
+    }
+    else {
+      //need to add sweet alter
+    }
   }
 
   addFormDiscard() {
@@ -188,8 +211,23 @@ export class SuppliersComponent {
   }
 
   //need to handle
-  updateFormSubmit(event: any) {
-    console.log(event);
+  updateFormSubmit(value: any) {
+    if(this.updateDetailFormGroup.valid){
+      this.apiService.updateSupplierById(this.updateDataDetailId, value).subscribe({
+        next: (response: any) => {
+          //need to add sweet alert
+          this.router.navigate(['/admin/supplier'])
+        },
+        error: (e) => {
+          //need to add sweet alert
+          console.error(e)
+        }
+      })
+      
+    }
+    else{
+      //need to add sweet alert
+    }
   }
 
   updateFormDiscard() {

@@ -23,8 +23,6 @@ button {
   margin-bottom: 10px;
 }
 
-
-
 .list-heading input {
   flex: 1;
   max-width: 500px;
@@ -41,6 +39,11 @@ button {
 }
 
 .total-elements {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1rem;
   font-weight: bold;
   background-color: var(--XXL-color);
@@ -99,7 +102,6 @@ th {
   font-size: 0.8rem;
   cursor: pointer;
   user-select: none;
-
 }
 
 .t-head {
@@ -121,7 +123,7 @@ th:hover {
   background-color: #34495e;
 }
 
-th:hover .hide{
+th:hover .hide {
   display: block;
 }
 
@@ -228,11 +230,9 @@ tbody tr:hover .tile-action-container fa-icon {
   text-align: center;
 }
 
-
-
 .tile-detail {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 1rem;
   background-color: #f0f5ff;
   border-radius: 8px;
@@ -253,17 +253,13 @@ tbody tr:hover .tile-action-container fa-icon {
 }
 
 .tile-detail p {
-  flex: 1 1 calc(50% - 8px); 
+  flex: 1 1 calc(50% - 8px);
   font-size: 1rem;
   color: #000;
   margin: 4px auto;
-  min-width: 200px; 
+  min-width: 200px;
 }
 
 .tile-detail strong {
   color: #222;
 }
-
-
-
-

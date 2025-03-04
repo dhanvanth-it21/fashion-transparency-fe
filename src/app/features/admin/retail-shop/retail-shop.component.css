@@ -27,6 +27,9 @@
 .total-elements {
   width: 2rem;
   height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1rem;
   font-weight: bold;
   background-color: var(--XXL-color);
@@ -51,9 +54,9 @@
 }
 
 .make-blur {
-    filter: blur(10px);
-    pointer-events: none;
-    user-select: none; 
+  filter: blur(10px);
+  pointer-events: none;
+  user-select: none;
 }
 
 .add-retail-shop-container,
