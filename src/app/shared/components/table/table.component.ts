@@ -30,8 +30,9 @@ export class TableComponent {
   dataDetail: any = null;
 
   @Input()
-  allowPagination: {isPaginated: boolean} = {
-    isPaginated: true
+  allowPagination: {isPaginated: boolean, pageSize: boolean} = {
+    isPaginated: true,
+    pageSize: true,
   }
 
   @Output()
@@ -69,7 +70,6 @@ export class TableComponent {
     }
 
     ngOnInit() {
-  
     }
 
   doSorting(sortBy: string, sortDirection: string) {

@@ -46,10 +46,10 @@
               <td *ngIf="i >= 1">
                 <span
                 [ngClass]="{
-                  'yellow': data[tdata.sortBy] === 'PENDING',
-                  'blue': data[tdata.sortBy] === 'PICKING',
-                  'green': data[tdata.sortBy] === 'DISPATCHED',
-                  'red': data[tdata.sortBy] === 'DELIVERED',
+                  'pending': data[tdata.sortBy] === 'PENDING',
+                  'picking': data[tdata.sortBy] === 'PICKING',
+                  'dispatched': data[tdata.sortBy] === 'DISPATCHED',
+                  'delivered': data[tdata.sortBy] === 'DELIVERED',
                   'reject': data[tdata.sortBy] === 'REJECTED'
                 }"
                 >
@@ -101,7 +101,9 @@
           </button>
         </div>
       </div>
-      <div class="page-size">
+      <div class="page-size"
+      *ngIf="allowPagination.pageSize"
+      >
         <select
           name="pageSize"
           id="page-size"

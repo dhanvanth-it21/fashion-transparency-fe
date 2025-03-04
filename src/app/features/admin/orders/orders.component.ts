@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { TableComponent } from "../../../shared/components/table/table.component";
 import { AddFormComponent } from "../../../shared/components/add-form/add-form.component";
@@ -16,6 +16,17 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
   styleUrl: './orders.component.css'
 })
 export class OrdersComponent {
+
+
+  @Input()
+  allowed: {isHeadingNeeded: boolean, allowPagination: {isPaginated: boolean, pageSize: boolean}} = {
+    isHeadingNeeded: true,
+    allowPagination: {
+      isPaginated: true,
+      pageSize: true,
+    }
+  }
+
 
   //two way data binding variables
   private _dataDetailId: string = "";
@@ -45,10 +56,12 @@ export class OrdersComponent {
     this.onDataDetailChange();
   }
 
+  
   get searchText(): string {
     return this._searchText;
   }
 
+  @Input()
   set searchText(value: string) {
     this._searchText = value;
     this.onSearchTextChange();
@@ -101,7 +114,7 @@ export class OrdersComponent {
   ) { }
 
   ngOnInit() {
-    this.getOrdersList();
+    this.getOrdersList(undefined, undefined, undefined, undefined, this.searchText);
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged()
@@ -133,6 +146,7 @@ export class OrdersComponent {
 
 
   onSearchTextChange() {
+    console.log(this.searchText);
     this.searchSubject.next(this.searchText);
   }
 

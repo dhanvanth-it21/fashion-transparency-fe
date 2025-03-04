@@ -94,8 +94,9 @@ export class CreateOrderComponent {
     sort_by: "_id",
   }
 
-  allowPagination: {isPaginated: boolean} = {
-    isPaginated: false
+  allowPagination: {isPaginated: boolean, pageSize: boolean} = {
+    isPaginated: true,
+    pageSize: true,
   }
 
   displayData: { _id: string, skuCode: string, qty: number, requiredQty: number }[] = [];

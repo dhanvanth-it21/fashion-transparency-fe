@@ -57,6 +57,11 @@
     cursor: not-allowed;
     background-color: #dddddd;
   }
+
+  select,
+  .pointer {
+    cursor: pointer;
+  }
   
   input[type="checkbox"] {
     width: 18px;

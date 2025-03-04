@@ -211,6 +211,7 @@ export class PurchasesComponent {
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
+            console.log(response.data)
             this.displayData = response.data;
             this.paging.is_first = response.metadata.isFirst;
             this.paging.is_last = response.metadata.isLast;

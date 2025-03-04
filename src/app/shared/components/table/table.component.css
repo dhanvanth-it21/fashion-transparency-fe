@@ -195,7 +195,7 @@ table {
 
 
 
-  .yellow {
+  .pending {
     background-color: #efc416;
     color: #000                       ;
     padding: 4px 8px;
@@ -203,7 +203,7 @@ table {
     font-weight: bold;
   }
 
-  .blue {
+  .dispatched {
     background-color: #3498db;
     color: #000;
     padding: 4px 8px;
@@ -211,7 +211,7 @@ table {
     font-weight: bold;
   }
 
-  .green {
+  .delivered {
     background-color: #2ecc71;
     color: #000;
     padding: 4px 8px;
@@ -219,7 +219,14 @@ table {
     font-weight: bold;
   }
 
-  .red,
+  .picking {
+    background-color: #c7ef16;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
   .reject {
     background-color: #e74c3c;
     color: #000;

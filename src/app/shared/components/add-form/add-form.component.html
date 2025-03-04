@@ -12,7 +12,7 @@
         />
   
         <select *ngIf="field.type === 'select'" [id]="field.key" [formControlName]="field.key">
-          <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
+          <option *ngFor="let option of field.options" [value]="option"><span class="pointer">{{ option }}</span></option>
         </select>
   
         <input *ngIf="field.type === 'checkbox'" type="checkbox" [formControlName]="field.key" />

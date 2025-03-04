@@ -104,6 +104,7 @@ export class ApiService {
       searchText = `&search=${search}`;
     }
     const apiuri = `http://${this.serverIp}/api/order/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
+    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
@@ -151,6 +152,7 @@ export class ApiService {
       searchText = `&search=${search}`;
     }
     const apiuri = `http://${this.serverIp}/api/purchase/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
+    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
