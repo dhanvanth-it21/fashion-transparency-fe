@@ -57,6 +57,12 @@ export class CreatePurchaseComponent {
   searchSubjectOfTile = new Subject<string>();
 
 
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+    expand: true,
+    edit: true,
+    delete: false
+  }
+
   formUseUpdate: { heading: string, submit: string, discard: string } =
     {
       heading: "Update Qty",

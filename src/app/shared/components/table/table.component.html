@@ -44,7 +44,16 @@
             </td>
             <ng-container *ngFor="let tdata of tabelHeader; let i = index">
               <td *ngIf="i >= 1">
+                
                 <span
+                *ngIf="isDate(data[tdata.sortBy]); else normalData"
+                >
+                {{ data[tdata.sortBy] | date:'medium' }}
+
+                </span>
+                <ng-template #normalData>
+                  <span
+                
                 [ngClass]="{
                   'pending': data[tdata.sortBy] === 'PENDING',
                   'picking': data[tdata.sortBy] === 'PICKING',
@@ -57,17 +66,18 @@
                   {{ data[tdata.sortBy] }}
 
                 </span>
+                </ng-template>
               </td>
             </ng-container>
             <td>
               <div class="tile-action-container">
-                <button (click)="showDetailsOfItemId(data._id)">
+                <button (click)="showDetailsOfItemId(data._id)" *ngIf="actionButtons.expand">
                   <fa-icon [icon]="iconsUsed.details"></fa-icon>
                 </button>
-                <button (click)="openUpdateList(data._id)">
+                <button (click)="openUpdateList(data._id)" *ngIf="actionButtons.edit">
                   <fa-icon [icon]="iconsUsed.update"></fa-icon>
                 </button>
-                <button>
+                <button *ngIf="actionButtons.delete">
                   <fa-icon [icon]="iconsUsed.archive"></fa-icon>
                 </button>
               </div>
@@ -82,8 +92,16 @@
                 <p
                 *ngFor="let exp of expandDetail"
                 >
-                <strong>{{exp.label}}</strong> : 
+                <span
+                *ngIf="isDate(dataDetail[exp.key]); else normalExp"
+                >
+                  <strong>{{exp.label}}</strong> : 
+                {{dataDetail[exp.key] | date: "medium"}}
+                </span>
+                <ng-template #normalExp>
+                  <strong>{{exp.label}}</strong> : 
                 {{dataDetail[exp.key]}}
+                </ng-template>
               </p>
 
             </div>

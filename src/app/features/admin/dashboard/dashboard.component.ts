@@ -15,11 +15,20 @@ import { OrdersComponent } from "../orders/orders.component";
 })
 export class DashboardComponent {
 
-    allowed: {isHeadingNeeded: boolean, allowPagination: {isPaginated: boolean, pageSize: boolean},} = {
+    allowed: {
+      isHeadingNeeded: boolean, 
+      allowPagination: {isPaginated: boolean, pageSize: boolean},
+      actionButtons: {expand: boolean, edit: boolean, delete: boolean}
+    } = {
       isHeadingNeeded: false,
       allowPagination: {
         isPaginated: true,
         pageSize: false,
+      },
+      actionButtons:{
+        expand: true,
+        edit: false,
+        delete: false
       }
     }
     searchPendingOrdersBy = "PENDING"
@@ -31,6 +40,11 @@ export class DashboardComponent {
     totalEmployees: 0,
     totalUnseenDamagesReported: 0
   }
+
+
+
+  selectedFilterForPending: string = 'PENDING'
+  selectedFilterForDispatched: string = 'DISPATCHED'
 
   
 

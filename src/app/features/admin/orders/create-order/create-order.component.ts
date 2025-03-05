@@ -94,6 +94,12 @@ export class CreateOrderComponent {
     sort_by: "_id",
   }
 
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+    expand: true,
+    edit: true,
+    delete: false
+  }
+
   allowPagination: {isPaginated: boolean, pageSize: boolean} = {
     isPaginated: true,
     pageSize: true,

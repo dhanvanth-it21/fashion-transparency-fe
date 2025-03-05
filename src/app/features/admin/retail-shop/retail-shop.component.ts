@@ -75,6 +75,12 @@ export class RetailShopComponent {
     sort_by: "_id",
   }
 
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+    expand: true,
+    edit: true,
+    delete: false
+  }
+
 
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },

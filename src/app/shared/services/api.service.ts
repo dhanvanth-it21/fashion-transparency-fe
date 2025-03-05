@@ -134,13 +134,16 @@ export class ApiService {
   }
 
 
-  getOrdersList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
+  getOrdersList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "", selectedFilter: string = "") {
     let searchText = "";
+    let filterBy = ""
     if (search !== "") {
       searchText = `&search=${search}`;
     }
-    const apiuri = `http://${this.serverIp}/api/order/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
-    console.log(apiuri)
+    if (selectedFilter !== "") {
+      filterBy = `&filterBy=${selectedFilter}`;
+    }
+    const apiuri = `http://${this.serverIp}/api/order/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}${filterBy}`
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }

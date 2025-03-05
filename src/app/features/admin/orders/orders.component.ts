@@ -19,11 +19,20 @@ export class OrdersComponent {
 
 
   @Input()
-  allowed: {isHeadingNeeded: boolean, allowPagination: {isPaginated: boolean, pageSize: boolean}} = {
+  allowed: {
+    isHeadingNeeded: boolean, 
+    allowPagination: {isPaginated: boolean, pageSize: boolean},
+    actionButtons: {expand: boolean, edit: boolean, delete: boolean}
+  } = {
     isHeadingNeeded: true,
     allowPagination: {
       isPaginated: true,
       pageSize: true,
+    },
+    actionButtons:{
+      expand: true,
+      edit: true,
+      delete: false
     }
   }
 
@@ -32,6 +41,7 @@ export class OrdersComponent {
   private _dataDetailId: string = "";
   private _dataDetail: any = null;
   private _searchText: string = "";
+  private _selectedFilter: string = '';
 
   private updateDataDetailId: string = "";
   private updateDataDetail: any;
@@ -61,6 +71,22 @@ export class OrdersComponent {
     return this._searchText;
   }
 
+  get selectedFilter(): string {
+    return this._selectedFilter;
+  }
+
+  @Input()
+  set selectedFilter(value: string) {
+    const allowedValues = ['PENDING', 'DISPATCHED'];
+    if (allowedValues.includes(value)) {
+      this._selectedFilter = value;
+    } else {
+      this._selectedFilter = "";
+    }
+    this.getOrdersList();
+
+  }
+
   @Input()
   set searchText(value: string) {
     this._searchText = value;
@@ -83,6 +109,13 @@ export class OrdersComponent {
     total_elements: 0,
     sort_by: "_id",
   }
+
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+    expand: true,
+    edit: true,
+    delete: false
+  }
+
 
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
@@ -228,8 +261,8 @@ export class OrdersComponent {
   }
 
   //-----------------------------------------------------------------
-  getOrdersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = "") {
-    this.apiService.getOrdersList(page, size, sortBy, sortDirection, search).subscribe(
+  getOrdersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = "", selectedFilter: string = this.selectedFilter) {
+    this.apiService.getOrdersList(page, size, sortBy, sortDirection, search, this.selectedFilter).subscribe(
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {

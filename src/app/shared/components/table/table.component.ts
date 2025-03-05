@@ -38,6 +38,13 @@ export class TableComponent {
   @Input()
   expandDetail: any[] = [];
 
+  @Input()
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+    expand: true,
+    edit: true,
+    delete: false
+  }
+
   @Output()
   dataDetailIdChange = new EventEmitter<string>();
 
@@ -71,6 +78,8 @@ export class TableComponent {
       desc: faArrowUp,
   
     }
+
+
 
     ngOnInit() {
     }
@@ -122,6 +131,11 @@ export class TableComponent {
   setDataDetailId(value: string) {
     this.dataDetailId = value;
     this.dataDetailIdChange.emit(this.dataDetailId);
+  }
+
+
+  isDate(value: any): boolean {
+    return !isNaN(Date.parse(value));
   }
 
 

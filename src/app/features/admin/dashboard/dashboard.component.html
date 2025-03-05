@@ -32,15 +32,16 @@
     <div class="order-section">
     
       <app-orders
-      [searchText]="searchPendingOrdersBy"
       [allowed]="allowed"
+      [selectedFilter]="selectedFilterForPending"
       ></app-orders>
     </div>
 
     <div class="order-section">
       <app-orders
-      [searchText]="searchDispatchedOrdersBy"
       [allowed]="allowed"
+      [selectedFilter]="selectedFilterForDispatched"
+      
       ></app-orders>
     </div>
   </div>
