@@ -203,9 +203,6 @@ export class PurchasesComponent {
   updatePurchase(id: string) {
     this.updateDataDetailId = id;
     this.getPurchaseDetailById(id);
-    setTimeout(() => {
-      this.router.navigate(["update-purchase", id], { relativeTo: this.activatedRoute });
-    }, 200)
 
   }
 
@@ -262,6 +259,7 @@ export class PurchasesComponent {
           this.updateDataDetail = response.data;
           const isVerified: boolean = this.updateDataDetail.status === "VERIFIED";
           this.initailzeUpdateFormGroup(isVerified);
+          this.router.navigate(["update-purchase", id], { relativeTo: this.activatedRoute });
         }
       },
       error: (e) => { console.error(e) },

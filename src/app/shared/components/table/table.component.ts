@@ -135,8 +135,10 @@ export class TableComponent {
 
 
   isDate(value: any): boolean {
-    return !isNaN(Date.parse(value));
+    return value instanceof Date || 
+           (typeof value === 'string' && isNaN(Number(value)) && !isNaN(Date.parse(value)));
   }
+  
 
 
 
