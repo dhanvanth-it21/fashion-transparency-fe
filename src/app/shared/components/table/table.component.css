@@ -195,7 +195,7 @@ table {
 
 
 
-  .pending {
+  .pending, .under-review {
     background-color: #efc416;
     color: #000                       ;
     padding: 4px 8px;

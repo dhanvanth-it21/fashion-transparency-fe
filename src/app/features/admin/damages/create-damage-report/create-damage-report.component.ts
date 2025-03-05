@@ -44,7 +44,6 @@ export class CreateDamageReportComponent {
 
   formConfig = [
     { key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },
-    { key: 'reportedByUserId', label: 'Reported By', type: 'text', required: true },
     { key: 'damageLocation', label: 'Damage Location', type: 'select', options: ['FROM_MANUFACTURER', 'AT_WAREHOUSE', 'TO_RETAIL_SHOP'], required: true },
     { key: 'qty', label: 'Quantity', type: 'number', required: true },
     { key: 'remark', label: 'Remark', type: 'text', required: true }
@@ -68,11 +67,11 @@ export class CreateDamageReportComponent {
   initializeForm() {
     this.createDamageReportForm = this.formBuilder.group({
       skuCode: [{ value: '', disabled: true }, Validators.required],
-      reportedByUserId: ['', Validators.required],
       damageLocation: ['', Validators.required],
       qty: [0, [Validators.required, Validators.min(1)]],
       remark: ['', Validators.required],
-      retailShop: [{ value: '', disabled: true }]
+      retailShop: [{ value: '', disabled: true }],
+      retailShopId: [''],
     });
 
     this.createDamageReportForm.get('damageLocation')?.valueChanges.subscribe((location) => {
@@ -119,19 +118,20 @@ export class CreateDamageReportComponent {
 
   selectRetailShop(shop: any) {
     this.createDamageReportForm.patchValue({
-      retailShop: shop.shopName
+      retailShop: shop.shopName,
+      retailShopId: shop._id
     });
     this.searchResultsOfRetailShop = [];
     this.searchTextOfRetailShop = "";
   }
 
   submitDamageReport() {
-    console.log("jhfjkhsdjkfhsd");
-    // this.apiService.postDamageReport(this.createDamageReportForm.value).subscribe({
-    //   next: (response: any) => console.log(response.data),
-    //   error: (e) => console.error(e),
-    // });
-    // this.router.navigate(['/admin/damage-reports']);
+    this.createDamageReportForm.get('skuCode')?.enable();
+    this.apiService.postDamageReport(this.createDamageReportForm.value).subscribe({
+      next: (response: any) => console.log(response.data),
+      error: (e) => console.error(e),
+    });
+    this.router.navigate(['/admin/damage-reports']);
   }
 
   closeForm() {

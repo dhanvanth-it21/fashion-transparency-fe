@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TileDetial } from '../../features/admin/models/tile.modle';
+import { FormGroup } from '@angular/forms';
 
 
 @Injectable({
@@ -68,6 +69,13 @@ export class ApiService {
     const apiuri = `http://${this.serverIp}/api/retailer-shop/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const returnData: Observable<Object> = this.http.put(apiuri, formGroup, {headers});
+    return returnData;
+  }
+  
+  postDamageReport(formGroup: any) {
+    const apiuri = `http://${this.serverIp}/api/damage-report`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, {headers});
     return returnData;
   }
 
@@ -199,12 +207,17 @@ export class ApiService {
   }
 
   //----------------------------------------------
-  getDamageReports(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
+  getDamageReports(page: number, size: number, sortBy: string, sortDirection: string, search: string = "", filter = "") {
     let searchText = "";
+    let filterBy = "";
     if (search !== "") {
       searchText = `&search=${search}`;
     }
-    const apiuri = `http://${this.serverIp}/api/damage-report/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
+    if (filter !== "" ) {
+      filterBy = `&filterBy=${filter}`;
+    }
+    const apiuri = `http://${this.serverIp}/api/damage-report/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}${filterBy}`
+    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
@@ -214,7 +227,27 @@ export class ApiService {
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData
   }
+  
+  getDamageStatusById(id: string) {
+    const apiuri = `http://${this.serverIp}/api/damage-report/get-status/${id}`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
 
+
+  approveDamageReport(id: string) {
+    const apiuri = `http://${this.serverIp}/api/damage-report/approve/${id}`
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.put(apiuri, {headers});
+    return returnData
+  }
+
+  rejectDamageReport(id: string) {
+    const apiuri = `http://${this.serverIp}/api/damage-report/reject/${id}`
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const returnData: Observable<Object> = this.http.put(apiuri, {headers});
+    return returnData
+  }
 
 
 
