@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faBoxes, faClipboardList, faLongArrowAltUp, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -24,7 +24,8 @@ export class LeftSidebarComponent {
     inventory: faBoxes,  
     shop: faShop,
     supplier: faTruck,
-    purchase: faTruck
+    purchase: faTruck,
+    damage: faHouseDamage,
   };
 
   username: string =  "Dhanvanth S B";

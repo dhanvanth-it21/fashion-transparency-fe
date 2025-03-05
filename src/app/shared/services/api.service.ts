@@ -70,6 +70,7 @@ export class ApiService {
     const returnData: Observable<Object> = this.http.put(apiuri, formGroup, {headers});
     return returnData;
   }
+
   //-----------------------------------------------
   getSuppliersList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
     let searchText = "";
@@ -195,6 +196,23 @@ export class ApiService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const returnData: Observable<Object> = this.http.put(apiuri, { headers });
     return returnData;
+  }
+
+  //----------------------------------------------
+  getDamageReports(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
+    let searchText = "";
+    if (search !== "") {
+      searchText = `&search=${search}`;
+    }
+    const apiuri = `http://${this.serverIp}/api/damage-report/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData;
+  }
+
+  getDamageReportById(id: string) {
+    const apiuri = `http://${this.serverIp}/api/damage-report/${id}`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
   }
 
 

@@ -1,0 +1,49 @@
+<div class="update-damage-container">
+    <div class="search-box">
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchTile"
+          placeholder="Search Tile SKU"
+          class="search"
+          [(ngModel)]="searchTextOfTile"
+        />
+        <div *ngIf="searchResultsOfTile.length > 0" class="search-results">
+          <ul>
+            <li
+              *ngFor="let result of searchResultsOfTile"
+              (click)="selectTile(result)"
+            >
+              {{ result.skuCode }}, Qty : {{ result.qty }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+      <div *ngIf="createDamageReportForm.value.damageLocation === 'TO_RETAIL_SHOP'" class="search-container">
+        <input
+          type="text"
+          id="searchRetailShop"
+          placeholder="Search Retail Shop"
+          class="search"
+          [(ngModel)]="searchTextOfRetailShop"
+        />
+        <div *ngIf="searchResultsOfRetailShop.length > 0" class="search-results">
+          <ul>
+            <li *ngFor="let result of searchResultsOfRetailShop" (click)="selectRetailShop(result)">
+              {{ result.shopName }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <app-add-form
+      [formConfig]="formConfig"
+      [formUse]="formUseDamageReport"
+      [formGroup]="createDamageReportForm"
+      (formSubmit)="submitDamageReport()"
+      (formClose)="closeForm()"
+    ></app-add-form>
+  </div>
+  

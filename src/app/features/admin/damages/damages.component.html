@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="left-side">
+        
+    </div>
+    <div class="right-side">
+     
+
+
+
+
+        <div class="damage-container">
+            <div class="list-container" [ngClass]="{
+              'make-blur': isAddDamageOpen || isUpdateDamageOpen
+            }">
+              <div class="list-heading">
+                <span class="total-elements">{{ paging.total_elements }}</span>
+                <input [(ngModel)]="searchText" type="text" placeholder="Search Damage Reports..." />
+                <div class="add-new-time-btn">
+                  <button (click)="openAddDamageForm()">Report Damage</button>
+                </div>
+              </div>
+              <div class="list-area">
+                <app-table
+                  [paging]="paging"
+                  [tabelHeader]="tableHeader"
+                  [displayData]="displayData"
+                  [(dataDetail)]="dataDetail"
+                  [(dataDetailId)]="dataDetailId"
+                  [expandDetail]="expandDetail"
+                  (sortChanged)="sortChanged($event)"
+                  (pageChanged)="pageChanged($event)"
+                  (updateList)="updateDamage($event)"
+                >
+                </app-table>
+              </div>
+            </div>
+        </div>
+<!--         
+        <div class="add-damage-container" *ngIf="isAddDamageOpen">
+            <div class="pop-up">
+              <app-add-form
+              [formGroup]="formGroup"
+              [formConfig]="formConfig"
+              [formUse]="formUseAdd"
+              (formSubmit)="addFormSubmit($event)"
+              (formClose)="addFormDiscard()"
+              ></app-add-form>
+            </div>
+        </div>
+         -->
+        <div class="update-damage-container" *ngIf="isUpdateDamageOpen">
+            <div class="pop-up">
+              <app-add-form
+              [formGroup]="updateDetailFormGroup"
+              [formConfig]="formConfig"
+              [formUse]="formUseUpdate"
+              (formSubmit)="updateFormSubmit($event)"
+              (formClose)="updateFormDiscard()"
+              ></app-add-form>
+            </div>
+        </div>
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
