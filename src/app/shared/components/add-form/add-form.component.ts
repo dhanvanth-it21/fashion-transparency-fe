@@ -50,6 +50,12 @@ export class AddFormComponent {
     this.formClose.emit();
   }
 
+  validationMessages = [
+    { key: 'required', message: 'This field is required.' },
+    { key: 'min', message: 'Quantity must be at least 1.' },
+    { key: 'max', message: 'Cannot exceed available stock.' }
+  ];
+  
 
 
 }

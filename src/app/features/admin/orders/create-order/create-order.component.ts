@@ -202,7 +202,7 @@ export class CreateOrderComponent {
       this.formBuilder.group({
         tileId: [tile._id, Validators.required],
         skuCode: [{ value: tile.skuCode, disabled: true}],
-        qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(1)]],
+        qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(0)]],
         requiredQty: [1, [Validators.required, Validators.min(1), Validators.max(tile.qty)]]
       })
     );

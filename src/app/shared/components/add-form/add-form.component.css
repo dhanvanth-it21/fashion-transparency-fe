@@ -102,4 +102,10 @@
   button:last-child:hover {
     background-color: #bbb;
   }
+
+  .text-danger {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+  }
   

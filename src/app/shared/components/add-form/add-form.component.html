@@ -1,27 +1,69 @@
 <div class="add-form-container">
-    <h2>{{formUse.heading}}</h2>
-    <form [formGroup]="formGroup">
-      <div *ngFor="let field of formConfig" class="form-group">
-        <label [for]="field.key">{{ field.label }}</label>
-  
-        <input
-          *ngIf="field.type === 'text' || field.type === 'number'"
-          [id]="field.key"
-          [type]="field.type"
-          [formControlName]="field.key"
-        />
-  
-        <select *ngIf="field.type === 'select'" [id]="field.key" [formControlName]="field.key">
-          <option *ngFor="let option of field.options" [value]="option"><span class="pointer">{{ option }}</span></option>
-        </select>
-  
-        <input *ngIf="field.type === 'checkbox'" type="checkbox" [formControlName]="field.key" />
+  <h2>{{ formUse.heading }}</h2>
+  <form [formGroup]="formGroup">
+    <div *ngFor="let field of formConfig" class="form-group">
+      <label [for]="field.key">{{ field.label }}</label>
+
+      <input
+        *ngIf="field.type === 'text' || field.type === 'number'"
+        [id]="field.key"
+        [type]="field.type"
+        [formControlName]="field.key"
+      />
+
+      <select
+        *ngIf="field.type === 'select'"
+        [id]="field.key"
+        [formControlName]="field.key"
+      >
+        <option *ngFor="let option of field.options" [value]="option">
+          <span class="pointer">{{ option }}</span>
+        </option>
+      </select>
+
+      <input
+        *ngIf="field.type === 'checkbox'"
+        type="checkbox"
+        [formControlName]="field.key"
+      />
+
+      <div
+        *ngIf="
+          formGroup.get(field.key)?.invalid &&
+          formGroup.get(field.key)?.touched
+        "
+        class="text-danger"
+      >
+
+      <ng-container
+      *ngFor="let error of formGroup.get(field.key)?.errors | keyvalue"
+      >
+        <span *ngIf="error.key === 'required'">
+          {{ field.label }} is required.
+        </span>
+        <span *ngIf="error.key === 'min'">
+          {{ field.label }} must be at least {{ error.value.min }}.
+        </span>
+        <span *ngIf="error.key === 'max'">
+          {{ field.label }} cannot exceed {{ error.value.max }}.
+        </span>
+        <span *ngIf="error.key === 'email'">
+          Enter a valid email address.
+        </span>
+        <span *ngIf="error.key === 'pattern'">
+          Invalid {{field.label}} format.
+         
+        </span>
+
+
+      </ng-container>
+    
       </div>
-    </form>
-  
-    <div class="form-action-btn">
-      <button (click)="submitForm()">{{formUse.submit}}</button>
-      <button (click)="closeForm()">{{formUse.discard}}</button>
     </div>
+  </form>
+
+  <div class="form-action-btn">
+    <button (click)="submitForm()">{{ formUse.submit }}</button>
+    <button (click)="closeForm()">{{ formUse.discard }}</button>
   </div>
-  
+</div>

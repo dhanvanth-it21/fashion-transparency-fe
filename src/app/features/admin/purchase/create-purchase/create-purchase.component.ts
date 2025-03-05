@@ -207,8 +207,8 @@ export class CreatePurchaseComponent {
       this.formBuilder.group({
         tileId: [tile._id, Validators.required],
         skuCode: [{ value: tile.skuCode, disabled: true}],
-        qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(1)]],
-        addQty: [1, [Validators.required, Validators.min(1), Validators.max(tile.qty)]]
+        qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(0)]],
+        addQty: [1, [Validators.required, Validators.min(1)]]
       })
     );
     this.searchResultsOfTile = [];
