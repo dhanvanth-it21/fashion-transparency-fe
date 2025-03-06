@@ -138,7 +138,7 @@ export class CreatePurchaseComponent {
 
   initializeForm() {
     this.createPurchaseForm = this.formBuilder.group({
-      purchaseId: ['', Validators.required],
+      purchaseId: [this.generatePurchaseID(), Validators.required],
       addQty: [0, [Validators.required, Validators.min(0)]],
       recordedByUserId: ['67bbfe2f8d85f862f666bb10', Validators.required],
       supplierId: ['', Validators.required],
@@ -256,6 +256,13 @@ console.log(item);
 
   closeUpdateForm() {
     this.isUpdateSupplierOpen = false;
+  }
+
+  generatePurchaseID() {
+    const now = new Date();
+    const formattedDate = now.toISOString().slice(0, 10).split('-').join("");
+    const formattedTime = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
+    return `PUR-${formattedDate}-${formattedTime}`;
   }
 
 

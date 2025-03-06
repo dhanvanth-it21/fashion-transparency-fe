@@ -136,7 +136,7 @@ export class CreateOrderComponent {
 
   initializeForm() {
     this.createOrderForm = this.formBuilder.group({
-      salesId: ['', Validators.required],
+      salesId: [this.generateSalesID(), Validators.required],
       shopId: ['', Validators.required],
       shopName: [{ value: '', disabled: true }, Validators.required],
       damagePercentage: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
@@ -254,24 +254,12 @@ export class CreateOrderComponent {
     this.isUpdateSupplierOpen = false;
   }
 
-
+  
+  generateSalesID() {
+    const now = new Date();
+    const formattedDate = now.toISOString().slice(0, 10).split('-').join("");
+    const formattedTime = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
+    return `SALES-${formattedDate}-${formattedTime}`;
+  }
 }
 
-
-
-
-// {
-//   "salesId": "00001",
-//   "shopId": "67c4033aa33f5a4245fde006",
-//   "damagePercentage": 0,
-//   "itemList": [
-//       {
-//           "tileId": "67c096788284830652f401b5",
-//           "requiredQty": "10"
-//       },
-//       {
-//           "tileId": "67c0967b8284830652f401b6",
-//           "requiredQty": "20"
-//       }
-//   ]
-// }

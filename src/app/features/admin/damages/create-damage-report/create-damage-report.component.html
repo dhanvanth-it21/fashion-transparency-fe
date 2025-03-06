@@ -31,7 +31,7 @@
         <div *ngIf="searchResultsOfRetailShop.length > 0" class="search-results">
           <ul>
             <li *ngFor="let result of searchResultsOfRetailShop" (click)="selectRetailShop(result)">
-              {{ result.shopName }}
+              {{ result.shopName }}, {{ result.orderId }}
             </li>
           </ul>
         </div>

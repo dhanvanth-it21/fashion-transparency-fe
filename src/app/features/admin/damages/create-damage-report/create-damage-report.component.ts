@@ -43,10 +43,10 @@ export class CreateDamageReportComponent {
   }
 
   formConfig = [
-    { key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },
+
     { key: 'damageLocation', label: 'Damage Location', type: 'select', options: ['FROM_MANUFACTURER', 'AT_WAREHOUSE', 'TO_RETAIL_SHOP'], required: true },
     { key: 'qty', label: 'Quantity', type: 'number', required: true },
-    { key: 'remark', label: 'Remark', type: 'text', required: true }
+    { key: 'remark', label: 'Remark', type: 'text', required: true },
   ];
 
   formUseDamageReport = {
@@ -58,8 +58,8 @@ export class CreateDamageReportComponent {
   createDamageReportForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private apiService: ApiService, 
+    private formBuilder: FormBuilder,
+    private apiService: ApiService,
     private router: Router) {
     this.initializeForm();
   }
@@ -67,27 +67,52 @@ export class CreateDamageReportComponent {
   initializeForm() {
     this.createDamageReportForm = this.formBuilder.group({
       skuCode: [{ value: '', disabled: true }, Validators.required],
+      soldQty: [{ value: "", disabled: true }, Validators.required],
+      purchasedQty: [{ value: "", disabled: true }, Validators.required],
+      availableQty: [{ value: "", disabled: true }, Validators.required],
       damageLocation: ['', Validators.required],
-      qty: [0, [Validators.required, Validators.min(1)]],
+      qty: [1, [Validators.required, Validators.min(1)]],
       remark: ['', Validators.required],
-      retailShop: [{ value: '', disabled: true }],
       retailShopId: [''],
+      purchaseId: [''],
+      orderId: [{ value: '', disabled: true }, Validators.required],
+      shopName: [{ value: '', disabled: true }, Validators.required],
     });
 
     this.createDamageReportForm.get('damageLocation')?.valueChanges.subscribe((location) => {
-      const retailShopControl = this.createDamageReportForm.get('retailShop');
-      if (location === 'TO_RETAIL_SHOP') {
-
-        this.formConfig.push({ key: 'retailShop', label: 'Retail Shop', type: 'text', required: true });
-      } else {
-
-        this.formConfig = this.formConfig.filter((field) => field.key !== 'retailShop');
-      }
+      this.updateFormFields(location);
     });
   }
 
+  updateFormFields(location: string) {
+
+    // this.initializeForm()
+    this.formConfig = this.formConfig.filter(field => ['damageLocation', 'qty', 'remark'].includes(field.key));
+
+    if (location === 'FROM_MANUFACTURER') {
+      this.formConfig.push({ key: 'purchaseId', label: 'Purchase ID', type: 'text', required: true });
+      this.formConfig.push({ key: 'purchasedQty', label: 'Purchased Qty', type: 'number', required: true });
+      this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
+
+    } else if (location === 'TO_RETAIL_SHOP') {
+      this.formConfig.push({ key: 'orderId', label: 'Order ID', type: 'text', required: true });
+      this.formConfig.push({ key: 'shopName', label: 'Shop Name', type: 'text', required: true });
+
+
+    }
+    else {
+      this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
+      this.formConfig.push({ key: 'availableQty', label: 'Available Qty', type: 'number', required: true },);
+
+    }
+  }
+
   onSearchTextChangeOfTile() {
-    this.apiService.getTiles(this.searchTextOfTile).subscribe({
+    const location = this.createDamageReportForm.get('damageLocation')?.value;
+    const givenId = this.createDamageReportForm.get('purchaseId')?.value ||
+      this.createDamageReportForm.get('orderId')?.value
+      ;
+    this.apiService.getTiles(this.searchTextOfTile, location, givenId).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.searchResultsOfTile = response.data;
@@ -98,9 +123,10 @@ export class CreateDamageReportComponent {
   }
 
   onSearchTextChangeOfRetailShop() {
-    this.apiService.getShops(this.searchTextOfRetailShop).subscribe({
+    this.apiService.getShopsFromOrder(this.searchTextOfRetailShop).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
+          console.log(response.data);
           this.searchResultsOfRetailShop = response.data;
         }
       },
@@ -109,24 +135,37 @@ export class CreateDamageReportComponent {
   }
 
   selectTile(tile: any) {
+    let setQty = "";
     this.createDamageReportForm.patchValue({
-      skuCode: tile.skuCode
+      skuCode: tile.skuCode,
+      availableQty: tile.qty,
+      purchasedQty: tile.qty,
+      soldQty: tile.qty,
     });
+    const availableQty = tile.qty;
+    this.createDamageReportForm.get('qty')?.setValidators([Validators.required, Validators.min(1), Validators.max(availableQty)]);
+    this.createDamageReportForm.get('qty')?.updateValueAndValidity();
     this.searchResultsOfTile = [];
     this.searchTextOfTile = "";
+   
   }
 
   selectRetailShop(shop: any) {
     this.createDamageReportForm.patchValue({
-      retailShop: shop.shopName,
-      retailShopId: shop._id
+      shopName: shop.shopName,
+      retailShopId: shop._id,
+      orderId: shop.orderId,
     });
     this.searchResultsOfRetailShop = [];
     this.searchTextOfRetailShop = "";
+    this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
+    this.formConfig.push({ key: 'soldQty', label: 'Sold Qty', type: 'number', required: true });
   }
 
   submitDamageReport() {
     this.createDamageReportForm.get('skuCode')?.enable();
+    this.createDamageReportForm.get('orderId')?.enable();
+    this.createDamageReportForm.get('purchaseId')?.enable();
     this.apiService.postDamageReport(this.createDamageReportForm.value).subscribe({
       next: (response: any) => console.log(response.data),
       error: (e) => console.error(e),
@@ -137,5 +176,6 @@ export class CreateDamageReportComponent {
   closeForm() {
     this.router.navigate(['/admin/damage-reports']);
   }
+
 
 }

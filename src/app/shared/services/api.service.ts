@@ -112,14 +112,27 @@ export class ApiService {
     return returnData;
   }
   //-----------------------------------------------
-  getShops(search: string) {
-    const apiuri = `http://${this.serverIp}/api/retailer-shop/search?search=${search}`;
+  getShopsFromOrder(search: string) {
+    
+    const apiuri = `http://${this.serverIp}/api/order/search?search=${search}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
 
-  getTiles(search: string) {
-    const apiuri = `http://${this.serverIp}/api/tiles/search?search=${search}`;
+  getShops(search: string) {
+    
+    const apiuri = `http://${this.serverIp}/api/retailer-shop/search?search=${search}`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData;
+  }
+  
+  getTiles(search: string, location: string = "", givenId: string = "") {
+    let searchLocation = "";
+    if(location !== "") {
+      searchLocation = `&location=${location}&givenId=${givenId}`;
+    }
+    const apiuri = `http://${this.serverIp}/api/tiles/search?search=${search}${searchLocation}`;
+    console.log(apiuri);
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
