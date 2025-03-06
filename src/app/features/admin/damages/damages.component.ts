@@ -99,7 +99,7 @@ export class DamagesComponent {
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
     { name: "Tile SKU", class: "", sortBy: "skuCode", sortDirection: "asc" },
-    { name: "Reported By", class: "", sortBy: "reportedByUserId", sortDirection: "asc" },
+    { name: "Reported By", class: "", sortBy: "reportedByUserName", sortDirection: "asc" },
     { name: "Damage Location", class: "", sortBy: "damageLocation", sortDirection: "asc" },
     { name: "Quantity", class: "", sortBy: "qty", sortDirection: "asc" },
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
@@ -120,12 +120,14 @@ export class DamagesComponent {
   ];
 
   expandDetail = [
-    { key: '_id', label: 'Tile SKU' },
-    { key: 'reportedByUserId', label: 'Reported By' },
+    { key: 'skuCode', label: 'Tile SKU' },
+    { key: 'reportedByUserName', label: 'Reported By' },
     { key: 'damageLocation', label: 'Damage Location' },
     { key: 'qty', label: 'Quantity' },
     { key: 'status', label: 'Status' },
     { key: 'remark', label: 'Remark' },
+    { key: 'approvedByUserName', label: 'Approved by User Name' },
+    
   ]
 
   formUseAdd: { heading: string, submit: string, discard: string } =

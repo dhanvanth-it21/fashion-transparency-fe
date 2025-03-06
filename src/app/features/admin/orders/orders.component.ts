@@ -131,7 +131,6 @@ export class OrdersComponent {
 
   expandDetail = [
     { key: 'salesId', label: 'Sales ID' },
-    { key: 'shopId', label: 'Shop ID' },
     { key: 'shopName', label: 'Shop Name' },
     { key: 'status', label: 'Status' },
     { key: 'damagePercentage', label: 'Damage Percentage' },

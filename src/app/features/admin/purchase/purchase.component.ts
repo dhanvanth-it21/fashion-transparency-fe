@@ -81,7 +81,7 @@ export class PurchasesComponent {
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
     { name: "Brand Name", class: "", sortBy: "brandName", sortDirection: "asc" },
     { name: "Purchased Date", class: "", sortBy: "createdAt", sortDirection: "asc" },
-    { name: "Recorded By", class: "", sortBy: "recordedByUserId", sortDirection: "asc" },
+    { name: "Recorded By", class: "", sortBy: "recordedByUserName", sortDirection: "asc" },
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
   ]
 
@@ -93,11 +93,11 @@ export class PurchasesComponent {
 
   expandDetail = [
     { key: 'purchaseId', label: 'Purchase ID' },
-    { key: 'supplierId', label: 'Supplier ID' },
+    { key: 'brandName', label: 'Supplier/Brand Name' },
     { key: 'damagePercentage', label: 'Damage Percentage' },
     { key: 'status', label: 'Status' },
-    { key: 'recordedByUserId', label: 'Recorded By User ID' },
-    { key: 'approvedByUserId', label: 'Approved By User ID' },
+    { key: 'recordedByUserName', label: 'Recorded By User Name' },
+    { key: 'approvedByUserName', label: 'Approved By User Name' },
     { key: 'createdAt', label: 'Created At' },
   ];
 

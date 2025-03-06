@@ -119,8 +119,8 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of dataDetail.itemList">
-                    <td>{{ item.tileId }}</td>
-                    <td>{{ item.addQty || item.requiredQty }}</td>
+                    <td>{{ item.tileId || item.skuCode}}</td>
+                    <td>{{ item.qty || item.requiredQty }}</td>
                   </tr>
                 </tbody>
               </table>
