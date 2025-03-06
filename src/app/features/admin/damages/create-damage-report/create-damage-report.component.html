@@ -1,6 +1,9 @@
 <div class="update-damage-container">
     <div class="search-box">
-      <div class="search-container">
+      <div 
+        *ngIf="searchSkucode"
+          class="search-container"
+      >
         <input
           type="text"
           id="searchTile"
@@ -24,7 +27,7 @@
         <input
           type="text"
           id="searchRetailShop"
-          placeholder="Search Retail Shop"
+          placeholder="Search Order Id"
           class="search"
           [(ngModel)]="searchTextOfRetailShop"
         />
@@ -32,6 +35,22 @@
           <ul>
             <li *ngFor="let result of searchResultsOfRetailShop" (click)="selectRetailShop(result)">
               {{ result.shopName }}, {{ result.orderId }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="createDamageReportForm.value.damageLocation === 'FROM_MANUFACTURER'" class="search-container">
+        <input
+          type="text"
+          id="searchManufacturerShop"
+          placeholder="Search Purchase Id"
+          class="search"
+          [(ngModel)]="searchTextOfManufacturer"
+        />
+        <div *ngIf="searchResultsOfManufacturer.length > 0" class="search-results">
+          <ul>
+            <li *ngFor="let result of searchResultsOfManufacturer" (click)="selectManufacturer(result)">
+              {{ result.brandName }}, {{ result.purchaseId }}
             </li>
           </ul>
         </div>

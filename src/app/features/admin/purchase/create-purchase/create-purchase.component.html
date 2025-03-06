@@ -33,7 +33,8 @@
     <div class="tile-select-container" [ngClass]="{
       'make-blur': isUpdateSupplierOpen
     }">
-      <div class="search-container">
+      <div class="search-container"
+      *ngIf="searchSkuCode">
         <input
           type="text"
           id="search"

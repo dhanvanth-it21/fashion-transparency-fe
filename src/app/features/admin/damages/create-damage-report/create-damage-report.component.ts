@@ -14,11 +14,18 @@ import { TableComponent } from '../../../../shared/components/table/table.compon
   styleUrl: './create-damage-report.component.css'
 })
 export class CreateDamageReportComponent {
+
+
+ searchSkucode: boolean = false;
+
+
   private _searchTextOfTile: string = "";
   private _searchTextOfRetailShop: string = "";
+  private _searchTextOfManufacturer: string = "";
 
   searchResultsOfTile: any[] = [];
   searchResultsOfRetailShop: any[] = [];
+  searchResultsOfManufacturer: any[] = [];
 
   get searchTextOfTile(): string {
     return this._searchTextOfTile;
@@ -39,6 +46,17 @@ export class CreateDamageReportComponent {
     this._searchTextOfRetailShop = value;
     if (this.searchTextOfRetailShop !== "") {
       this.onSearchTextChangeOfRetailShop();
+    }
+  }
+
+  get searchTextOfManufacturer(): string {
+    return this._searchTextOfManufacturer;
+  }
+  
+  set searchTextOfManufacturer(value: string) {
+    this._searchTextOfManufacturer = value;
+    if (this.searchTextOfManufacturer !== "") {
+      this.onSearchTextChangeOfManufacturer();
     }
   }
 
@@ -74,9 +92,11 @@ export class CreateDamageReportComponent {
       qty: [1, [Validators.required, Validators.min(1)]],
       remark: ['', Validators.required],
       retailShopId: [''],
-      purchaseId: [''],
+      supplierId: [''],
+      purchaseId: [{ value: '', disabled: true }, Validators.required],
       orderId: [{ value: '', disabled: true }, Validators.required],
       shopName: [{ value: '', disabled: true }, Validators.required],
+      brandName: [{ value: '', disabled: true }, Validators.required],
     });
 
     this.createDamageReportForm.get('damageLocation')?.valueChanges.subscribe((location) => {
@@ -85,25 +105,23 @@ export class CreateDamageReportComponent {
   }
 
   updateFormFields(location: string) {
+    this.searchSkucode = false;
 
     // this.initializeForm()
     this.formConfig = this.formConfig.filter(field => ['damageLocation', 'qty', 'remark'].includes(field.key));
 
     if (location === 'FROM_MANUFACTURER') {
       this.formConfig.push({ key: 'purchaseId', label: 'Purchase ID', type: 'text', required: true });
-      this.formConfig.push({ key: 'purchasedQty', label: 'Purchased Qty', type: 'number', required: true });
-      this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
-
+      this.formConfig.push({ key: 'brandName', label: 'Brand Name', type: 'text', required: true });
     } else if (location === 'TO_RETAIL_SHOP') {
       this.formConfig.push({ key: 'orderId', label: 'Order ID', type: 'text', required: true });
       this.formConfig.push({ key: 'shopName', label: 'Shop Name', type: 'text', required: true });
-
 
     }
     else {
       this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
       this.formConfig.push({ key: 'availableQty', label: 'Available Qty', type: 'number', required: true },);
-
+      this.searchSkucode = true;
     }
   }
 
@@ -134,8 +152,19 @@ export class CreateDamageReportComponent {
     });
   }
 
+  onSearchTextChangeOfManufacturer() {
+    this.apiService.getManufacturers(this.searchTextOfManufacturer).subscribe({
+      next: (response: any) => {
+        if (response.status === "success" && response.data) {
+          this.searchResultsOfManufacturer = response.data;
+        }
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
   selectTile(tile: any) {
-    let setQty = "";
+    
     this.createDamageReportForm.patchValue({
       skuCode: tile.skuCode,
       availableQty: tile.qty,
@@ -153,13 +182,31 @@ export class CreateDamageReportComponent {
   selectRetailShop(shop: any) {
     this.createDamageReportForm.patchValue({
       shopName: shop.shopName,
-      retailShopId: shop._id,
+      // retailShopId: shop._id,
       orderId: shop.orderId,
     });
     this.searchResultsOfRetailShop = [];
     this.searchTextOfRetailShop = "";
+    this.updateFormFields('TO_RETAIL_SHOP');
     this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
     this.formConfig.push({ key: 'soldQty', label: 'Sold Qty', type: 'number', required: true });
+    this.searchSkucode = true;
+  }
+
+  selectManufacturer(manufacturer: any) {
+    
+    this.createDamageReportForm.patchValue({
+      supplierId: manufacturer.supplierId,
+      purchaseId: manufacturer.purchaseId,
+      brandName: manufacturer.brandName,
+
+    });
+    this.searchResultsOfManufacturer = [];
+    this.searchTextOfManufacturer = "";
+    this.updateFormFields('FROM_MANUFACTURER');
+    this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
+    this.formConfig.push({ key: 'soldQty', label: 'Sold Qty', type: 'number', required: true });
+    this.searchSkucode = true;
   }
 
   submitDamageReport() {

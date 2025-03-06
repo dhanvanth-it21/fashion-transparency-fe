@@ -16,6 +16,8 @@ import { TableComponent } from "../../../../shared/components/table/table.compon
 })
 export class CreatePurchaseComponent {
 
+  searchSkuCode: boolean = false;
+
   createPurchaseForm!: FormGroup;
   itemList!: FormArray;
 
@@ -167,7 +169,8 @@ export class CreatePurchaseComponent {
 
 
   searchForTile(searchTerm: string) {
-    this.apiService.getTiles(searchTerm).subscribe({
+    const brandName = this.createPurchaseForm.get('brandName')?.value;
+    this.apiService.getTiles(searchTerm,undefined, undefined, brandName).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.searchResultsOfTile = response.data;
@@ -195,6 +198,7 @@ export class CreatePurchaseComponent {
     });
     this.searchResultsOfBrandName = [];
     this.searchTextOfBrandName = "";
+    this.searchSkuCode = true;
   }
   selectTile(tile: any) {
     if (this.checkDuplicate(tile.skuCode)) {
