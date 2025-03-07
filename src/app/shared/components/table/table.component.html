@@ -142,9 +142,14 @@
           <button (click)="previousPage()" [disabled]="paging.is_first">
             <fa-icon [icon]="iconsUsed.prev"></fa-icon>
           </button>
-          <p class="page-number">
+          <p class="page-number" ngIf="paging.total_pages > 0; else elseBlock">
             {{ paging.page_number + 1 }} / {{ paging.total_pages }}
           </p>
+          <ng-template #elseBlock>
+            <p class="page-number">
+              1 / 1
+            </p>
+          </ng-template>
           <button (click)="nextPage()" [disabled]="paging.is_last">
             <fa-icon [icon]="iconsUsed.next"></fa-icon>
           </button>

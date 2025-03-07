@@ -140,7 +140,7 @@ export class CreateOrderComponent {
       shopId: ['', Validators.required],
       shopName: [{ value: '', disabled: true }, Validators.required],
       damagePercentage: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
-      itemList: this.formBuilder.array([])
+      itemList: this.formBuilder.array([], Validators.minLength(1)),
     });
 
     this.itemList = this.createOrderForm.controls['itemList'] as FormArray;
