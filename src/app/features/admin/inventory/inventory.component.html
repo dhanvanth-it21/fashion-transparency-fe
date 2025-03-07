@@ -7,6 +7,12 @@
   >
     <div class="list-heading">
       <span class="total-elements">{{ paging.total_elements }}</span>
+      <!-- <select [(ngModel)]="selectedFilter" class="filter-dropdown">
+        <option value="" selected>ALL</option>
+        <option value="Low">Under Review</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+    </select> -->
       <input
         [(ngModel)]="searchText"
         (input)="searchBy()"
@@ -47,11 +53,21 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let tile of displayData; let i = index">
-            <tr>
+            <tr
+            
+            >
               <td class="make-center">
                 {{ paging.page_number * paging.page_size + (i + 1) }}
               </td>
-              <td>{{ tile.skuCode }}</td>
+              <td>{{ tile.skuCode }}&emsp;&nbsp;&emsp;&nbsp;
+                <span
+                  *ngIf="tile.underLowStock"
+                  [ngClass]="{'low-stock': tile.underLowStock}"
+                >
+                  Low
+                </span>
+              </td>
+              
               <td>{{ tile.tileSize }}</td>
               <td>{{ tile.brandName }}</td>
               <td>{{ tile.modelName }}</td>

@@ -44,6 +44,7 @@ export interface Tile {
     modelName: string;
     qty: number;
     piecesPerBox: number;
+    underLowStock: boolean;
 }
 
 export interface TileDetial {

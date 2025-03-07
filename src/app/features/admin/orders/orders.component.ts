@@ -241,9 +241,8 @@ export class OrdersComponent {
   updateOrder(id: string) {
     this.updateDataDetailId = id;
     this.getOrderDetailById(id);
-    setTimeout(() => {
-      this.router.navigate(["update-order", id], { relativeTo: this.activatedRoute });
-    }, 200)
+    // setTimeout(() => {
+    // }, 200)
 
   }
 
@@ -298,6 +297,7 @@ export class OrdersComponent {
           this.updateDataDetail = response.data;
           this.initailzeUpdateFormGroup();
         }
+        this.router.navigate(["update-order", id], { relativeTo: this.activatedRoute });
       },
       error: (e) => { console.error(e) },
     })

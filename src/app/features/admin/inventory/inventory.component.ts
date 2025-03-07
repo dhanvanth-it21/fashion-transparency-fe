@@ -169,6 +169,7 @@ export class InventoryComponent {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
             this.displayData = response.data;
+            console.log(response.data)
             this.paging.is_first = response.metadata.isFirst;
             this.paging.is_last = response.metadata.isLast;
             this.paging.page_number = response.metadata.pageable.pageNumber;

@@ -273,5 +273,9 @@ table {
     background-color: var(--S-color); 
     color: #000;
   }
+
+  .low-stock {
+    background-color: #ffbfb7;
+  }
   
   

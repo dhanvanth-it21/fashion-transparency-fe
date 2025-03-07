@@ -1,114 +1,104 @@
-
 <div class="list-area">
-    <table>
-      <thead>
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let heading of tabelHeader; let i = index"
+          [ngClass]="tabelHeader[i].class !== '' ? tabelHeader[i].class : ''"
+          (click)="doSorting(heading.sortBy!, heading.sortDirection!)"
+        >
+          <div class="t-head">
+            {{ heading.name }}
+            <span class="hide">
+              <fa-icon
+                *ngIf="heading.sortDirection === 'asc'"
+                [icon]="iconsUsed.asc"
+              >
+              </fa-icon>
+              <fa-icon
+                *ngIf="heading.sortDirection === 'desc'"
+                [icon]="iconsUsed.desc"
+              ></fa-icon>
+            </span>
+          </div>
+        </th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="displayData?.length === 0">
         <tr>
-          <th
-            *ngFor="let heading of tabelHeader; let i = index"
-            [ngClass]="
-              tabelHeader[i].class !== '' ? tabelHeader[i].class : ''
-            "
-            (click)="doSorting(heading.sortBy!, heading.sortDirection!)"
-          >
-            <div class="t-head">
-              {{ heading.name }}
-              <span class="hide">
-                <fa-icon
-                  *ngIf="heading.sortDirection === 'asc'"
-                  [icon]="iconsUsed.asc"
-                >
-                </fa-icon>
-                <fa-icon
-                  *ngIf="heading.sortDirection === 'desc'"
-                  [icon]="iconsUsed.desc"
-                ></fa-icon>
-              </span>
-            </div>
-          </th>
-          <th>Action</th>
+          <td *ngFor="let tdata of tabelHeader; let i = index">-</td>
+          <td>-</td>
         </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngIf="displayData?.length === 0">
-          <tr>
-            <td *ngFor="let tdata of tabelHeader; let i = index">
-              -
-            </td>
-            <td>-</td>
-          </tr>
-        </ng-container>
-        <!-- //-----------------------------------------------------
+      </ng-container>
+      <!-- //-----------------------------------------------------
         //-----------------------------------------------------
         //----------------------------------------------------- -->
-        <ng-container *ngFor="let data of displayData; let i = index">
-          <tr>
-            <td class="make-center">
-              {{ paging.page_number * paging.page_size + (i + 1) }}
-            </td>
-            <ng-container *ngFor="let tdata of tabelHeader; let i = index">
-              <td *ngIf="i >= 1">
-                
+      <ng-container *ngFor="let data of displayData; let i = index">
+        <tr>
+          <td class="make-center">
+            {{ paging.page_number * paging.page_size + (i + 1) }}
+          </td>
+          <ng-container *ngFor="let tdata of tabelHeader; let i = index">
+            <td *ngIf="i >= 1">
+              <span *ngIf="isDate(data[tdata.sortBy]); else normalData">
+                {{ data[tdata.sortBy] | date : "medium" }}
+              </span>
+              <ng-template #normalData>
                 <span
-                *ngIf="isDate(data[tdata.sortBy]); else normalData"
-                >
-                {{ data[tdata.sortBy] | date:'medium' }}
-
-                </span>
-                <ng-template #normalData>
-                  <span
-                
-                [ngClass]="{
-                  'pending': data[tdata.sortBy] === 'PENDING',
-                  'picking': data[tdata.sortBy] === 'PICKING',
-                  'dispatched': data[tdata.sortBy] === 'DISPATCHED',
-                  'delivered': data[tdata.sortBy] === 'DELIVERED',
-                  'reject': data[tdata.sortBy] === 'REJECTED',
-                  'under-review': data[tdata.sortBy] === 'UNDER_REVIEW'
-                }"
+                  [ngClass]="{
+                    pending: data[tdata.sortBy] === 'PENDING',
+                    picking: data[tdata.sortBy] === 'PICKING',
+                    dispatched: data[tdata.sortBy] === 'DISPATCHED',
+                    delivered: data[tdata.sortBy] === 'DELIVERED',
+                    reject: data[tdata.sortBy] === 'REJECTED',
+                    'under-review': data[tdata.sortBy] === 'UNDER_REVIEW'
+                  }"
                 >
                   {{ data[tdata.sortBy] }}
-
                 </span>
-                </ng-template>
-              </td>
-            </ng-container>
-            <td>
-              <div class="tile-action-container">
-                <button (click)="showDetailsOfItemId(data._id)" *ngIf="actionButtons.expand">
-                  <fa-icon [icon]="iconsUsed.details"></fa-icon>
-                </button>
-                <button (click)="openUpdateList(data._id)" *ngIf="actionButtons.edit">
-                  <fa-icon [icon]="iconsUsed.update"></fa-icon>
-                </button>
-                <button *ngIf="actionButtons.delete">
-                  <fa-icon [icon]="iconsUsed.archive"></fa-icon>
-                </button>
-              </div>
+              </ng-template>
             </td>
-          </tr>
-          <tr
-            class="detail-veiw"
-            *ngIf="dataDetailId === data._id && dataDetail"
-          >
-            <td colspan="8">
-              <div class="tile-detail">
-                <p
-                *ngFor="let exp of expandDetail"
-                >
-                <span
-                *ngIf="isDate(dataDetail[exp.key]); else normalExp"
-                >
-                  <strong>{{exp.label}}</strong> : 
-                {{dataDetail[exp.key] | date: "medium"}}
+          </ng-container>
+          <td>
+            <div class="tile-action-container">
+              <button
+                (click)="showDetailsOfItemId(data._id)"
+                *ngIf="actionButtons.expand"
+              >
+                <fa-icon [icon]="iconsUsed.details"></fa-icon>
+              </button>
+              <button
+                (click)="openUpdateList(data._id)"
+                *ngIf="actionButtons.edit"
+              >
+                <fa-icon [icon]="iconsUsed.update"></fa-icon>
+              </button>
+              <button *ngIf="actionButtons.delete">
+                <fa-icon [icon]="iconsUsed.archive"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="detail-veiw" *ngIf="dataDetailId === data._id && dataDetail">
+          <td colspan="8">
+            <div class="tile-detail">
+              <p *ngFor="let exp of expandDetail">
+                <span *ngIf="isDate(dataDetail[exp.key]); else normalExp">
+                  <strong>{{ exp.label }}</strong> :
+                  {{ dataDetail[exp.key] | date : "medium" }}
                 </span>
                 <ng-template #normalExp>
-                  <strong>{{exp.label}}</strong> : 
-                {{dataDetail[exp.key]}}
+                  <strong>{{ exp.label }}</strong> :
+                  {{ dataDetail[exp.key] }}
                 </ng-template>
               </p>
-
             </div>
-            <div class="item-list-container" *ngIf="dataDetail.itemList?.length">
+            <div
+              class="item-list-container"
+              *ngIf="dataDetail.itemList?.length"
+            >
               <strong>Item List:</strong>
               <table class="item-list-table">
                 <thead>
@@ -119,57 +109,50 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of dataDetail.itemList">
-                    <td>{{ item.tileId || item.skuCode}}</td>
+                    <td>{{ item.tileId || item.skuCode }}</td>
                     <td>{{ item.qty || item.requiredQty }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            
-            </td>
-          </tr>
-        </ng-container>
-        <!-- //-----------------------------------------------------
+          </td>
+        </tr>
+      </ng-container>
+      <!-- //-----------------------------------------------------
         //-----------------------------------------------------
         //----------------------------------------------------- -->
-      </tbody>
-    </table>
-    <div class="page-control"
-    *ngIf="allowPagination.isPaginated"
-    >
-      <div class="pagination">
-        <div class="page-navigation">
-          <button (click)="previousPage()" [disabled]="paging.is_first">
-            <fa-icon [icon]="iconsUsed.prev"></fa-icon>
-          </button>
-          <p class="page-number" ngIf="paging.total_pages > 0; else elseBlock">
-            {{ paging.page_number + 1 }} / {{ paging.total_pages }}
-          </p>
-          <ng-template #elseBlock>
-            <p class="page-number">
-              1 / 1
-            </p>
-          </ng-template>
-          <button (click)="nextPage()" [disabled]="paging.is_last">
-            <fa-icon [icon]="iconsUsed.next"></fa-icon>
-          </button>
-        </div>
-      </div>
-      <div class="page-size"
-      *ngIf="allowPagination.pageSize"
-      >
-        <select
-          name="pageSize"
-          id="page-size"
-          [(ngModel)]="paging.page_size"
-          (change)="updatePaging($event)"
-        >
-          <option value="5">5</option>
-          <option value="8">8</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-        </select>
+    </tbody>
+  </table>
+  <div class="page-control" *ngIf="allowPagination.isPaginated">
+    <div class="pagination">
+      <div class="page-navigation">
+        <button (click)="previousPage()" [disabled]="paging.is_first">
+          <fa-icon [icon]="iconsUsed.prev"></fa-icon>
+        </button>
+        <p class="page-number" *ngIf="paging.total_pages > 0; else elseBlock">
+          {{ paging.page_number + 1 }} / {{ paging.total_pages }}
+        </p>
+        <ng-template #elseBlock>
+          <p class="page-number">1 / 1</p>
+        </ng-template>
+        <button (click)="nextPage()" [disabled]="paging.is_last">
+          <fa-icon [icon]="iconsUsed.next"></fa-icon>
+        </button>
       </div>
     </div>
+    <div class="page-size" *ngIf="allowPagination.pageSize">
+      <select
+        name="pageSize"
+        id="page-size"
+        [(ngModel)]="paging.page_size"
+        (change)="updatePaging($event)"
+      >
+        <option value="5">5</option>
+        <option value="8">8</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select>
+    </div>
   </div>
+</div>

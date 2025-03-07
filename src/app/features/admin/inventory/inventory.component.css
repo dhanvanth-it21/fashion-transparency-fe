@@ -230,6 +230,8 @@ tbody tr:hover .tile-action-container fa-icon {
   text-align: center;
 }
 
+
+
 .tile-detail {
   display: flex;
   flex-wrap: wrap;
@@ -263,3 +265,13 @@ tbody tr:hover .tile-action-container fa-icon {
 .tile-detail strong {
   color: #222;
 }
+
+.low-stock {
+  background-color: red;
+  font-weight: 600;
+  padding: 0 6px;
+  border-radius: 6px;
+  color: white;
+  font-size: medium;
+}
+
