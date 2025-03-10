@@ -7,10 +7,20 @@ const routes: Routes = [
     path: "",
     component: ViewComponent,
     children: [
+      // {
+      //   path: "",
+      //   redirectTo: "admin",
+      //   pathMatch: "full"
+      // },
       {
         path: "",
-        redirectTo: "admin",
+        redirectTo: "login",
         pathMatch: "full"
+      },
+      {
+        path: "login",
+        loadComponent: () => import("../../login/login.component")
+        .then(m => m.LoginComponent)
       },
       {
         path: "admin",

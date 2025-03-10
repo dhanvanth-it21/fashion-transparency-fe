@@ -7,12 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiuri = 'http://localhost:8080/api/auth/login';
+  private apiuri = 'http://localhost:8080/api/auth/signin';
 
   constructor(private http: HttpClient) { }
 
   login(credentials: any): Observable<any> {
     return this.http.post(this.apiuri, credentials);
+    
   }
 
   logout() {

@@ -5,7 +5,7 @@
       <label [for]="field.key">{{ field.label }}</label>
 
       <input
-        *ngIf="field.type === 'text' || field.type === 'number'"
+        *ngIf="field.type === 'text' || field.type === 'number' || field.type === 'password'"
         [id]="field.key"
         [type]="field.type"
         [formControlName]="field.key"

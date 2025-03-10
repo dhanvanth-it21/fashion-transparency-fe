@@ -38,6 +38,8 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
-.left-side .form-group {
+.left-side .form-group,
+.login-container .form-group {
   flex: 1 1 calc(70% - 10px) !important;
 }
+

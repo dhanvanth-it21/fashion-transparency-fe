@@ -8,7 +8,7 @@ import { ViewRoutingModule } from './view-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    ViewRoutingModule
+    ViewRoutingModule,
   ]
 })
 export class ViewModule { }
