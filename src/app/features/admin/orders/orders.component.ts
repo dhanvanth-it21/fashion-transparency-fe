@@ -259,7 +259,7 @@ export class OrdersComponent {
   }
 
   //-----------------------------------------------------------------
-  getOrdersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = "", selectedFilter: string = this.selectedFilter) {
+  getOrdersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = this.searchText, selectedFilter: string = this.selectedFilter) {
     this.apiService.getOrdersList(page, size, sortBy, sortDirection, search, this.selectedFilter).subscribe(
       {
         next: (response: any) => {

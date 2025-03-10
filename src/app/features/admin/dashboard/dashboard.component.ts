@@ -5,6 +5,7 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OrdersComponent } from "../orders/orders.component";
+import { ApiService } from '../../../shared/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,12 +35,27 @@ export class DashboardComponent {
     searchPendingOrdersBy = "PENDING"
     searchDispatchedOrdersBy = "DISPATCHED"
 
-  metrics: OverviewMetrics = {
-    totalOrders: 0,
-    totalInventoryItems: 0,
-    totalEmployees: 0,
-    totalUnseenDamagesReported: 0
-  }
+  metrics: {
+    label: string,
+    value: number,
+    key: string,
+  }[] = [
+    {label: "Total Inventory Items", value: 0, key: "totalInventoryItems"},
+    {label: "Pending Orders", value: 0, key: "totalPendingOrders"},
+    {label : "Total Orders", value: 0, key : "totalOrders"},
+    {label : "Unseen Damages", value: 0, key : "unseenDamagesReported"},
+  ]
+
+  damageMetrics: {
+    label: string,
+    value: number,
+    key: string,
+  }[] = [
+    { "label": "Warehouse", "value": 2, "key": "warehouse" },
+    { "label": "Retail Shop", "value": 3, "key": "retailShop" },
+    { "label": "Manufacturer", "value": 0, "key": "manufacturer" }
+  ]
+  
 
 
 
@@ -48,7 +64,33 @@ export class DashboardComponent {
 
   
 
-  constructor() {}
+  constructor(
+    private apiService: ApiService,
+  ) {}
+
+  ngOnInit() {
+    this.getOverviewMetrics();
+    this.getDamageMetrics();
+  }
+
+  getOverviewMetrics() {
+    this.apiService.getOverviewMetrics().subscribe((response: any) => {
+      const data = response.data;
+      this.metrics.forEach((metric: any) => {
+        metric.value = data[metric.key]
+      })
+      
+    });
+  }
+
+  getDamageMetrics() {
+    this.apiService.getDamageMetrics().subscribe((response: any) => {
+      const data = response.data;
+      this.damageMetrics.forEach((metric: any) => {
+        metric.value = data[metric.key]
+      }) 
+    });
+  }
 
 
 }

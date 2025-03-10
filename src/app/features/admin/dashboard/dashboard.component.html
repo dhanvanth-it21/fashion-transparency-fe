@@ -5,24 +5,9 @@
     <h2>Dashboard Overview</h2>
 
     <div class="dashboard-cards">
-      <div class="card">
-        <h3>Total Orders</h3>
-        <p>{{ metrics.totalOrders }}</p>
-      </div>
-
-      <div class="card">
-        <h3>Total Inventory</h3>
-        <p>{{ metrics.totalInventoryItems }}</p>
-      </div>
-
-      <div class="card">
-        <h3>Total Employees</h3>
-        <p>{{ metrics.totalEmployees }}</p>
-      </div>
-
-      <div class="card">
-        <h3>Total Unseen Damages Reported</h3>
-        <p>{{ metrics.totalUnseenDamagesReported }}</p>
+      <div class="card" *ngFor="let metric of metrics">
+        <h3>{{metric.label}}</h3>
+        <p>{{ metric.value }}</p>
       </div>
     </div>
   </div>
@@ -59,17 +44,12 @@
 
     
     <div class="damage-metrics">
-        <h2>Damage Alerts</h2>
+        <h2>Damage Alerts (UNDER REVIEW)</h2>
         <div class="damage-metric">
-            <div class="damage-box">
-                <h3>Warehouse: <span>2</span></h3>
+            <div class="damage-box" *ngFor="let damage of damageMetrics">
+                <h3>{{damage.label}}: <span>{{damage.value}}</span></h3>
             </div>
-            <div class="damage-box">
-                <h3>Retail Shop: <span>3</span></h3>
-            </div>
-            <div class="damage-box">
-                <h3>Manufacturer: <span>0</span></h3>
-            </div>
+           
         </div>
         <button class="view-deatils">View Details</button>
     </div>

@@ -275,6 +275,19 @@ export class ApiService {
     return returnData
   }
 
+  //--------------------------------------------------------
+  getOverviewMetrics() {
+    const apiuri = `http://${this.serverIp}/api/dashboard/overview-metrics`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
+  getDamageMetrics() {
+    const apiuri = `http://${this.serverIp}/api/dashboard/damage-metrics`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
 
 
 
