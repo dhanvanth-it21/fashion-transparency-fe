@@ -28,6 +28,20 @@ export class LeftSidebarComponent {
     damage: faHouseDamage,
   };
 
+
+  sidebarLinks = [
+    { path: '/admin/dashboard', icon: this.sidebarIcons.dashboard, label: 'Dashboard' },
+    { path: '/admin/orders', icon: this.sidebarIcons.orders, label: 'Orders' },
+    { path: '/admin/purchases', icon: this.sidebarIcons.purchase, label: 'Purchase' },
+    { path: '/admin/inventory', icon: this.sidebarIcons.inventory, label: 'Inventory' },
+    { path: '/admin/retail-shop', icon: this.sidebarIcons.shop, label: 'Retail Shop' },
+    { path: '/admin/supplier', icon: this.sidebarIcons.supplier, label: 'Supplier' },
+    { path: '/admin/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' }
+  ];
+  
+
+
+
   username: string =  "Dhanvanth S B";
 
 

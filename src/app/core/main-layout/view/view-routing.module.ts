@@ -9,16 +9,21 @@ const routes: Routes = [
     component: ViewComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: "",
-        redirectTo: "admin",
-        pathMatch: "full"
-      },
+      // {
+      //   path: "",
+      //   redirectTo: "admin",
+      //   pathMatch: "full"
+      // },
       
       {
         path: "admin",
         loadChildren: () => import("../../../features/admin/admin.module")
         .then(m => m.AdminModule),
+      },
+      {
+        path: "employee",
+        loadChildren: () => import("../../../features/employee/employee.module")
+        .then(m => m.EmployeeModule),
       }
     ]
   }

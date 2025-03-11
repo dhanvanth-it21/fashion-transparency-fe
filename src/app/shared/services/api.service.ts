@@ -142,7 +142,6 @@ export class ApiService {
       searchForBrandName = `&brandName=${brandName}`;
     }
     const apiuri = `http://${this.serverIp}/api/tiles/search?search=${search}${searchLocation}${searchForBrandName}`;
-    console.log(apiuri);
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
@@ -220,7 +219,6 @@ export class ApiService {
       searchText = `&search=${search}`;
     }
     const apiuri = `http://${this.serverIp}/api/purchase/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
-    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
@@ -243,7 +241,6 @@ export class ApiService {
       filterBy = `&filterBy=${filter}`;
     }
     const apiuri = `http://${this.serverIp}/api/damage-report/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}${filterBy}`
-    console.log(apiuri)
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }

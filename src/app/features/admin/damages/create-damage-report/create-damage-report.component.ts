@@ -144,7 +144,6 @@ export class CreateDamageReportComponent {
     this.apiService.getShopsFromOrder(this.searchTextOfRetailShop).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
-          console.log(response.data);
           this.searchResultsOfRetailShop = response.data;
         }
       },
@@ -214,7 +213,7 @@ export class CreateDamageReportComponent {
     this.createDamageReportForm.get('orderId')?.enable();
     this.createDamageReportForm.get('purchaseId')?.enable();
     this.apiService.postDamageReport(this.createDamageReportForm.value).subscribe({
-      next: (response: any) => console.log(response.data),
+      next: (response: any) => console.log(response.data), //need to add sweet alert
       error: (e) => console.error(e),
     });
     this.router.navigate(['/admin/damage-reports']);

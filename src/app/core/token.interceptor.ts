@@ -17,6 +17,5 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  console.log("Token interceptor called", req, token);
   return next(req);
 };

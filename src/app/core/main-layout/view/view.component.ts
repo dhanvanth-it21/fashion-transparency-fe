@@ -27,6 +27,9 @@ export class ViewComponent {
     if(this.roles?.includes("ROLE_ADMIN")) {
       this.router.navigate(["admin"], { relativeTo: this.activatedRoute });
     }
+    else if(this.roles?.includes("ROLE_EMPLOYEE")) {
+      this.router.navigate(["employee"], {relativeTo: this.activatedRoute});
+    }
   }
 
   getRoles() {

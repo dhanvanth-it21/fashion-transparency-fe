@@ -1,36 +1,8 @@
 <div class="sidenav">
   <div class="pages">
-    <a [routerLink]="['/admin/dashboard']">
-      <fa-icon [icon]="sidebarIcons.dashboard"></fa-icon>
-      Dashboard
-    </a>
-    <a [routerLink]="['/admin/orders']">
-      <fa-icon [icon]="sidebarIcons.orders"></fa-icon>
-      Orders
-    </a>
-    <a [routerLink]="['/admin/purchases']">
-      <fa-icon [icon]="sidebarIcons.purchase"></fa-icon>
-      Purchase
-    </a>
-    <!-- <a [routerLink]="['/admin/employees']">
-      <fa-icon [icon]="sidebarIcons.employees"></fa-icon>
-      Employee
-    </a>  -->
-    <a [routerLink]="['/admin/inventory']">
-      <fa-icon [icon]="sidebarIcons.inventory"></fa-icon>
-      Inventory
-    </a>
-    <a [routerLink]="['/admin/retail-shop']">
-      <fa-icon [icon]="sidebarIcons.shop"></fa-icon>
-      Retail Shop
-    </a> 
-    <a [routerLink]="['/admin/supplier']">
-      <fa-icon [icon]="sidebarIcons.supplier"></fa-icon>
-      Supplier
-    </a> 
-    <a [routerLink]="['/admin/damage-reports']">
-      <fa-icon [icon]="sidebarIcons.damage"></fa-icon>
-      Damages
-    </a> 
+    <a *ngFor="let link of sidebarLinks" [routerLink]="[link.path]">
+      <fa-icon [icon]="link.icon"></fa-icon>
+      {{ link.label }}
+    </a>    
   </div>
 </div>

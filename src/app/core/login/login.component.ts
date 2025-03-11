@@ -52,7 +52,7 @@ export class LoginComponent {
           this.router.navigate([""]);
         },
         error: (e) => {
-          console.log(e);
+          console.error(e);
         }
       })
 

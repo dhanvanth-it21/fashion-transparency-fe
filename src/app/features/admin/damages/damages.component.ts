@@ -35,7 +35,6 @@ export class DamagesComponent {
 
   set dataDetailId(value: string) {
     this._dataDetailId = value;
-    console.log(value);
     this.onDataDetailIdChange();
   }
 
@@ -65,7 +64,6 @@ export class DamagesComponent {
     const allowedValues = ['UNDER_REVIEW', 'APPROVED', 'REJECTED'];
     if (allowedValues.includes(value)) {
       this._selectedFilter = value;
-      console.log(value);
     } else {
       this._selectedFilter = "";
     }
@@ -221,22 +219,7 @@ export class DamagesComponent {
     })
   }
 
-  addFormSubmit(value: any) {
-    console.log(value);
-    if (this.formGroup.valid) {
-      //  this.apiService.reportDamage(value).subscribe({
-      //    next: () => {
-      //      this.getDamageReports();
-      //      this.router.navigate(['/admin/damage-reports']);
-      //    },
-      //    error: (e) => console.error(e)
-      //  });
-    }
-  }
 
-  addFormDiscard() {
-    this.router.navigate(['/admin/damage-reports']);
-  }
 
   updateFormSubmit(value: any) {
     if (this.updateDetailFormGroup.get('status')?.value !== "UNDER_REVIEW") {
@@ -257,7 +240,7 @@ export class DamagesComponent {
         this.apiService.rejectDamageReport(this.updateDataDetailId).subscribe(
           {
             next: (response: any) => {
-              console.log(response.data);
+              console.log(response.data); // need to add sweet alert
             },
             error: (e) => console.error(e)
           }

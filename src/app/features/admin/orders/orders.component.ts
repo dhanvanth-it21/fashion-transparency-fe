@@ -189,7 +189,6 @@ export class OrdersComponent {
 
 
   onSearchTextChange() {
-    console.log(this.searchText);
     this.searchSubject.next(this.searchText);
   }
 
@@ -220,10 +219,9 @@ export class OrdersComponent {
   //need to handle
   updateFormSubmit(event: any) {
     if(this.updateDataDetail.status == event.status) {
-      console.log("No changes made");
+      console.log("No changes made"); //need to add sweet alert
       return;
     }
-    console.log(event);
     this.updateOrderStatusById(event._id, event.status);
     this.router.navigate(['/admin/orders']);
   }
@@ -283,7 +281,6 @@ export class OrdersComponent {
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.dataDetail = response.data;
-          console.log(this.dataDetail)
         }
       },
       error: (e) => { console.error(e) },

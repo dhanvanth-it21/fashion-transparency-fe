@@ -16,18 +16,19 @@ import { AddFormComponent } from "../../../shared/components/add-form/add-form.c
   selector: 'app-inventory',
   standalone: true,
   imports: [
-    RouterModule, 
+    RouterModule,
     // AddTileComponent, 
-    CommonModule, 
-    FontAwesomeModule, 
-    FormsModule, 
-    UpdateTileComponent, 
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    UpdateTileComponent,
     AddFormComponent
   ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
 export class InventoryComponent {
+
 
 
   isAddTileComponentOpen: Boolean = false;
@@ -56,14 +57,14 @@ export class InventoryComponent {
 
 
   tabelHeader = [
-    {name: "S No.", class: "make-center", sortBy: "_id", sortDirection: "asc"},
-    {name: "Sku Code", class: "", sortBy: "skuCode", sortDirection: "asc"},
-    {name: "Tile Size", class: "", sortBy: "tileSize", sortDirection: "asc"},
-    {name: "Brand Name", class: "", sortBy: "brandName", sortDirection: "asc"},
-    {name: "Model Name", class: "", sortBy: "modelName", sortDirection: "asc"},
-    {name: "Qty", class: "make-center", sortBy: "qty", sortDirection: "asc"},
-    {name: "Pieces / Box", class: "make-center", sortBy: "piecesPerBox", sortDirection: "asc"},
-    {name: "Action", class: ""},
+    { name: "S No.", class: "make-center", sortBy: "_id", sortDirection: "asc" },
+    { name: "Sku Code", class: "", sortBy: "skuCode", sortDirection: "asc" },
+    { name: "Tile Size", class: "", sortBy: "tileSize", sortDirection: "asc" },
+    { name: "Brand Name", class: "", sortBy: "brandName", sortDirection: "asc" },
+    { name: "Model Name", class: "", sortBy: "modelName", sortDirection: "asc" },
+    { name: "Qty", class: "make-center", sortBy: "qty", sortDirection: "asc" },
+    { name: "Pieces / Box", class: "make-center", sortBy: "piecesPerBox", sortDirection: "asc" },
+    { name: "Action", class: "" },
   ]
 
 
@@ -71,7 +72,7 @@ export class InventoryComponent {
 
   displayData!: Tile[];
 
-  tileDetail: TileDetial | null= null;
+  tileDetail: TileDetial | null = null;
   tileDetailId: string | null = null;
 
   updatingTileId!: string;
@@ -99,7 +100,7 @@ export class InventoryComponent {
       this.isAddTileComponentOpen = false;
       this.router.navigate(['/admin/inventory']);
     }
-    else if(this.router.url.startsWith("/admin/inventory/update-tile")) {
+    else if (this.router.url.startsWith("/admin/inventory/update-tile")) {
       this.isUpdateTileComponentOpen = true;
     }
     this.router.events.subscribe(event => {
@@ -121,19 +122,19 @@ export class InventoryComponent {
     })
 
     this.searchSubject.pipe(
-      debounceTime(500), 
-      distinctUntilChanged() 
+      debounceTime(500),
+      distinctUntilChanged()
     ).subscribe(searchTerm => {
       this.updateTileTable(undefined, undefined, searchTerm);
     });
   }
 
   formUseAdd: { heading: string, submit: string, discard: string } =
-  {
-    heading: "Add New Tile",
-    submit: "Submit",
-    discard: "Discard"
-  }
+    {
+      heading: "Add New Tile",
+      submit: "Submit",
+      discard: "Discard"
+    }
 
 
 
@@ -169,7 +170,6 @@ export class InventoryComponent {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
             this.displayData = response.data;
-            console.log(response.data)
             this.paging.is_first = response.metadata.isFirst;
             this.paging.is_last = response.metadata.isLast;
             this.paging.page_number = response.metadata.pageable.pageNumber;
@@ -197,7 +197,7 @@ export class InventoryComponent {
 
 
   showDetailsOfTileId(_id: string) {
-    if(this.tileDetailId === _id) {
+    if (this.tileDetailId === _id) {
       this.tileDetailId = null;
       this.tileDetail = null;
       return;
@@ -220,8 +220,8 @@ export class InventoryComponent {
     }
   }
 
-  updateTileTable(sortBy: string =  "", sortDirection: string = "asc", search: string = this.searchText) {
-    if(sortBy === "") {
+  updateTileTable(sortBy: string = "", sortDirection: string = "asc", search: string = this.searchText) {
+    if (sortBy === "") {
       this.getTilesList(this.paging.page_number, this.paging.page_size, undefined, undefined, search);
     }
     else {
@@ -259,12 +259,12 @@ export class InventoryComponent {
 
 
 
-  subCategoryOptions: { [key: string]: string[]} = {
+  subCategoryOptions: { [key: string]: string[] } = {
     WALL: ['KITCHEN', 'BATHROOM', 'ELEVATION'],
     FLOOR: ['INDOOR', 'PARKING', 'ROOFING'],
   };
 
-  
+
 
 
   tileFormConfig = [
@@ -276,7 +276,7 @@ export class InventoryComponent {
     { key: 'color', label: 'Colour', type: 'text', required: true },
     { key: 'category', label: 'Category', type: 'select', required: true, options: ['WALL', 'FLOOR'] },
     { key: 'subCategory', label: 'SubCategory', type: 'select', required: true, options: [] },
-    { key: 'finishing', label: 'Finishing', type: 'select', required: true, options: [ 'GLOSSY', 'HIGH_GLOSSY', 'MATT', 'SUGAR', 'CARVING', 'FULL_BODY'] },
+    { key: 'finishing', label: 'Finishing', type: 'select', required: true, options: ['GLOSSY', 'HIGH_GLOSSY', 'MATT', 'SUGAR', 'CARVING', 'FULL_BODY'] },
     { key: 'minimumStockLevel', label: 'Minimum Stock Level', type: 'number', required: true, min: 10 },
   ];
 
@@ -295,7 +295,7 @@ export class InventoryComponent {
       minimumStockLevel: [null, [Validators.required, Validators.min(10)]],
     });
 
-   
+
     this.newAddTileFormBuilder.get('category')?.valueChanges.subscribe((selectedCategory) => {
       this.updateSubCategoryOptions(selectedCategory);
     });
@@ -307,7 +307,7 @@ export class InventoryComponent {
 
   updateSubCategoryOptions(selectedCategory: string) {
     const subCategoryField = this.tileFormConfig.find(field => field.key === 'subCategory');
-    
+
     if (subCategoryField) {
       subCategoryField.options = this.subCategoryOptions[selectedCategory] || [];
     }
@@ -317,10 +317,9 @@ export class InventoryComponent {
 
 
 
-    
+
   handleTileSubmit(formData: any) {
-    if(this.newAddTileFormBuilder.valid){
-      console.log('Tile Data:', formData);
+    if (this.newAddTileFormBuilder.valid) {
       this.router.navigate(['/admin/inventory'])
     }
   }

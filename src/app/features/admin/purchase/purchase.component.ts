@@ -224,7 +224,6 @@ export class PurchasesComponent {
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {
-            console.log(response.data)
             this.displayData = response.data;
             this.paging.is_first = response.metadata.isFirst;
             this.paging.is_last = response.metadata.isLast;
@@ -244,7 +243,6 @@ export class PurchasesComponent {
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.dataDetail = response.data;
-          console.log(this.dataDetail);
         }
       },
       error: (e) => { console.error(e) },
@@ -255,7 +253,6 @@ export class PurchasesComponent {
     this.apiService.getPurchaseById(id).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
-          console.log(response.data);
           this.updateDataDetail = response.data;
           const isVerified: boolean = this.updateDataDetail.status === "VERIFIED";
           this.initailzeUpdateFormGroup(isVerified);

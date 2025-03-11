@@ -244,7 +244,6 @@ export class CreatePurchaseComponent {
     const item = this.itemList.controls.find(item =>
       item.value.tileId === id || item.value._id === id
     ) as FormGroup;
-console.log(item);
     this.updateDetailFormGroup = item;
     this.isUpdateSupplierOpen = true;
   }
