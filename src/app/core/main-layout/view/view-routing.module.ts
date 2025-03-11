@@ -1,27 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewComponent } from './view.component';
+import { AuthGuard } from '../../../core/auth.guard';
 
 const routes: Routes = [
   {
     path: "",
     component: ViewComponent,
+    canActivate: [AuthGuard],
     children: [
-      // {
-      //   path: "",
-      //   redirectTo: "admin",
-      //   pathMatch: "full"
-      // },
       {
         path: "",
-        redirectTo: "login",
+        redirectTo: "admin",
         pathMatch: "full"
       },
-      {
-        path: "login",
-        loadComponent: () => import("../../login/login.component")
-        .then(m => m.LoginComponent)
-      },
+      
       {
         path: "admin",
         loadChildren: () => import("../../../features/admin/admin.module")

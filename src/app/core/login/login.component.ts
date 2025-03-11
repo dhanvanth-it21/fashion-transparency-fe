@@ -45,12 +45,11 @@ export class LoginComponent {
 
   login() {
     if (this.createLoginForm.valid) {
-      console.log(this.createLoginForm.value);
       this.authService.login(this.createLoginForm.value).subscribe({
         next: (response: any) => {
-          console.log(response);
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('user', JSON.stringify(response.data));
+          this.router.navigate([""]);
         },
         error: (e) => {
           console.log(e);

@@ -18,15 +18,23 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    localStorage.removeItem('user');
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return localStorage.getItem('token') !== null;
   }
 
-  getRole(): string | null {
-    return localStorage.getItem('role');
+  getRole(): string[] | null {
+    const loggedIn = localStorage.getItem('user');
+    const user = loggedIn ? JSON.parse(loggedIn) : null;
+    return user ? user.roles : null;
+  }
+
+  getUserName() {
+    const loggedIn = localStorage.getItem('user');
+    const user = loggedIn ? JSON.parse(loggedIn) : null;
+    return user ? user.email : '';
   }
 
 }

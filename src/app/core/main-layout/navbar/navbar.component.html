@@ -6,9 +6,14 @@
         <div class="particular-page">
             <!-- need to be handled -->
         </div>
-        <div class="profile-container">
+        <div class="profile-container" *ngIf="isUserLoggedIn">
             <div class="profile">
-                
+                <h1>{{ userProfile }}</h1>
+            </div>
+            <div class="sign-out">
+                <a (click)="logoutUser()">
+                    <fa-icon [icon]="faSignOut"></fa-icon> 
+                </a>
             </div>
         </div>
     </div>
