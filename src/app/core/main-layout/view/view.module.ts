@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ViewRoutingModule } from './view-routing.module';
 
 
+
 @NgModule({
   declarations: [],
   imports: [
@@ -11,4 +12,6 @@ import { ViewRoutingModule } from './view-routing.module';
     ViewRoutingModule,
   ]
 })
-export class ViewModule { }
+export class ViewModule {
+
+ }

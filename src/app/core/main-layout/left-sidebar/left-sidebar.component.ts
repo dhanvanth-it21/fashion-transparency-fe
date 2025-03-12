@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -14,30 +14,16 @@ import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faPr
 })
 export class LeftSidebarComponent {
 
+  @Input()
+  sidebarLinks: { path: string, icon: IconDefinition, label: string }[] = [];
+
+
   public faBars: IconDefinition = faBars;
   public faSignOut: IconDefinition = faSignOut;
   
-  sidebarIcons = {
-    dashboard: faTachometerAlt,
-    orders: faClipboardList,    
-    employees: faUsers,         
-    inventory: faBoxes,  
-    shop: faShop,
-    supplier: faTruck,
-    purchase: faTruck,
-    damage: faHouseDamage,
-  };
 
 
-  sidebarLinks = [
-    { path: '/admin/dashboard', icon: this.sidebarIcons.dashboard, label: 'Dashboard' },
-    { path: '/admin/orders', icon: this.sidebarIcons.orders, label: 'Orders' },
-    { path: '/admin/purchases', icon: this.sidebarIcons.purchase, label: 'Purchase' },
-    { path: '/admin/inventory', icon: this.sidebarIcons.inventory, label: 'Inventory' },
-    { path: '/admin/retail-shop', icon: this.sidebarIcons.shop, label: 'Retail Shop' },
-    { path: '/admin/supplier', icon: this.sidebarIcons.supplier, label: 'Supplier' },
-    { path: '/admin/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' }
-  ];
+ 
   
 
 

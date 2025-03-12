@@ -1,7 +1,8 @@
 <div class="main-layout">
         <app-navbar></app-navbar>
     <div class="main-layout-container">
-        <app-left-sidebar></app-left-sidebar>
+        <app-left-sidebar
+        [sidebarLinks]="sidebarLinks"></app-left-sidebar>
         <div class="body-container">
              <router-outlet></router-outlet>
         </div>
