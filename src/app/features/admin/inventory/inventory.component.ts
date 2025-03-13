@@ -30,6 +30,18 @@ import { AddFormComponent } from "../../../shared/components/add-form/add-form.c
 export class InventoryComponent {
 
 
+  private _lowStockFilter: boolean = false;
+
+  get lowStockFilter(): boolean {
+    return this._lowStockFilter;
+  }
+
+  set lowStockFilter(value: boolean) {
+    this._lowStockFilter = value;
+    this.updateTileTable();
+  }
+
+
 
   isAddTileComponentOpen: Boolean = false;
   isUpdateTileComponentOpen: Boolean = false;
@@ -165,7 +177,7 @@ export class InventoryComponent {
 
 
   getTilesList(page: number, size: number, sortBy: string = this.paging.sort_by, sortDirection: string = "asc", search: string = this.searchText) {
-    this.apiService.getTilesList(page, size, sortBy, sortDirection, search).subscribe(
+    this.apiService.getTilesList(page, size, sortBy, sortDirection, search, this.lowStockFilter).subscribe(
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {

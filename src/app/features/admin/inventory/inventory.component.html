@@ -6,13 +6,13 @@
     }"
   >
     <div class="list-heading">
-      <span class="total-elements">{{ paging.total_elements }}</span>
-      <!-- <select [(ngModel)]="selectedFilter" class="filter-dropdown">
-        <option value="" selected>ALL</option>
-        <option value="Low">Under Review</option>
-        <option value="APPROVED">Approved</option>
-        <option value="REJECTED">Rejected</option>
-    </select> -->
+      <div class="filtering">
+        <span class="total-elements">{{ paging.total_elements }}</span>
+      <label>
+        <input type="checkbox" [(ngModel)]="lowStockFilter" />
+        LOW
+      </label>
+      </div>
       <input
         [(ngModel)]="searchText"
         (input)="searchBy()"

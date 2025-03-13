@@ -16,12 +16,17 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
-  getTilesList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
+  getTilesList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "", lowStockFilter: boolean = false){
     let searchText = "";
     if (search !== "") {
       searchText = `&search=${search}`;
     }
-    const apiuri = `http://${this.serverIp}/api/tiles/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`;
+    let lowStock = "";
+    if (lowStockFilter) {
+      lowStock = "&filterBy=low";
+    }
+
+    const apiuri = `http://${this.serverIp}/api/tiles/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}${lowStock}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }

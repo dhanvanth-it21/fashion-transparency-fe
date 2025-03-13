@@ -275,3 +275,23 @@ tbody tr:hover .tile-action-container fa-icon {
   font-size: medium;
 }
 
+.filtering {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.filtering label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2c3e50;
+  cursor: pointer;
+  
+}
+
+.filtering input {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
