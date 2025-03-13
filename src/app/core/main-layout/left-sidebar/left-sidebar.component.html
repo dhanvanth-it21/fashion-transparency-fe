@@ -1,6 +1,10 @@
 <div class="sidenav">
   <div class="pages">
-    <a *ngFor="let link of sidebarLinks" [routerLink]="[link.path]">
+    <a 
+    *ngFor="let link of sidebarLinks" 
+    [routerLink]="[link.path]"
+    routerLinkActive="active-link"
+    >
       <fa-icon [icon]="link.icon"></fa-icon>
       {{ link.label }}
     </a>    

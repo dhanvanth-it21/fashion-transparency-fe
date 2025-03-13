@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 interface FormField {
   key: string;
   label: string;
   type: string;
-  options?: string[]; 
+  options?: string[];
   required?: boolean;
   min?: number;
   disabled?: boolean;
@@ -16,38 +17,66 @@ interface FormField {
 @Component({
   selector: 'app-add-form',
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-form.component.html',
   styleUrl: './add-form.component.css'
 })
 export class AddFormComponent {
 
-  @Input() 
+  @Input()
   formConfig: FormField[] = [];
-  @Input() 
+  @Input()
   formGroup!: FormGroup;
-  @Input() 
-  formUse: {heading: string, submit: string, discard: string} = {
+  @Input()
+  formUse: { heading: string, submit: string, discard: string } = {
     heading: "Form",
     submit: "Submit",
     discard: "Discard"
   };
-  @Output() 
+  @Output()
   formSubmit = new EventEmitter<any>();
-  @Output() 
+  @Output()
   formClose = new EventEmitter<void>();
 
 
-  constructor(private fb: FormBuilder) {}
+  submitTriggered: Boolean = false;
+
+  constructor(private fb: FormBuilder) { }
 
   submitForm() {
+    this.submitTriggered = true;
     if (this.formGroup.valid) {
-      this.formSubmit.emit(this.formGroup.value);
+      Swal.fire({
+        icon: "info",
+        title: `Are you sure to ${this.formUse.submit} this`,
+        showCancelButton: true,
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.formSubmit.emit(this.formGroup.value);
+        }
+      })
+    }
+    else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Check the Fields",
+      });
     }
   }
 
   closeForm() {
-    this.formClose.emit();
+    Swal.fire({
+      icon: "info",
+      title: "Cancelling the process",
+      showCancelButton: true,
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.formClose.emit();
+      }
+    })
   }
 
   validationMessages = [
@@ -55,7 +84,7 @@ export class AddFormComponent {
     { key: 'min', message: 'Quantity must be at least 1.' },
     { key: 'max', message: 'Cannot exceed available stock.' }
   ];
-  
+
 
 
 }

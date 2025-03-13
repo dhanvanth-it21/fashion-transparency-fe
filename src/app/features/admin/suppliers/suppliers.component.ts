@@ -6,6 +6,7 @@ import { TableComponent } from '../../../shared/components/table/table.component
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { ApiService } from '../../../shared/services/api.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-suppliers',
@@ -69,7 +70,7 @@ export class SuppliersComponent {
     sort_by: "_id",
   }
 
-  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+  actionButtons: { expand: boolean, edit: boolean, delete: boolean } = {
     expand: true,
     edit: true,
     delete: false
@@ -90,11 +91,11 @@ export class SuppliersComponent {
   ];
 
   expandDetail = [
-    { key: 'brandName', label: 'Brand Name'},
-    { key: 'contactPersonName', label: 'Contact Person Name'},
-    { key: 'email', label: 'Email'},
+    { key: 'brandName', label: 'Brand Name' },
+    { key: 'contactPersonName', label: 'Contact Person Name' },
+    { key: 'email', label: 'Email' },
     { key: 'phone', label: 'Phone' },
-    { key: 'address', label: 'Address'},
+    { key: 'address', label: 'Address' },
   ]
 
   formUseAdd: { heading: string, submit: string, discard: string } =
@@ -194,86 +195,102 @@ export class SuppliersComponent {
 
   //need to handle
   addFormSubmit(value: any) {
-    if(this.formGroup.valid){
+    if (this.formGroup.valid) {
       this.apiService.postNewSupplier(value).subscribe({
-        next: (response: any) => {
-          //need to add sweet alert
-          this.getSuppliersList();
+        next: () => {
           this.router.navigate(['/admin/supplier'])
+          this.getSuppliersList();
+          Swal.fire({
+            icon: "success",
+            title: "Added Successfully",
+            showConfirmButton: false,
+            timer: 1000
+          });
         },
         error: (e) => {
-          //need to add sweet alert
+
+          Swal.fire({
+            icon: "error",
+            title: "Something went wrong!!!",
+            showConfirmButton: false,
+            timer: 1000
+          });
           console.error(e)
         }
       })
     }
-    else {
-      //need to add sweet alter
-    }
   }
 
   addFormDiscard() {
-    this.router.navigate(['/admin/supplier'])
+    this.router.navigate(['/admin/supplier']);
   }
 
   //need to handle
   updateFormSubmit(value: any) {
-    if(this.updateDetailFormGroup.valid){
+    if (this.updateDetailFormGroup.valid) {
+      
       this.apiService.updateSupplierById(this.updateDataDetailId, value).subscribe({
-        next: (response: any) => {
-          //need to add sweet alert
+        next: () => {
           this.router.navigate(['/admin/supplier'])
-        },
+          this.getSuppliersList();
+          Swal.fire({
+            icon: "success",
+            title: "Updated Successfully",
+            showConfirmButton: false,
+            timer: 1000
+          });
+         },
         error: (e) => {
-          //need to add sweet alert
+          Swal.fire({
+            icon: "error",
+            title: "Something went wrong!!!",
+            showConfirmButton: false,
+            timer: 1000
+          });
           console.error(e)
         }
       })
       
     }
-    else{
-      //need to add sweet alert
-    }
   }
 
   updateFormDiscard() {
+    
     this.updateDataDetail = null;
     this.updateDataDetailId = "";
     this.router.navigate(['/admin/supplier']);
+
   }
 
   initailizeFormGroup() {
-      this.formGroup = this.formBuilder.group({
-        brandName: ['', Validators.required],
-        contactPersonName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
-        address: ['', Validators.required],
-      });
-    }
+    this.formGroup = this.formBuilder.group({
+      brandName: ['', Validators.required],
+      contactPersonName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      address: ['', Validators.required],
+    });
+  }
 
-    updateSupplier(id: string) {
-      this.updateDataDetailId = id;
-      this.getSupplierDetailById(id);
-      setTimeout(() => {
-        this.router.navigate(["update-supplier", id],  { relativeTo: this.activatedRoute });
-      }, 200)
-  
-    }
+  updateSupplier(id: string) {
+    this.updateDataDetailId = id;
+    this.getSupplierDetailById(id);
 
-    initailzeUpdateFormGroup() {
-      this.updateDetailFormGroup = this.formBuilder.group({
-        _id: this.updateDataDetailId,
-        brandName: [this.updateDataDetail.brandName, Validators.required],
-        contactPersonName: [this.updateDataDetail.contactPersonName, Validators.required],
-        email: [this.updateDataDetail.email, [Validators.required, Validators.email]],
-        phone: [this.updateDataDetail.phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]], 
-        address: [this.updateDataDetail.address, Validators.required],
-      });
-    }
+  }
+
+  initailzeUpdateFormGroup() {
+    this.updateDetailFormGroup = this.formBuilder.group({
+      _id: this.updateDataDetailId,
+      brandName: [this.updateDataDetail.brandName, Validators.required],
+      contactPersonName: [this.updateDataDetail.contactPersonName, Validators.required],
+      email: [this.updateDataDetail.email, [Validators.required, Validators.email]],
+      phone: [this.updateDataDetail.phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      address: [this.updateDataDetail.address, Validators.required],
+    });
+  }
 
 
-    //------------------------------------------------------------------
+  //------------------------------------------------------------------
   getSuppliersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = "") {
     this.apiService.getSuppliersList(page, size, sortBy, sortDirection, search).subscribe(
       {
@@ -311,6 +328,9 @@ export class SuppliersComponent {
         if (response.status === "success" && response.data) {
           this.updateDataDetail = response.data;
           this.initailzeUpdateFormGroup();
+          this.router.navigate(["update-supplier", id], { relativeTo: this.activatedRoute });
+         
+          
         }
       },
       error: (e) => { console.error(e) },

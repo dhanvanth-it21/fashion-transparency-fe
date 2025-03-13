@@ -291,6 +291,12 @@ export class DamagesComponent {
     this.apiService.getDamageReports(page, size, sortBy, sortDirection, search, this.selectedFilter).subscribe({
       next: (response: any) => {
         this.displayData = response.data;
+        this.paging.is_first = response.metadata.isFirst;
+        this.paging.is_last = response.metadata.isLast;
+        this.paging.page_number = response.metadata.pageable.pageNumber;
+        this.paging.page_size = response.metadata.pageable.pageSize;
+        this.paging.total_elements = response.metadata.totalElements;
+        this.paging.total_pages = response.metadata.totalPages;
       },
       error: (e) => console.error(e)
     });

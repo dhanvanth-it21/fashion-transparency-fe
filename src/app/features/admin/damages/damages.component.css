@@ -116,7 +116,7 @@ y.damage-report-container {
 }
 
 .add-damage-report-container,
-.update-damage-report-container {
+.update-damage-container {
   position: absolute;
   width: calc(100% - 500px);
   height: calc(100% - 100px);

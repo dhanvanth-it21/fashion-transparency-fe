@@ -267,9 +267,6 @@ export class RetailShopComponent {
   updateRetailShop(id: string) {
     this.updateDataDetailId = id;
     this.getRetailShopDetailById(id);
-    setTimeout(() => {
-      this.router.navigate(["update-retail-shop", id],  { relativeTo: this.activatedRoute });
-    }, 100)
 
   }
 
@@ -322,9 +319,9 @@ export class RetailShopComponent {
     this.apiService.getRetailShopById(id).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
-          console.log(response.data);
           this.updateDataDetail = response.data;
           this.initailzeUpdateFormGroup();
+          this.router.navigate(["update-retail-shop", id],  { relativeTo: this.activatedRoute });
         }
       },
       error: (e) => { console.error(e) },

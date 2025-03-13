@@ -35,3 +35,10 @@
 .pages a fa-icon {
   margin-right: 10px;
 }
+
+
+.pages a.active-link {
+  background: var(--L-color);
+  color: white;
+  font-weight: bold;
+}

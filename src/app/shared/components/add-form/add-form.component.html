@@ -29,8 +29,8 @@
 
       <div
         *ngIf="
-          formGroup.get(field.key)?.invalid &&
-          formGroup.get(field.key)?.touched
+          submitTriggered ||( formGroup.get(field.key)?.invalid &&
+          formGroup.get(field.key)?.touched)
         "
         class="text-danger"
       >

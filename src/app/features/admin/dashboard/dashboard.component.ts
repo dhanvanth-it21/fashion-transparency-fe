@@ -6,6 +6,7 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OrdersComponent } from "../orders/orders.component";
 import { ApiService } from '../../../shared/services/api.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -80,6 +81,8 @@ export class DashboardComponent {
     this.getOverviewMetrics();
     this.getDamageMetrics();
     this.getTotalLowStocks();
+    
+
   }
 
   getOverviewMetrics() {
