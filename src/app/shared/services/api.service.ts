@@ -16,7 +16,7 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
-  getTilesList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "", lowStockFilter: boolean = false){
+  getTilesList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "", lowStockFilter: boolean = false) {
     let searchText = "";
     if (search !== "") {
       searchText = `&search=${search}`;
@@ -66,21 +66,21 @@ export class ApiService {
   postNewRetailShop(formGroup: any) {
     const apiuri = `http://${this.serverIp}/api/retailer-shop`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, {headers});
+    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, { headers });
     return returnData;
   }
 
   updateRetailShopById(id: string, formGroup: any) {
     const apiuri = `http://${this.serverIp}/api/retailer-shop/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.put(apiuri, formGroup, {headers});
+    const returnData: Observable<Object> = this.http.put(apiuri, formGroup, { headers });
     return returnData;
   }
-  
+
   postDamageReport(formGroup: any) {
     const apiuri = `http://${this.serverIp}/api/damage-report`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, {headers});
+    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, { headers });
     return returnData;
   }
 
@@ -105,7 +105,7 @@ export class ApiService {
   postNewSupplier(formGroup: any) {
     const apiuri = `http://${this.serverIp}/api/supplier`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, {headers});
+    const returnData: Observable<Object> = this.http.post(apiuri, formGroup, { headers });
     return returnData;
   }
 
@@ -113,12 +113,12 @@ export class ApiService {
   updateSupplierById(id: string, formGroup: any) {
     const apiuri = `http://${this.serverIp}/api/supplier/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.put(apiuri, formGroup, {headers});
+    const returnData: Observable<Object> = this.http.put(apiuri, formGroup, { headers });
     return returnData;
   }
   //-----------------------------------------------
   getShopsFromOrder(search: string) {
-    
+
     const apiuri = `http://${this.serverIp}/api/order/search?search=${search}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
@@ -131,19 +131,19 @@ export class ApiService {
   }
 
   getShops(search: string) {
-    
+
     const apiuri = `http://${this.serverIp}/api/retailer-shop/search?search=${search}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData;
   }
-  
+
   getTiles(search: string, location: string = "", givenId: string = "", brandName: string = "") {
     let searchLocation = "";
-    if(location !== "") {
+    if (location !== "") {
       searchLocation = `&location=${location}&givenId=${givenId}`;
     }
     let searchForBrandName = "";
-    if(brandName !== "") {
+    if (brandName !== "") {
       searchForBrandName = `&brandName=${brandName}`;
     }
     const apiuri = `http://${this.serverIp}/api/tiles/search?search=${search}${searchLocation}${searchForBrandName}`;
@@ -242,7 +242,7 @@ export class ApiService {
     if (search !== "") {
       searchText = `&search=${search}`;
     }
-    if (filter !== "" ) {
+    if (filter !== "") {
       filterBy = `&filterBy=${filter}`;
     }
     const apiuri = `http://${this.serverIp}/api/damage-report/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}${filterBy}`
@@ -255,7 +255,7 @@ export class ApiService {
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData
   }
-  
+
   getDamageStatusById(id: string) {
     const apiuri = `http://${this.serverIp}/api/damage-report/get-status/${id}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
@@ -266,14 +266,14 @@ export class ApiService {
   approveDamageReport(id: string) {
     const apiuri = `http://${this.serverIp}/api/damage-report/approve/${id}`
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.put(apiuri, {headers});
+    const returnData: Observable<Object> = this.http.put(apiuri, { headers });
     return returnData
   }
 
   rejectDamageReport(id: string) {
     const apiuri = `http://${this.serverIp}/api/damage-report/reject/${id}`
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const returnData: Observable<Object> = this.http.put(apiuri, {headers});
+    const returnData: Observable<Object> = this.http.put(apiuri, { headers });
     return returnData
   }
 
@@ -290,11 +290,19 @@ export class ApiService {
     return returnData
   }
 
-
-
-
-
+  getTotalLowStocks() {
+    const apiuri = `http://${this.serverIp}/api/dashboard/total-low-stock`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
 
 }
+
+
+
+
+
+
+
 
 

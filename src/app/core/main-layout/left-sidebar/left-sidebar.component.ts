@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignOut } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-left-sidebar',

@@ -55,6 +55,14 @@ export class DashboardComponent {
     { "label": "Retail Shop", "value": 3, "key": "retailShop" },
     { "label": "Manufacturer", "value": 0, "key": "manufacturer" }
   ]
+
+  lowStocks: {
+    label: string,
+    value: number,
+    key: string,
+  }[] = [
+    { "label": "Low Stock", "value": 0, "key": "lowStock" },
+  ]
   
 
 
@@ -71,6 +79,7 @@ export class DashboardComponent {
   ngOnInit() {
     this.getOverviewMetrics();
     this.getDamageMetrics();
+    this.getTotalLowStocks();
   }
 
   getOverviewMetrics() {
@@ -84,12 +93,28 @@ export class DashboardComponent {
   }
 
   getDamageMetrics() {
-    this.apiService.getDamageMetrics().subscribe((response: any) => {
-      const data = response.data;
-      this.damageMetrics.forEach((metric: any) => {
-        metric.value = data[metric.key]
-      }) 
-    });
+    this.apiService.getDamageMetrics().subscribe(
+      {
+        next: (response: any) => {
+          const data = response.data;
+          this.damageMetrics.forEach((metric: any) => {
+            metric.value = data[metric.key]
+          }) 
+        },
+        error: (e) => {console.error(e)},
+      }
+    );
+  }
+
+  getTotalLowStocks() {
+    this.apiService.getTotalLowStocks().subscribe({
+      next: (response: any) => {
+        this.lowStocks.forEach(lowStock => {
+          lowStock.value = response.data;
+        })
+      },
+      error: (e) => {console.error(e)},
+    })
   }
 
 

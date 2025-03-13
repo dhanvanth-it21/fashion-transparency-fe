@@ -33,25 +33,30 @@
 
   <div class="low-damage-metrics">
     
-    <div class="low-stock-metrics">
+    <!-- <div class="low-stock-metrics">
         <h2>Low Stock Alerts</h2>
         <div class="low-stock-metric">
             <p>Total Low Stock: <span>4</span></p>
             <p>Critical Low Stock: <span>1</span></p>
         </div>
         <button class="view-deatils">View Details</button>
-    </div>
+    </div> -->
 
     
     <div class="damage-metrics">
-        <h2>Damage Alerts (UNDER REVIEW)</h2>
+        <h2>Low Stocks and Damage Alerts (UNDER REVIEW)</h2>
         <div class="damage-metric">
+            <div class="damage-box" *ngFor="let lowStock of lowStocks">
+                <h3>{{lowStock.label}}</h3>
+                <p>{{lowStock.value}}</p>
+            </div>
             <div class="damage-box" *ngFor="let damage of damageMetrics">
-                <h3>{{damage.label}}: <span>{{damage.value}}</span></h3>
+                <h3>{{damage.label}} </h3>
+                <p>{{damage.value}}</p>
             </div>
            
         </div>
-        <button class="view-deatils">View Details</button>
+        <!-- <button class="view-deatils">View Details</button> -->
     </div>
 </div>
 
