@@ -7,9 +7,6 @@
     <div class="list-heading" *ngIf="allowed.isHeadingNeeded">
       <span class="total-elements">{{ paging.total_elements }}</span>
       <input [(ngModel)]="searchText" type="text" placeholder="Search..." />
-      <div class="create-order">
-        <button (click)="openCreateOrderForm()">Create Order</button>
-      </div>
     </div>
     <div class="list-area">
       <app-table

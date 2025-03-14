@@ -41,7 +41,7 @@ export class OrdersComponent {
   private _dataDetailId: string = "";
   private _dataDetail: any = null;
   private _searchText: string = "";
-  private _selectedFilter: string = '';
+  private _selectedFilter: string = 'PICKING';
 
   private updateDataDetailId: string = "";
   private updateDataDetail: any;
@@ -77,7 +77,7 @@ export class OrdersComponent {
 
   @Input()
   set selectedFilter(value: string) {
-    const allowedValues = ['PENDING', 'DISPATCHED'];
+    const allowedValues = ['PICKING', 'DISPATCHED'];
     if (allowedValues.includes(value)) {
       this._selectedFilter = value;
     } else {
@@ -126,7 +126,7 @@ export class OrdersComponent {
 
   formConfig = [
     { key: 'shopName', label: 'Shop Name', type: 'text', required: true },
-    { key: 'status', label: 'Status', type: 'select', required: true, options: ['PENDING', 'PICKING', 'DISPATCHED', 'DELIVERED'] },
+    { key: 'status', label: 'Status', type: 'select', required: true, options: ['PICKING', 'DISPATCHED'] },
   ];
 
   expandDetail = [
@@ -198,13 +198,13 @@ export class OrdersComponent {
 
 
   subscriveToRouteChange() {
-    if (this.router.url.startsWith("/admin/orders/update-order")) {
+    if (this.router.url.startsWith("/employee/orders/update-order")) {
       this.isUpdateOrderOpen = false;
-      this.router.navigate(['/admin/orders'])
+      this.router.navigate(['/employee/orders'])
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (event.url.startsWith("/admin/orders/update-order")) {
+        if (event.url.startsWith("/employee/orders/update-order")) {
           this.isUpdateOrderOpen = true;
         }
         else {
@@ -223,14 +223,14 @@ export class OrdersComponent {
       return;
     }
     this.updateOrderStatusById(event._id, event.status);
-    this.router.navigate(['/admin/orders']);
+    this.router.navigate(['/employee/orders']);
   }
 
 
   updateFormDiscard() {
     this.updateDataDetail = null;
     this.updateDataDetailId = "";
-    this.router.navigate(['/admin/orders']);
+    this.router.navigate(['/employee/orders']);
   }
 
 
@@ -239,8 +239,6 @@ export class OrdersComponent {
   updateOrder(id: string) {
     this.updateDataDetailId = id;
     this.getOrderDetailById(id);
-    // setTimeout(() => {
-    // }, 200)
 
   }
 
@@ -252,13 +250,10 @@ export class OrdersComponent {
     });
   }
 
-  openCreateOrderForm() {
-    this.router.navigate(["/admin/orders/create-order"]);
-  }
 
   //-----------------------------------------------------------------
   getOrdersList(page: number = this.paging.page_number, size: number = this.paging.page_size, sortBy: string = "_id", sortDirection: string = "asc", search: string = this.searchText, selectedFilter: string = this.selectedFilter) {
-    this.apiService.getOrdersList(page, size, sortBy, sortDirection, search, this.selectedFilter).subscribe(
+    this.apiService.getOrdersList(page, size, sortBy, sortDirection, search, selectedFilter).subscribe(
       {
         next: (response: any) => {
           if (response.status === "success" && response.data) {

@@ -8,7 +8,22 @@ const routes: Routes = [
   {
       path: "",
       component: EmployeeComponent,
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard],
+      children: [
+        {
+          path: "orders",
+          loadComponent: () => import("./orders/orders.component")
+            .then(m => m.OrdersComponent),
+          children: [
+            {
+              path: "update-order/:id",
+              loadComponent: () => import("./orders/orders.component")
+                .then(m => m.OrdersComponent),
+            },
+  
+          ]
+        },
+      ]
       
     }
 ];
