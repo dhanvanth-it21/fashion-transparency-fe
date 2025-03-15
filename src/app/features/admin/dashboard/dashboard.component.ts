@@ -20,7 +20,7 @@ export class DashboardComponent {
     allowed: {
       isHeadingNeeded: boolean, 
       allowPagination: {isPaginated: boolean, pageSize: boolean},
-      actionButtons: {expand: boolean, edit: boolean, delete: boolean}
+      actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean}
     } = {
       isHeadingNeeded: false,
       allowPagination: {
@@ -30,7 +30,8 @@ export class DashboardComponent {
       actionButtons:{
         expand: true,
         edit: false,
-        delete: false
+        delete: false,
+        tracker: false
       }
     }
     searchPendingOrdersBy = "PENDING"

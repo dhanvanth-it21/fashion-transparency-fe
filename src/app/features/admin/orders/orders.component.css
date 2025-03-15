@@ -94,4 +94,12 @@
     top: 90px;
     left: calc(230px + 135px);
   }
+
+  .order-tracker-container {
+    position: absolute;
+    width: calc(100% - 200px);
+    height: calc(100% - 100px);
+    top: 90px;
+    left: calc(200px);
+  }
   

@@ -1,6 +1,6 @@
 <div class="order-container" 
 [ngClass]="{
-  'make-blur': isUpdateOrderOpen
+  'make-blur': isUpdateOrderOpen || isOrderTrackerOpen
 }"
 >
   <div class="list-container">
@@ -24,6 +24,7 @@
         (sortChanged)="sortChanged($event)"
         (pageChanged)="pageChanged($event)"
         (updateList)="updateOrder($event)"
+        (orderTracker)="openOrderTracker($event)"
       >
       </app-table>
     </div>
@@ -41,4 +42,12 @@
     (formClose)="updateFormDiscard()"
     ></app-add-form>
   </div>
+</div>
+
+<div class="order-tracker-container"
+*ngIf="isOrderTrackerOpen"
+>
+  <app-order-tracker
+  [dataDetailId]="orderTrackerByOrderId"
+  ></app-order-tracker>
 </div>

@@ -296,6 +296,15 @@ export class ApiService {
     return returnData
   }
 
+  getOrderTrackerById(id: string) {
+    const apiuri = `http://${this.serverIp}/api/order/order-tracker/${id}`;
+    console.log(apiuri);
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
+  
+
 }
 
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faEdit, faExpand, faInfo, faInfoCircle, faLocation } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-table',
@@ -39,10 +39,11 @@ export class TableComponent {
   expandDetail: any[] = [];
 
   @Input()
-  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean} =  {
     expand: true,
     edit: true,
-    delete: false
+    delete: false,
+    tracker: false,
   }
 
   @Output()
@@ -60,6 +61,9 @@ export class TableComponent {
   @Output()
   updateList = new EventEmitter<string>();
 
+  @Output() 
+  orderTracker = new EventEmitter<string>();
+
 
   @Output()
   changedPageSize = new EventEmitter<number>();
@@ -76,6 +80,7 @@ export class TableComponent {
       next: faArrowRight,
       asc: faArrowDown,
       desc: faArrowUp,
+      tracker: faLocation
   
     }
 
@@ -106,6 +111,11 @@ export class TableComponent {
   openUpdateList(id: string) {
     this.updateList.emit(id);
   }
+
+  openOrderTracker(id: string) {
+    this.orderTracker.emit(id);
+  }
+
 
   previousPage() {
     if (!this.paging.is_first) {

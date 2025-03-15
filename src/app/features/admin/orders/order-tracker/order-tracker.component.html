@@ -1,28 +1,36 @@
-<mat-stepper labelPosition="bottom" #stepper>
-    <mat-step>
-      <form>
-        <ng-template matStepLabel>Fill out your name</ng-template>
-        <div>
-          <button mat-button matStepperNext>Next</button>
+<div class="order-tracker-container">
+
+
+  <div class="order-details">
+    <p>Order ID: <span>{{ orderId }}</span></p>
+    <p>Current Status: <span>{{ currentStatus }}</span></p>
+    <p>Created By: <span>{{ createdBy }}</span></p>
+    <p>Created At: <span>{{ createdAt | date: 'medium' }}</span></p>
+    <p>Last Updated At: <span>{{ lastUpdatedAt | date: 'medium' }}</span></p>
+  </div>
+
+
+  <div class="stepper">
+    <ng-container *ngFor="let data of orderTrackerData; let i = index">
+      <div class="step {{data.class}}">
+        <div [ngClass]="{ active: data.completed }" class="circle">
+          {{ i + 1 }}
         </div>
-      </form>
-    </mat-step>
-    <mat-step  optional>
-      <form >
-        <ng-template matStepLabel>Fill out your address</ng-template>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+        <span [ngClass]="{ 'active-label': data.completed }" class="label"
+          >{{ data.status }}
+        </span>
+        <div class="status-details"
+        *ngIf="data.completed"
+          >
+        <p>By : <span>{{data.changedBy}}</span></p>
+        <p>Time : <span>{{data.changedAt | date:"medium"}}</span></p>
         </div>
-      </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
       </div>
-    </mat-step>
-  </mat-stepper>
-  
+      <div
+        *ngIf="i !== orderTrackerData.length - 1"
+        [ngClass]="{ 'active-line': data.completed }"
+        class="line"
+      ></div>
+    </ng-container>
+  </div>
+</div>

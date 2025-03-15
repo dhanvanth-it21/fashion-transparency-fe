@@ -29,6 +29,11 @@ const routes: Routes = [
             loadComponent: () => import("./orders/orders.component")
               .then(m => m.OrdersComponent),
           },
+          {
+            path: "order-tracker/:id",
+            loadComponent: () => import("./orders/orders.component")
+              .then(m => m.OrdersComponent),
+          },
 
         ]
       },

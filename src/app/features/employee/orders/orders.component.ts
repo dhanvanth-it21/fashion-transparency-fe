@@ -22,7 +22,7 @@ export class OrdersComponent {
   allowed: {
     isHeadingNeeded: boolean, 
     allowPagination: {isPaginated: boolean, pageSize: boolean},
-    actionButtons: {expand: boolean, edit: boolean, delete: boolean}
+    actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean}
   } = {
     isHeadingNeeded: true,
     allowPagination: {
@@ -32,7 +32,8 @@ export class OrdersComponent {
     actionButtons:{
       expand: true,
       edit: true,
-      delete: false
+      delete: false,
+      tracker: false
     }
   }
 
@@ -110,10 +111,11 @@ export class OrdersComponent {
     sort_by: "_id",
   }
 
-  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
+  actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean} =  {
     expand: true,
     edit: true,
-    delete: false
+    delete: false,
+    tracker: false
   }
 
 

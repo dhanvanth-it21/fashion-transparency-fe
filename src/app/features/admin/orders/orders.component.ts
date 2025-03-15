@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../../shared/services/api.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { OrderTrackerComponent } from "./order-tracker/order-tracker.component";
 
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [RouterModule, TableComponent, AddFormComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterModule, TableComponent, AddFormComponent, CommonModule, ReactiveFormsModule, FormsModule, OrderTrackerComponent],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
@@ -20,21 +21,22 @@ export class OrdersComponent {
 
   @Input()
   allowed: {
-    isHeadingNeeded: boolean, 
-    allowPagination: {isPaginated: boolean, pageSize: boolean},
-    actionButtons: {expand: boolean, edit: boolean, delete: boolean}
+    isHeadingNeeded: boolean,
+    allowPagination: { isPaginated: boolean, pageSize: boolean },
+    actionButtons: { expand: boolean, edit: boolean, delete: boolean, tracker: boolean }
   } = {
-    isHeadingNeeded: true,
-    allowPagination: {
-      isPaginated: true,
-      pageSize: true,
-    },
-    actionButtons:{
-      expand: true,
-      edit: true,
-      delete: false
+      isHeadingNeeded: true,
+      allowPagination: {
+        isPaginated: true,
+        pageSize: true,
+      },
+      actionButtons: {
+        expand: true,
+        edit: true,
+        delete: false,
+        tracker: true
+      }
     }
-  }
 
 
   //two way data binding variables
@@ -43,8 +45,9 @@ export class OrdersComponent {
   private _searchText: string = "";
   private _selectedFilter: string = '';
 
-  private updateDataDetailId: string = "";
-  private updateDataDetail: any;
+  updateDataDetailId: string = "";
+  orderTrackerByOrderId: string = "";
+  updateDataDetail: any;
   updateDetailFormGroup: FormGroup = new FormGroup([]);
 
   //(start)---------------getters and setters for the two way binding variables------------
@@ -66,7 +69,7 @@ export class OrdersComponent {
     this.onDataDetailChange();
   }
 
-  
+
   get searchText(): string {
     return this._searchText;
   }
@@ -97,6 +100,7 @@ export class OrdersComponent {
 
   searchSubject = new Subject<string>();
   isUpdateOrderOpen: Boolean = false;
+  isOrderTrackerOpen: Boolean = false;
 
   formGroup!: FormGroup;
 
@@ -110,17 +114,19 @@ export class OrdersComponent {
     sort_by: "_id",
   }
 
-  actionButtons: {expand: boolean, edit: boolean, delete: boolean} =  {
-    expand: true,
-    edit: true,
-    delete: false
-  }
+  // actionButtons: { expand: boolean, edit: boolean, delete: boolean, tracker: boolean } = {
+  //   expand: true,
+  //   edit: true,
+  //   delete: false,
+  //   tracker: false,
+  // }
 
 
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
+    { name: "Order Id", class: "", sortBy: "orderId", sortDirection: "asc" },
     { name: "Shop Name", class: "", sortBy: "shopName", sortDirection: "asc" },
-    { name: "Ordered Date", class: "", sortBy: "createdAt", sortDirection: "asc" },
+    // { name: "Ordered Date", class: "", sortBy: "createdAt", sortDirection: "asc" },
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
   ]
 
@@ -137,7 +143,7 @@ export class OrdersComponent {
     { key: 'createdAt', label: 'Created At' },
     { key: 'updatedAt', label: 'Updated At' }
   ];
-  
+
 
 
   formUseUpdate: { heading: string, submit: string, discard: string } =
@@ -202,13 +208,23 @@ export class OrdersComponent {
       this.isUpdateOrderOpen = false;
       this.router.navigate(['/admin/orders'])
     }
+    if (this.router.url.startsWith("/admin/orders/order-tracker")) {
+      this.isOrderTrackerOpen = false;
+      this.router.navigate(['/admin/orders'])
+    }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (event.url.startsWith("/admin/orders/update-order")) {
           this.isUpdateOrderOpen = true;
+          this.isOrderTrackerOpen = false;
+        }
+        else if(event.url.startsWith("/admin/orders/order-tracker")) {
+          this.isOrderTrackerOpen = true;
+          this.isUpdateOrderOpen = false;
         }
         else {
           this.isUpdateOrderOpen = false;
+          this.isOrderTrackerOpen = false;
         }
       }
     })
@@ -218,7 +234,7 @@ export class OrdersComponent {
 
   //need to handle
   updateFormSubmit(event: any) {
-    if(this.updateDataDetail.status == event.status) {
+    if (this.updateDataDetail.status == event.status) {
       console.log("No changes made"); //need to add sweet alert
       return;
     }
@@ -239,15 +255,17 @@ export class OrdersComponent {
   updateOrder(id: string) {
     this.updateDataDetailId = id;
     this.getOrderDetailById(id);
-    // setTimeout(() => {
-    // }, 200)
+  }
 
+  openOrderTracker(id: string) {
+    this.orderTrackerByOrderId = id;
+    this.router.navigate(["order-tracker", id], { relativeTo: this.activatedRoute });
   }
 
   initailzeUpdateFormGroup() {
     this.updateDetailFormGroup = this.formBuilder.group({
       _id: this.updateDataDetailId,
-      shopName: [{value: this.updateDataDetail.shopName, disabled: true}, Validators.required],
+      shopName: [{ value: this.updateDataDetail.shopName, disabled: true }, Validators.required],
       status: [this.updateDataDetail.status, [Validators.required, Validators.pattern('^(PENDING|PICKING|DISPATCHED|DELIVERED)$')]],
     });
   }

@@ -70,10 +70,11 @@ export class SuppliersComponent {
     sort_by: "_id",
   }
 
-  actionButtons: { expand: boolean, edit: boolean, delete: boolean } = {
+  actionButtons: { expand: boolean, edit: boolean, delete: boolean , tracker: boolean} = {
     expand: true,
     edit: true,
-    delete: false
+    delete: false,
+    tracker: false
   }
 
   tableHeader: any[] = [

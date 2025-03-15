@@ -51,7 +51,7 @@ export class AddFormComponent {
         title: `Are you sure to ${this.formUse.submit} this`,
         showCancelButton: true,
         confirmButtonText: "OK",
-      }).then((result) => {
+      }).then((result: any) => {
         if (result.isConfirmed) {
           this.formSubmit.emit(this.formGroup.value);
         }
@@ -72,7 +72,7 @@ export class AddFormComponent {
       title: "Cancelling the process",
       showCancelButton: true,
       confirmButtonText: "OK",
-    }).then((result) => {
+    }).then((result: any) => {
       if (result.isConfirmed) {
         this.formClose.emit();
       }
