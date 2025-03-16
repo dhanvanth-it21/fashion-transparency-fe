@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faMousePointer, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { SidebarService } from '../../core/services/sidebar.service';
 
 
@@ -22,6 +22,7 @@ export class EmployeeComponent {
         supplier: faTruck,
         purchase: faTruck,
         damage: faHouseDamage,
+        usage: faMousePointer,
       };
     
     sidebarLinks = [
@@ -29,7 +30,8 @@ export class EmployeeComponent {
       { path: '/employee/orders', icon: this.sidebarIcons.orders, label: 'Orders' },
       { path: '/employee/purchases', icon: this.sidebarIcons.purchase, label: 'Purchase' },
       { path: '/employee/inventory', icon: this.sidebarIcons.inventory, label: 'Inventory' },
-      { path: '/employee/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' }
+      { path: '/employee/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' },
+      { path: '/employee/api-usage', icon: this.sidebarIcons.usage, label: 'Usage' }
     ];
 
     constructor(

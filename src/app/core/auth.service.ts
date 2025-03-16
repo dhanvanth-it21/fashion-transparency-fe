@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +25,18 @@ export class AuthService {
     return localStorage.getItem('token') !== null;
   }
 
-  getRole(): string[] | null {
+  private roleSubject = new BehaviorSubject<string[]>([]);
+  roles$  = this.roleSubject.asObservable();
+
+  setRoles(role: string[]) {
+    this.roleSubject.next(role);
+  }
+
+
+  getRoles() {
     const loggedIn = localStorage.getItem('user');
     const user = loggedIn ? JSON.parse(loggedIn) : null;
-    return user ? user.roles : null;
+    this.setRoles(user.roles);
   }
 
   getUserName() {

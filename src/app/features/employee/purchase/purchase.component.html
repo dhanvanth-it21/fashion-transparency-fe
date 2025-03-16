@@ -1,0 +1,43 @@
+<div class="purchase-container" 
+[ngClass]="{
+  'make-blur': isUpdatePurchaseOpen
+}"
+>
+  <div class="list-container">
+    <div class="list-heading">
+      <span class="total-elements">{{ paging.total_elements }}</span>
+      <input [(ngModel)]="searchText" type="text" placeholder="Search..." />
+      <div class="create-purchase">
+        <button (click)="openCreatePurchaseForm()">Create Purchase</button>
+      </div>
+    </div>
+    <div class="list-area">
+      <app-table
+        [paging]="paging"
+        [actionButtons]="actionButtons"
+        [tabelHeader]="tableHeader"
+        [displayData]="displayData"
+        [(dataDetail)]="dataDetail"
+        [(dataDetailId)]="dataDetailId"
+        [expandDetail]="expandDetail"
+        (sortChanged)="sortChanged($event)"
+        (pageChanged)="pageChanged($event)"
+        (updateList)="updatePurchase($event)"
+      >
+      </app-table>
+    </div>
+  </div>
+</div>
+
+
+<div class="update-purchase-container" *ngIf="isUpdatePurchaseOpen">
+  <div class="pop-up">
+    <app-add-form
+    [formGroup]="updateDetailFormGroup"
+    [formConfig]="formConfig"
+    [formUse]="formUseUpdate"
+    (formSubmit)="updateFormSubmit($event)"
+    (formClose)="updateFormDiscard()"
+    ></app-add-form>
+  </div>
+</div>

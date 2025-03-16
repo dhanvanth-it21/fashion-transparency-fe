@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBoxes, faClipboardList, faHouseDamage, faLongArrowAltUp, faMousePointer, faProcedures, faShop, faSignOut, faTachometerAlt, faTruck, faUsers, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { SidebarService } from '../../core/services/sidebar.service';
 
 
@@ -23,6 +23,7 @@ export class AdminComponent {
       supplier: faTruck,
       purchase: faTruck,
       damage: faHouseDamage,
+      usage: faMousePointer,
     };
   
   sidebarLinks = [
@@ -32,7 +33,8 @@ export class AdminComponent {
     { path: '/admin/inventory', icon: this.sidebarIcons.inventory, label: 'Inventory' },
     { path: '/admin/retail-shop', icon: this.sidebarIcons.shop, label: 'Retail Shop' },
     { path: '/admin/supplier', icon: this.sidebarIcons.supplier, label: 'Supplier' },
-    { path: '/admin/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' }
+    { path: '/admin/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' },
+    { path: '/admin/api-usage', icon: this.sidebarIcons.usage, label: 'Usage' }
   ];
 
   constructor(

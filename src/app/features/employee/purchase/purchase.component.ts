@@ -73,7 +73,7 @@ export class PurchasesComponent {
 
   actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean} =  {
     expand: true,
-    edit: true,
+    edit: false,
     delete: false,
     tracker: false
   }
@@ -160,13 +160,13 @@ export class PurchasesComponent {
 
 
   subscriveToRouteChange() {
-    if (this.router.url.startsWith("/admin/purchases/update-purchase")) {
+    if (this.router.url.startsWith("/employee/purchases/update-purchase")) {
       this.isUpdatePurchaseOpen = false;
-      this.router.navigate(['/admin/purchases'])
+      this.router.navigate(['/employee/purchases'])
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (event.url.startsWith("/admin/purchases/update-purchase")) {
+        if (event.url.startsWith("/employee/purchases/update-purchase")) {
           this.isUpdatePurchaseOpen = true;
         }
         else {
@@ -188,14 +188,14 @@ export class PurchasesComponent {
     if(this.updateDataDetail.status !== "VERIFIED" && event.status !== undefined) {
       this.updatePurchaseStatusById(event._id, event.status);
     }
-    this.router.navigate(['/admin/purchases']);
+    this.router.navigate(['/employee/purchases']);
   }
 
 
   updateFormDiscard() {
     this.updateDataDetail = null;
     this.updateDataDetailId = "";
-    this.router.navigate(['/admin/purchases']);
+    this.router.navigate(['/employee/purchases']);
   }
 
 
@@ -216,7 +216,7 @@ export class PurchasesComponent {
   }
 
   openCreatePurchaseForm() {
-    this.router.navigate(["/admin/purchases/add-purchase"]);
+    this.router.navigate(["/employee/purchases/add-purchase"]);
   }
 
   //-----------------------------------------------------------------

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AddFormComponent } from '../../../shared/components/add-form/add-form.component';
 import { TableComponent } from '../../../shared/components/table/table.component';
@@ -15,6 +15,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
   styleUrl: './damages.component.css'
 })
 export class DamagesComponent {
+
+  moduleOf = "admin";
 
   // Two-way data binding variables
   private _dataDetailId: string = "";
@@ -98,7 +100,7 @@ export class DamagesComponent {
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
     { name: "Tile SKU", class: "", sortBy: "skuCode", sortDirection: "asc" },
-    { name: "Reported By", class: "", sortBy: "reportedByUserName", sortDirection: "asc" },
+    { name: "Reported By", class: "", sortBy: "reportedBy", sortDirection: "asc" },
     { name: "Damage Location", class: "", sortBy: "damageLocation", sortDirection: "asc" },
     { name: "Quantity", class: "", sortBy: "qty", sortDirection: "asc" },
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
@@ -106,7 +108,7 @@ export class DamagesComponent {
 
   formConfig = [
     { key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },
-    { key: 'reportedByUserId', label: 'Reported By', type: 'text', required: true },
+    { key: 'reportedBy', label: 'Reported By', type: 'text', required: true },
     { key: 'damageLocation', label: 'Damage Location', type: 'select', options: ['FROM_MANUFACTURER', 'AT_WAREHOUSE', 'TO_RETAIL_SHOP'], required: true },
     { key: 'qty', label: 'Quantity', type: 'number', required: true },
     { key: 'remark', label: 'Remark', type: 'text', required: true }
@@ -120,12 +122,12 @@ export class DamagesComponent {
 
   expandDetail = [
     { key: 'skuCode', label: 'Tile SKU' },
-    { key: 'reportedByUserName', label: 'Reported By' },
+    { key: 'reportedBy', label: 'Reported By' },
     { key: 'damageLocation', label: 'Damage Location' },
     { key: 'qty', label: 'Quantity' },
     { key: 'status', label: 'Status' },
     { key: 'remark', label: 'Remark' },
-    { key: 'approvedByUserName', label: 'Approved by User Name' },
+    { key: 'approvedBy', label: 'Approved by' },
     
   ]
 
@@ -153,6 +155,13 @@ export class DamagesComponent {
   ) { }
 
   ngOnInit() {
+    if (this.router.url.includes('employee')) {
+      this.moduleOf = 'employee';
+      this.actionButtons.edit = false;
+    }
+    else if (this.router.url.includes('admin')) {
+      this.moduleOf = 'admin';
+    }
     this.getDamageReports();
     this.searchSubject.pipe(
       debounceTime(500),
@@ -193,22 +202,22 @@ export class DamagesComponent {
   }
 
   subscribeToRouteChange() {
-    if (this.router.url === "/admin/damage-reports/create-damage-report") {
+    if (this.router.url === `/${this.moduleOf}/damage-reports/create-damage-report`) {
       this.isAddDamageOpen = true;
       this.isUpdateDamageOpen = false;
     }
-    else if (this.router.url.startsWith("/admin/damage-reports/update-damage-report")) {
+    else if (this.router.url.startsWith(`/${this.moduleOf}/damage-reports/update-damage-report`)) {
       this.isUpdateDamageOpen = false;
       this.isAddDamageOpen = false;
-      this.router.navigate(['/admin/damage-reports'])
+      this.router.navigate([`/${this.moduleOf}/damage-reports`])
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (event.url === "/admin/damage-reports/create-damage-report") {
+        if (event.url === `/${this.moduleOf}/damage-reports/create-damage-report`) {
           this.isAddDamageOpen = true;
           this.isUpdateDamageOpen = false;
         }
-        else if (this.router.url.startsWith("/admin/damage-reports/update-damage-report")) {
+        else if (this.router.url.startsWith(`/${this.moduleOf}/damage-reports/update-damage-report`)) {
           this.isAddDamageOpen = false;
           this.isUpdateDamageOpen = true;
         }
@@ -224,7 +233,7 @@ export class DamagesComponent {
 
   updateFormSubmit(value: any) {
     if (this.updateDetailFormGroup.get('status')?.value !== "UNDER_REVIEW") {
-      this.router.navigate(['admin/damage-reports']);
+      this.router.navigate([`${this.moduleOf}/damage-reports`]);
     }
     if (this.updateDetailFormGroup.valid) {
       if (this.updateDetailFormGroup.get('status')?.value === "APPROVED") {
@@ -254,7 +263,7 @@ export class DamagesComponent {
   updateFormDiscard() {
     this.updateDataDetail = null;
     this.updateDataDetailId = "";
-    this.router.navigate(['/admin/damage-reports']);
+    this.router.navigate([`/${this.moduleOf}/damage-reports`]);
   }
 
   updateDamage(id: any) {

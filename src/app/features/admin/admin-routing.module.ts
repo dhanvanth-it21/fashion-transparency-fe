@@ -137,6 +137,11 @@ const routes: Routes = [
         loadComponent: () => import("./damages/create-damage-report/create-damage-report.component")
           .then(m => m.CreateDamageReportComponent),
       },
+      {
+        path: "api-usage",
+        loadComponent: () => import("../../shared/api-usage/api-usage.component")
+        .then(m =>m.ApiUsageComponent)
+      },
     ]
   }
 ];

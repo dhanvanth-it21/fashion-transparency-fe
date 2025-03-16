@@ -29,6 +29,8 @@ import { AddFormComponent } from "../../../shared/components/add-form/add-form.c
 })
 export class InventoryComponent {
 
+  moduleOf = "admin";
+
 
   private _lowStockFilter: boolean = false;
 
@@ -104,25 +106,32 @@ export class InventoryComponent {
 
   ngOnInit() {
 
+    if (this.router.url.includes('employee')) {
+      this.moduleOf = 'employee';
+    }
+    else if (this.router.url.includes('admin')) {
+      this.moduleOf = 'admin';
+    }
+
 
     this.getTilesList(this.paging.page_number, this.paging.page_size);
 
 
-    if (this.router.url === "/admin/inventory/add-tile") {
+    if (this.router.url === `/${this.moduleOf}/inventory/add-tile`) {
       this.isAddTileComponentOpen = false;
-      this.router.navigate(['/admin/inventory']);
+      this.router.navigate([`/${this.moduleOf}/inventory`]);
     }
-    else if (this.router.url.startsWith("/admin/inventory/update-tile")) {
+    else if (this.router.url.startsWith( `/${this.moduleOf}/inventory/update-tile `)) {
       this.isUpdateTileComponentOpen = true;
     }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (event.url === "/admin/inventory/add-tile") {
+        if (event.url === `/${this.moduleOf}/inventory/add-tile`) {
           this.initializeFormGroup()
           this.isAddTileComponentOpen = true;
           this.isUpdateTileComponentOpen = false;
         }
-        else if (event.url.startsWith("/admin/inventory/update-tile")) {
+        else if (event.url.startsWith(`/${this.moduleOf}/inventory/update-tile`)) {
           this.isUpdateTileComponentOpen = true;
           this.isAddTileComponentOpen = false;
         }
@@ -157,7 +166,7 @@ export class InventoryComponent {
   }
 
   closeAddTileComponent() {
-    this.router.navigate(["/admin/inventory"]);
+    this.router.navigate([`/${this.moduleOf}/inventory`]);
   }
 
 
@@ -167,7 +176,7 @@ export class InventoryComponent {
   }
 
   closeUpdateTileComponent() {
-    this.router.navigate(["/admin/inventory"]);
+    this.router.navigate([`/${this.moduleOf}/inventory`]);
   }
 
   searchBy() {
@@ -332,12 +341,12 @@ export class InventoryComponent {
 
   handleTileSubmit(formData: any) {
     if (this.newAddTileFormBuilder.valid) {
-      this.router.navigate(['/admin/inventory'])
+      this.router.navigate([`/${this.moduleOf}/inventory`])
     }
   }
 
   closeDialog() {
-    this.router.navigate(['/admin/inventory'])
+    this.router.navigate([`/${this.moduleOf}/inventory`])
   }
 
 }

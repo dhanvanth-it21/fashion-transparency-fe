@@ -227,7 +227,7 @@ tbody tr:hover .tile-action-container fa-icon {
 }
 
 .make-center {
-  text-align: center;
+  padding-left: 20px;
 }
 
 

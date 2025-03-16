@@ -303,6 +303,12 @@ export class ApiService {
     return returnData
   }
 
+  getEmployeeOverviewMetrics() {
+    const apiuri = `http://${this.serverIp}/api/dashboard/employee-overview-metrics`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
   
 
 }

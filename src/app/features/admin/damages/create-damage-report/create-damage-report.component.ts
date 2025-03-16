@@ -15,6 +15,8 @@ import { TableComponent } from '../../../../shared/components/table/table.compon
 })
 export class CreateDamageReportComponent {
 
+  moduleOf = "admin";
+
 
  searchSkucode: boolean = false;
 
@@ -80,6 +82,15 @@ export class CreateDamageReportComponent {
     private apiService: ApiService,
     private router: Router) {
     this.initializeForm();
+  }
+
+  ngOnInit() {
+  if (this.router.url.includes('employee')) {
+    this.moduleOf = 'employee';
+  }
+  else if (this.router.url.includes('admin')) {
+    this.moduleOf = 'admin';
+  }
   }
 
   initializeForm() {
@@ -204,7 +215,7 @@ export class CreateDamageReportComponent {
     this.searchTextOfManufacturer = "";
     this.updateFormFields('FROM_MANUFACTURER');
     this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
-    this.formConfig.push({ key: 'soldQty', label: 'Sold Qty', type: 'number', required: true });
+    this.formConfig.push({ key: 'soldQty', label: 'Bought Qty', type: 'number', required: true });
     this.searchSkucode = true;
   }
 
@@ -216,11 +227,11 @@ export class CreateDamageReportComponent {
       next: (response: any) => console.log(response.data), //need to add sweet alert
       error: (e) => console.error(e),
     });
-    this.router.navigate(['/admin/damage-reports']);
+    this.router.navigate([`/${this.moduleOf}/damage-reports`]);
   }
 
   closeForm() {
-    this.router.navigate(['/admin/damage-reports']);
+    this.router.navigate([`/${this.moduleOf}/damage-reports`]);
   }
 
 

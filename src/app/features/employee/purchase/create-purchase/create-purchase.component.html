@@ -1,0 +1,83 @@
+<div class="create-purchase-container">
+  <div class="left-side">
+    <div class="search-container">
+      <input
+        type="text"
+        id="search"
+        placeholder="Search Supplier Name"
+        class="search"
+        [(ngModel)]="searchTextOfBrandName"
+      />
+      <div *ngIf="searchResultsOfBrandName.length > 0" class="search-results">
+        <ul>
+          <li
+            *ngFor="let result of searchResultsOfBrandName"
+            (click)="selectSupplier(result)"
+          >
+            {{ result.brandName }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <app-add-form
+      [formConfig]="formConfig"
+      [formUse]="formUsePurchase"
+      [formGroup]="createPurchaseForm"
+      (formSubmit)="submitPurchase()"
+      (formClose)="closeForm()"
+    >
+    </app-add-form>
+  </div>
+  <div class="right-side" >
+    <div class="tile-select-container" [ngClass]="{
+      'make-blur': isUpdateSupplierOpen
+    }">
+      <div class="search-container"
+      *ngIf="searchSkuCode">
+        <input
+          type="text"
+          id="search"
+          placeholder="Search Tile Sku Code"
+          class="search"
+          [(ngModel)]="searchTextOfTile"
+        />
+        <div *ngIf="searchResultsOfTile.length > 0" class="search-results">
+          <ul>
+            <li
+              *ngFor="let result of searchResultsOfTile"
+              (click)="selectTile(result)"
+            >
+              {{ result.skuCode }}, Qty : {{ result.qty }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table">
+        <app-table
+          [tabelHeader]="tableHeader"
+          [actionButtons]="actionButtons"
+          [paging]="paging"
+          [displayData]="displayData"
+          [allowPagination]="allowPagination"
+          (updateList)="updateTileQty($event)"
+          
+        >
+        </app-table>
+      </div>
+    </div>
+
+    <div class="update-purchase-container" *ngIf="isUpdateSupplierOpen">
+      <div class="pop-up">
+        <app-add-form
+          [formGroup]="updateDetailFormGroup"
+          [formConfig]="formConfigOfUpdate"
+          [formUse]="formUseUpdate"
+          (formSubmit)="submitUpdate($event)"
+          (formClose)="closeUpdateForm()"
+        ></app-add-form>
+      </div>
+    </div>
+  </div>
+</div>

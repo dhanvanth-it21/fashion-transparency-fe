@@ -19,7 +19,7 @@
         type="text"
         placeholder="Search..."
       />
-      <div class="add-new-time-btn">
+      <div class="add-new-time-btn" *ngIf="moduleOf === 'admin'">
         <button (click)="openAddTileComponent()">Add Tile</button>
       </div>
     </div>
@@ -78,10 +78,10 @@
                   <button (click)="showDetailsOfTileId(tile._id)">
                     <fa-icon [icon]="iconsUsed.details"></fa-icon>
                   </button>
-                  <button (click)="openUpdateTileComponent(tile._id)">
+                  <button (click)="openUpdateTileComponent(tile._id)" *ngIf="moduleOf === 'admin'">
                     <fa-icon [icon]="iconsUsed.update"></fa-icon>
                   </button>
-                  <button>
+                  <button *ngIf="moduleOf === 'admin'">
                     <fa-icon [icon]="iconsUsed.archive"></fa-icon>
                   </button>
                 </div>
