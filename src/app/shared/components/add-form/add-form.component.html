@@ -2,7 +2,7 @@
   <h2>{{ formUse.heading }}</h2>
   <form [formGroup]="formGroup">
     <div *ngFor="let field of formConfig" class="form-group">
-      <label [for]="field.key">{{ field.label }}</label>
+      <label [for]="field.key">{{ field.label }} <span *ngIf="field.required" class="text-danger">*</span></label>
 
       <input
         *ngIf="field.type === 'text' || field.type === 'number' || field.type === 'password'"
