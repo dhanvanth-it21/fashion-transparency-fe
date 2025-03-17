@@ -1,15 +1,13 @@
 <div class="create-purchase-container">
   <div class="left-side">
     <div class="search-container">
-      <label> Supplier Name
-        <input
-        type="text"
-        id="search"
-        placeholder="Search Supplier Name"
-        class="search"
-        [(ngModel)]="searchTextOfBrandName"
-      />
-      </label>
+      <input
+      type="text"
+      id="search"
+      placeholder="Search Supplier Name"
+      class="search"
+      [(ngModel)]="searchTextOfBrandName"
+    />
       <div *ngIf="searchResultsOfBrandName.length > 0" class="search-results">
         <ul>
           <li

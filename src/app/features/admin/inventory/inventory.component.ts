@@ -341,6 +341,7 @@ export class InventoryComponent {
 
   handleTileSubmit(formData: any) {
     if (this.newAddTileFormBuilder.valid) {
+      console.log(formData);
       this.router.navigate([`/${this.moduleOf}/inventory`])
     }
   }

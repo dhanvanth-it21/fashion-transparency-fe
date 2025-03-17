@@ -243,7 +243,8 @@ export class DamagesComponent {
         this.apiService.approveDamageReport(this.updateDataDetailId).subscribe(
           {
             next: (response: any) => {
-              console.log(response.data);
+              console.log(response.data); // need to add sweet alert
+              this.getDamageReports();
             },
             error: (e) => console.error(e)
           }
@@ -254,6 +255,7 @@ export class DamagesComponent {
           {
             next: (response: any) => {
               console.log(response.data); // need to add sweet alert
+              this.getDamageReports();
             },
             error: (e) => console.error(e)
           }
