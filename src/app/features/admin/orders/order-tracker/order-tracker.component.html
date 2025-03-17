@@ -1,6 +1,11 @@
 <div class="order-tracker-container">
 
 
+  <button
+  (click)=closeOrderTracker();
+  >
+    <fa-icon [icon]="close"></fa-icon>
+  </button>
   <div class="order-details">
     <p>Order ID: <span>{{ orderId }}</span></p>
     <p>Current Status: <span>{{ currentStatus }}</span></p>

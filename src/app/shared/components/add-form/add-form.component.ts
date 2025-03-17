@@ -33,6 +33,14 @@ export class AddFormComponent {
     submit: "Submit",
     discard: "Discard"
   };
+
+  @Input()
+  swalAlert: {submitForm: boolean, closeForm: boolean} = {
+    submitForm: true,
+    closeForm: true
+  }
+
+
   @Output()
   formSubmit = new EventEmitter<any>();
   @Output()
@@ -46,16 +54,21 @@ export class AddFormComponent {
   submitForm() {
     this.submitTriggered = true;
     if (this.formGroup.valid) {
-      Swal.fire({
-        icon: "info",
-        title: `Are you sure to ${this.formUse.submit} this`,
-        showCancelButton: true,
-        confirmButtonText: "OK",
-      }).then((result: any) => {
-        if (result.isConfirmed) {
-          this.formSubmit.emit(this.formGroup.value);
-        }
-      })
+      if(this.swalAlert.submitForm) {
+        Swal.fire({
+          icon: "info",
+          title: `Are you sure to ${this.formUse.submit} this`,
+          showCancelButton: true,
+          confirmButtonText: "OK",
+        }).then((result: any) => {
+          if (result.isConfirmed) {
+            this.formSubmit.emit(this.formGroup.value);
+          }
+        })
+      }
+      else {
+        this.formSubmit.emit(this.formGroup.value);
+      }
     }
     else {
       Swal.fire({
@@ -67,16 +80,21 @@ export class AddFormComponent {
   }
 
   closeForm() {
-    Swal.fire({
-      icon: "info",
-      title: "Cancelling the process",
-      showCancelButton: true,
-      confirmButtonText: "OK",
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        this.formClose.emit();
-      }
-    })
+    if(this.swalAlert.closeForm) {
+      Swal.fire({
+        icon: "info",
+        title: "Cancelling the process",
+        showCancelButton: true,
+        confirmButtonText: "OK",
+      }).then((result: any) => {
+        if (result.isConfirmed) {
+          this.formClose.emit();
+        }
+      })
+    }
+    else {
+      this.formClose.emit();
+    } 
   }
 
   validationMessages = [

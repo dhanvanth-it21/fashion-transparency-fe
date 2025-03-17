@@ -23,6 +23,8 @@ export class CreateOrderComponent {
   searchResultsOfTile: any[] = [];
 
 
+
+
   isUpdateSupplierOpen: Boolean = false;
   updateDetailFormGroup!: FormGroup;
   // setQtyFormGroup!: FormGroup;
@@ -56,6 +58,11 @@ export class CreateOrderComponent {
   searchSubjectOfShopName = new Subject<string>();
   searchSubjectOfTile = new Subject<string>();
 
+
+  swalAlert: {submitForm: boolean, closeForm: boolean} = {
+    submitForm: false,
+    closeForm: false
+  }
 
   formUseUpdate: { heading: string, submit: string, discard: string } =
     {
@@ -236,7 +243,6 @@ export class CreateOrderComponent {
     const item = this.itemList.controls.find(item =>
       item.value.tileId === id || item.value._id === id
     ) as FormGroup;
-    console.log(item);
 
     this.updateDetailFormGroup = item;
     this.isUpdateSupplierOpen = true;

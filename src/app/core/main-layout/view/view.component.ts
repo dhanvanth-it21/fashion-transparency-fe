@@ -30,6 +30,7 @@ export class ViewComponent {
   ngOnInit() {
     this.sidebarService.sidebarLinks$.subscribe(links => {
       this.sidebarLinks = links;
+      this.cdr.detectChanges(); 
     });
 
     this.authService.roles$.subscribe(roles => {

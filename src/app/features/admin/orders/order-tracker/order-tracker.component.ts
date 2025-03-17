@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,10 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../core/auth.service';
 import { ApiService } from '../../../../shared/services/api.service';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @Component({
   selector: 'app-order-tracker',
@@ -16,15 +20,23 @@ import { ApiService } from '../../../../shared/services/api.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    FontAwesomeModule,
   ],
   templateUrl: './order-tracker.component.html',
   styleUrl: './order-tracker.component.css'
 })
 export class OrderTrackerComponent {
 
+
+  close: IconDefinition = faClose;
+
+
   @Input()
   dataDetailId!: string;
+
+  @Output()
+  closeTracker = new EventEmitter<void>()
 
   steps: string[] = ['PENDING', 'PICKING', 'DISPATCHED', 'DELIVERED'];
   currentStepIndex: number = 0;
@@ -79,7 +91,7 @@ export class OrderTrackerComponent {
 
 
 
-  fetchOrderData(): void {
+  fetchOrderData() {
     this.apiService.getOrderTrackerById(this.dataDetailId).subscribe({
       next: (response: any) => {
         this.orderData = response.data;
@@ -92,7 +104,7 @@ export class OrderTrackerComponent {
     });
   }
 
-  updateCurrentStepIndex(): void {
+  updateCurrentStepIndex() {
     const currentStatus = this.orderData.currentStatus;
     this.currentStepIndex = this.steps.indexOf(currentStatus) + 1;
   }
@@ -118,4 +130,9 @@ export class OrderTrackerComponent {
       }
     });
   }
+
+  closeOrderTracker() {
+    this.closeTracker.emit();
+  }
+
 }

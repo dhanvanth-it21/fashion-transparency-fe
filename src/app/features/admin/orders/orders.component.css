@@ -8,7 +8,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
 }
 
 .create-order button {
@@ -102,4 +101,3 @@
     top: 90px;
     left: calc(200px);
   }
-  

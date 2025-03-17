@@ -16,6 +16,11 @@ export class LoginComponent {
 
   createLoginForm!: FormGroup;
 
+  swalAlert: {submitForm: boolean, closeForm: boolean} = {
+    submitForm: false,
+    closeForm: false
+  }
+
 
   constructor(
     private authService: AuthService,

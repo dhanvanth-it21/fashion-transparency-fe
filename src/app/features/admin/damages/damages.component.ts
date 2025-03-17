@@ -128,6 +128,9 @@ export class DamagesComponent {
     { key: 'status', label: 'Status' },
     { key: 'remark', label: 'Remark' },
     { key: 'approvedBy', label: 'Approved by' },
+    { key: 'purchaseId', label: 'Purchase Id' },
+    { key: 'orderId', label: 'Order Id' },
+    
     
   ]
 

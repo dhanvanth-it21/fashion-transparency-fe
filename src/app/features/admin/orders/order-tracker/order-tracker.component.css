@@ -11,6 +11,7 @@
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 6px;
+  position: relative;
 }
 
 .order-details {
@@ -127,4 +128,30 @@
 
 .delivered {
   background-color: #a0ffc8;
+}
+
+.order-tracker-container button {
+  padding: 2px 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  color: #000;
+  font-size: 1rem;
+  font-weight: bold;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  margin-bottom: 5px;
+
+}
+
+.order-tracker-container button:hover {
+  background-color: #e4e4e4;
+  border-radius: 6px;
+}
+
+.order-tracker-container button:active {
+  background-color: #e4e4e4;
+  border-radius: 6px;
+  scale: 0.9;
 }

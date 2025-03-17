@@ -58,6 +58,11 @@ export class CreatePurchaseComponent {
   searchSubjectOfBrandName = new Subject<string>();
   searchSubjectOfTile = new Subject<string>();
 
+  swalAlert: {submitForm: boolean, closeForm: boolean} = {
+    submitForm: false,
+    closeForm: false
+  }
+
 
   actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean} =  {
     expand: true,

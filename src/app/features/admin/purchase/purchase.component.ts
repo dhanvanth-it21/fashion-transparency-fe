@@ -81,7 +81,7 @@ export class PurchasesComponent {
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
     { name: "Brand Name", class: "", sortBy: "brandName", sortDirection: "asc" },
-    { name: "Purchased Date", class: "", sortBy: "createdAt", sortDirection: "asc" },
+    { name: "Purchase Id", class: "", sortBy: "purchaseId", sortDirection: "asc" },
     { name: "Recorded By", class: "", sortBy: "recordedBy", sortDirection: "asc" },
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
   ]

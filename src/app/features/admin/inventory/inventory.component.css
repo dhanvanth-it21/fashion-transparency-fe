@@ -294,7 +294,8 @@ tbody tr:hover .tile-action-container fa-icon {
 }
 
 .filtering input {
-  width: 15px;
-  height: 15px;
+  width: 1.1rem;
+  height: 1.1rem;
   cursor: pointer;
+
 }

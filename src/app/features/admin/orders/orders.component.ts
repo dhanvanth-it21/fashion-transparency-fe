@@ -7,6 +7,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ApiService } from '../../../shared/services/api.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { OrderTrackerComponent } from "./order-tracker/order-tracker.component";
+import { icon, IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faBars, faClose } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -38,6 +42,9 @@ export class OrdersComponent {
       }
     }
 
+
+  public faClose: IconDefinition = faClose;
+      
 
   //two way data binding variables
   private _dataDetailId: string = "";
@@ -114,19 +121,12 @@ export class OrdersComponent {
     sort_by: "_id",
   }
 
-  // actionButtons: { expand: boolean, edit: boolean, delete: boolean, tracker: boolean } = {
-  //   expand: true,
-  //   edit: true,
-  //   delete: false,
-  //   tracker: false,
-  // }
 
 
   tableHeader: any[] = [
     { name: "S No.", class: "", sortBy: "_id", sortDirection: "asc" },
-    { name: "Order Id", class: "", sortBy: "orderId", sortDirection: "asc" },
     { name: "Shop Name", class: "", sortBy: "shopName", sortDirection: "asc" },
-    // { name: "Ordered Date", class: "", sortBy: "createdAt", sortDirection: "asc" },
+    { name: "Order Id", class: "", sortBy: "orderId", sortDirection: "asc" },
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
   ]
 
@@ -231,11 +231,16 @@ export class OrdersComponent {
   }
 
 
-
-  //need to handle
   updateFormSubmit(event: any) {
     if (this.updateDataDetail.status == event.status) {
-      console.log("No changes made"); //need to add sweet alert
+     Swal.fire(
+     {
+      icon: "info",
+      title: "Tring to update the same state of order",
+      text: "No changes made",
+      timer: 2000,
+     }
+     )
       return;
     }
     this.updateOrderStatusById(event._id, event.status);
@@ -272,6 +277,12 @@ export class OrdersComponent {
 
   openCreateOrderForm() {
     this.router.navigate(["/admin/orders/create-order"]);
+  }
+
+  closeOrderTracker() {
+    this.orderTrackerByOrderId = "";
+    this.isOrderTrackerOpen = false;
+    this.router.navigate(['/admin/orders']);
   }
 
   //-----------------------------------------------------------------

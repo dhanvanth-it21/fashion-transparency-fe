@@ -1,13 +1,15 @@
 <div class="create-purchase-container">
   <div class="left-side">
     <div class="search-container">
-      <input
+      <label> Supplier Name
+        <input
         type="text"
         id="search"
         placeholder="Search Supplier Name"
         class="search"
         [(ngModel)]="searchTextOfBrandName"
       />
+      </label>
       <div *ngIf="searchResultsOfBrandName.length > 0" class="search-results">
         <ul>
           <li
@@ -74,6 +76,7 @@
           [formGroup]="updateDetailFormGroup"
           [formConfig]="formConfigOfUpdate"
           [formUse]="formUseUpdate"
+          [swalAlert]="swalAlert"
           (formSubmit)="submitUpdate($event)"
           (formClose)="closeUpdateForm()"
         ></app-add-form>
