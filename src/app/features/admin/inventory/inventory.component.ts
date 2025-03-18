@@ -342,12 +342,21 @@ export class InventoryComponent {
   handleTileSubmit(formData: any) {
     if (this.newAddTileFormBuilder.valid) {
       console.log(formData);
-      this.router.navigate([`/${this.moduleOf}/inventory`])
+      this.apiService.addTile(formData).subscribe({
+        next: (response: any) => {
+          if (response.status === "success") {
+            this.router.navigate([`/${this.moduleOf}/inventory`]);
+          }
+        },
+        error: (e) => { console.error(e) },
+      });
     }
   }
 
   closeDialog() {
     this.router.navigate([`/${this.moduleOf}/inventory`])
   }
+
+
 
 }

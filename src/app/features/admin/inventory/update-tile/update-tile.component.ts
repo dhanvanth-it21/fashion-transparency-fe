@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TileDetial } from '../../models/tile.modle';
 import { ApiService } from '../../../../shared/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-tile',
@@ -21,6 +21,14 @@ export class UpdateTileComponent {
 
   tileDetail!: TileDetial;
   tileDetailFormBuilder!: FormGroup;
+
+  sizeOptions: string[] = ['SIZE_1X1', 'SIZE_1_5X1', 'SIZE_2X1', 'SIZE_2X2', 'SIZE_3X3', 'SIZE_4X2', 'SIZE_4X4', 'SIZE_6X4', 'SIZE_8X4'];
+  categoryOptions: string[] = ['WALL', 'FLOOR'];
+  finishingOptions: string[] = ['GLOSSY', 'HIGH_GLOSSY', 'MATT', 'SUGAR', 'CARVING', 'FULL_BODY'];
+  subCategoryOptions: { [key: string]: string[] } = {
+    WALL: ['KITCHEN', 'BATHROOM', 'ELEVATION'],
+    FLOOR: ['INDOOR', 'PARKING', 'ROOFING'],
+  };
 
   constructor(
     private formbulider: FormBuilder,
@@ -49,6 +57,7 @@ export class UpdateTileComponent {
       finishing: [''],
       minimumStockLevel: [''],
     })
+
   }
 
   onSubmit() {
@@ -90,6 +99,8 @@ export class UpdateTileComponent {
       }
     )
   }
+
+ 
 
 
 }

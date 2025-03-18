@@ -16,6 +16,14 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
+
+  addTile(formData: any) {
+    const body = formData;
+    const apiuri = `http://${this.serverIp}/api/tiles/`;
+    const returnData: Observable<Object> = this.http.post(apiuri, body);
+    return returnData;
+  }
+
   getTilesList(page: number, size: number, sortBy: string, sortDirection: string, search: string = "", lowStockFilter: boolean = false) {
     let searchText = "";
     if (search !== "") {
@@ -305,6 +313,24 @@ export class ApiService {
 
   getEmployeeOverviewMetrics() {
     const apiuri = `http://${this.serverIp}/api/dashboard/employee-overview-metrics`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
+  //---------------------------------------------------------
+
+  getApiUsage(page: number, size: number, sortBy: string, sortDirection: string, search: string = "") {
+    let searchText = "";
+    if (search !== "") {
+      searchText = `&search=${search}`;
+    }
+    const apiuri = `http://${this.serverIp}/api/billing-cycle/table-details?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}${searchText}`
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData;
+  }
+
+  getApiUsageById(id: string) {
+    const apiuri = `http://${this.serverIp}/api/billing-cycle/${id}`;
     const returnData: Observable<Object> = this.http.get(apiuri);
     return returnData
   }

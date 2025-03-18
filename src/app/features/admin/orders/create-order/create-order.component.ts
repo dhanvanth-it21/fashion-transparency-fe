@@ -219,7 +219,6 @@ export class CreateOrderComponent {
   }
 
   submitOrder() {
-    console.log(this.createOrderForm.value)
     this.apiService.postNewOrder(this.createOrderForm.value).subscribe({
       next: (repsonse: any) => {console.log(repsonse.data)},
       error: e => console.error(e),

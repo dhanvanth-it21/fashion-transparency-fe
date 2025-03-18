@@ -89,7 +89,7 @@
         </tr>
         <tr class="detail-veiw" *ngIf="dataDetailId === data._id && dataDetail">
           <td colspan="8">
-            <div class="tile-detail">
+            <div class="tile-detail" *ngIf="expandDetail.length > 0">
               <p *ngFor="let exp of expandDetail">
                 <span *ngIf="isDate(dataDetail[exp.key]); else normalExp">
                   <strong>{{ exp.label }}</strong> :
@@ -101,6 +101,9 @@
                 </ng-template>
               </p>
             </div>
+
+
+
             <div
               class="item-list-container"
               *ngIf="dataDetail.itemList?.length"
@@ -121,6 +124,38 @@
                 </tbody>
               </table>
             </div>
+
+
+
+
+            <div
+              class="item-list-container"
+              *ngIf="dataDetail.usageList?.length"
+            >
+              <strong>Request's List:</strong>
+              <table class="item-list-table">
+                <thead>
+                  <tr>
+                    <th>Request Type</th>
+                    <th>Count</th>
+                    <th>Price Per Request</th>
+                    <th>Total Amout</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of dataDetail.usageList">
+                    <td>{{ item.method }}</td>
+                    <td>{{ item.count }}</td>
+                    <td>{{ item.pricePerRequest }}</td>
+                    <td>{{ item.totalAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+
+
+            
           </td>
         </tr>
       </ng-container>
