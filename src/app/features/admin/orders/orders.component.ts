@@ -130,6 +130,7 @@ export class OrdersComponent {
     { name: "Status", class: "", sortBy: "status", sortDirection: "asc" },
   ]
 
+  
   formConfig = [
     { key: 'shopName', label: 'Shop Name', type: 'text', required: true },
     { key: 'status', label: 'Status', type: 'select', required: true, options: ['PENDING', 'PICKING', 'DISPATCHED', 'DELIVERED'] },
@@ -268,11 +269,18 @@ export class OrdersComponent {
   }
 
   initailzeUpdateFormGroup() {
+
+    const allStatus = ['PENDING', 'PICKING', 'DISPATCHED', 'DELIVERED'];
+  const currentStatus = this.updateDataDetail.status;
+  const allowedStatus = allStatus.slice(allStatus.indexOf(currentStatus) + 1);
+  const statusOptions = allowedStatus.length > 0 ? allowedStatus : ['DELIVERED'];
+  this.formConfig[1]  ={ key: 'status', label: 'Status', type: 'select', required: true, options: statusOptions }
     this.updateDetailFormGroup = this.formBuilder.group({
       _id: this.updateDataDetailId,
       shopName: [{ value: this.updateDataDetail.shopName, disabled: true }, Validators.required],
       status: [this.updateDataDetail.status, [Validators.required, Validators.pattern('^(PENDING|PICKING|DISPATCHED|DELIVERED)$')]],
     });
+
   }
 
   openCreateOrderForm() {

@@ -71,3 +71,12 @@
     left: 10%;
 }
 
+
+.search-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--XXL-color);
+    margin-bottom: 5px;
+    margin-left: 15px;
+    display: block;
+}

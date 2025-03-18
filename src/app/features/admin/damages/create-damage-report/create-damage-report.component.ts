@@ -119,7 +119,7 @@ export class CreateDamageReportComponent {
     this.searchSkucode = false;
 
     // this.initializeForm()
-    this.formConfig = this.formConfig.filter(field => ['damageLocation', 'qty', 'remark'].includes(field.key));
+    this.formConfig = this.formConfig.filter(field => ['damageLocation', 'qty' ,'remark'].includes(field.key));
 
     if (location === 'FROM_MANUFACTURER') {
       this.formConfig.push({ key: 'purchaseId', label: 'Purchase ID', type: 'text', required: true });
@@ -156,6 +156,7 @@ export class CreateDamageReportComponent {
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.searchResultsOfRetailShop = response.data;
+          this.clearTiledetails();
         }
       },
       error: (e) => console.error(e),
@@ -167,6 +168,7 @@ export class CreateDamageReportComponent {
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.searchResultsOfManufacturer = response.data;
+          this.clearTiledetails();
         }
       },
       error: (e) => console.error(e),
@@ -201,6 +203,7 @@ export class CreateDamageReportComponent {
     this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
     this.formConfig.push({ key: 'soldQty', label: 'Sold Qty', type: 'number', required: true });
     this.searchSkucode = true;
+    this.clearTiledetails();
   }
 
   selectManufacturer(manufacturer: any) {
@@ -217,6 +220,7 @@ export class CreateDamageReportComponent {
     this.formConfig.push({ key: 'skuCode', label: 'Tile SKU', type: 'text', required: true },);
     this.formConfig.push({ key: 'soldQty', label: 'Bought Qty', type: 'number', required: true });
     this.searchSkucode = true;
+    this.clearTiledetails();
   }
 
   submitDamageReport() {
@@ -232,6 +236,15 @@ export class CreateDamageReportComponent {
 
   closeForm() {
     this.router.navigate([`/${this.moduleOf}/damage-reports`]);
+  }
+
+  clearTiledetails() {
+    this.createDamageReportForm.patchValue({
+      skuCode: "",
+      availableQty: "",
+      purchasedQty: "",
+      soldQty: "",
+    });
   }
 
 
