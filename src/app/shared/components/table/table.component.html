@@ -23,6 +23,7 @@
           </div>
         </th>
         <th>Action</th>
+        <th *ngIf="paymentDetails">Payment</th>
       </tr>
     </thead>
     <tbody>
@@ -85,6 +86,16 @@
                 <fa-icon [icon]="iconsUsed.archive"></fa-icon>
               </button>
             </div>
+          </td>
+          <td *ngIf="paymentDetails">
+            <button *ngIf="!data.payment else paidNote" class="pay-button" (click)="payAmount(data._id)">
+              Pay
+            </button>
+            <ng-template #paidNote>
+              <div class="paid">
+                  Paid
+              </div>
+            </ng-template>
           </td>
         </tr>
         <tr class="detail-veiw" *ngIf="dataDetailId === data._id && dataDetail">

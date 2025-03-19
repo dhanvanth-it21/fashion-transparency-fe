@@ -16,5 +16,10 @@ export const routes: Routes = [
     loadChildren: () => import("./core/main-layout/view/view.module")
       .then(m => ViewModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: "loading",
+    loadComponent: () => import("./shared/loading/loading.component")
+    .then(m => m.LoadingComponent)
   }
 ];

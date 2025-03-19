@@ -46,6 +46,9 @@ export class TableComponent {
     tracker: false,
   }
 
+  @Input()
+  paymentDetails = false;
+
   @Output()
   dataDetailIdChange = new EventEmitter<string>();
 
@@ -67,6 +70,9 @@ export class TableComponent {
 
   @Output()
   changedPageSize = new EventEmitter<number>();
+
+  @Output()
+  paymentEmit = new EventEmitter<string>();
 
 
 
@@ -149,6 +155,10 @@ export class TableComponent {
            (typeof value === 'string' && isNaN(Number(value)) && !isNaN(Date.parse(value)));
   }
   
+
+  payAmount(id: string) {
+    this.paymentEmit.emit(id);
+  }
 
 
 

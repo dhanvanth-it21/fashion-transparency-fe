@@ -35,6 +35,7 @@ table {
     justify-content: space-between;
     position: relative;
   }
+
   
   .t-head span {
     position: absolute;
@@ -80,7 +81,7 @@ table {
   tbody tr:hover .tile-action-container fa-icon {
     color: #fff;
   }
-  
+
   .tile-action-container button {
     font-size: medium;
   }
@@ -277,6 +278,39 @@ table {
 
   .low-stock {
     background-color: #ffbfb7;
+  }
+
+  .pay-button {
+    background-color: #1010a1;
+    width: 100%;
+    text-align: center;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pay-button:hover {
+    background-color: #2626c6; 
+  }
+  
+  .pay-button:active {
+    background-color: #1010a1; 
+  }
+
+
+  .paid {
+    background-color: #24b947;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
   }
   
   

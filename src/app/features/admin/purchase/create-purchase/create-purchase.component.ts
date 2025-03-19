@@ -58,13 +58,13 @@ export class CreatePurchaseComponent {
   searchSubjectOfBrandName = new Subject<string>();
   searchSubjectOfTile = new Subject<string>();
 
-  swalAlert: {submitForm: boolean, closeForm: boolean} = {
+  swalAlert: { submitForm: boolean, closeForm: boolean } = {
     submitForm: false,
     closeForm: false
   }
 
 
-  actionButtons: {expand: boolean, edit: boolean, delete: boolean, tracker: boolean} =  {
+  actionButtons: { expand: boolean, edit: boolean, delete: boolean, tracker: boolean } = {
     expand: true,
     edit: true,
     delete: false,
@@ -84,7 +84,6 @@ export class CreatePurchaseComponent {
     { key: 'damagePercentage', label: 'Damage %', type: 'number', required: true, min: 0, max: 100 }
   ];
 
-  // 67bbfe2f8d85f862f666bb10
 
   formConfigOfUpdate = [
     { key: "skuCode", label: "Sku Code", type: "text", required: true },
@@ -110,7 +109,7 @@ export class CreatePurchaseComponent {
     sort_by: "_id",
   }
 
-  allowPagination: {isPaginated: boolean, pageSize: boolean} = {
+  allowPagination: { isPaginated: boolean, pageSize: boolean } = {
     isPaginated: true,
     pageSize: true,
   }
@@ -176,7 +175,7 @@ export class CreatePurchaseComponent {
 
   searchForTile(searchTerm: string) {
     const brandName = this.createPurchaseForm.get('brandName')?.value;
-    this.apiService.getTiles(searchTerm,undefined, undefined, brandName).subscribe({
+    this.apiService.getTiles(searchTerm, undefined, undefined, brandName).subscribe({
       next: (response: any) => {
         if (response.status === "success" && response.data) {
           this.searchResultsOfTile = response.data;
@@ -205,18 +204,23 @@ export class CreatePurchaseComponent {
     this.searchResultsOfBrandName = [];
     this.searchTextOfBrandName = "";
     this.searchSkuCode = true;
+    this.displayData = [];
+    while (this.itemList.length !== 0) {
+      this.itemList.removeAt(0)
+    }
   }
+
   selectTile(tile: any) {
     if (this.checkDuplicate(tile.skuCode)) {
       this.searchResultsOfTile = [];
       this.searchTextOfTile = "";
       return;
     }
-    this.displayData.push({ _id: tile._id, skuCode: tile.skuCode, qty:tile.qty, addQty: 1 });
+    this.displayData.push({ _id: tile._id, skuCode: tile.skuCode, qty: tile.qty, addQty: 1 });
     this.itemList.push(
       this.formBuilder.group({
         tileId: [tile._id, Validators.required],
-        skuCode: [{ value: tile.skuCode, disabled: true}],
+        skuCode: [{ value: tile.skuCode, disabled: true }],
         qty: [{ value: tile.qty, disabled: true }, [Validators.required, Validators.min(0)]],
         addQty: [1, [Validators.required, Validators.min(1)]]
       })
@@ -226,9 +230,8 @@ export class CreatePurchaseComponent {
   }
 
   submitPurchase() {
-    console.log(this.createPurchaseForm.value)
     this.apiService.postNewPurchase(this.createPurchaseForm.value).subscribe({
-      next: (repsonse: any) => {console.log(repsonse.data)},
+      next: (repsonse: any) => { console.log(repsonse.data) },
       error: e => console.error(e),
     })
     this.router.navigate(['/admin/purchases']);

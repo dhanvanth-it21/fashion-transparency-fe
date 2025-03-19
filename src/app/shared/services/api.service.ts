@@ -335,6 +335,14 @@ export class ApiService {
     return returnData
   }
 
+
+  //-------------------------------------------------
+  getPaymentLink(id: string, amount: number) {
+    const apiuri = `http://${this.serverIp}/api/payment/${id}?amount=${amount}`;
+    const returnData: Observable<Object> = this.http.get(apiuri);
+    return returnData
+  }
+
   
 
 }

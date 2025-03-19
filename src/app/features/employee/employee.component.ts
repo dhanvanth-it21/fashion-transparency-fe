@@ -31,7 +31,6 @@ export class EmployeeComponent {
       { path: '/employee/purchases', icon: this.sidebarIcons.purchase, label: 'Purchase' },
       { path: '/employee/inventory', icon: this.sidebarIcons.inventory, label: 'Inventory' },
       { path: '/employee/damage-reports', icon: this.sidebarIcons.damage, label: 'Damages' },
-      { path: '/employee/api-usage', icon: this.sidebarIcons.usage, label: 'Usage' }
     ];
 
     constructor(

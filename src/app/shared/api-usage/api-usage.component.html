@@ -4,7 +4,7 @@
     }">
       <div class="list-heading">
         <span class="total-elements">{{ paging.total_elements }}</span>
-        <input [(ngModel)]="searchText" type="text" placeholder="Search..." />
+        <!-- <input [(ngModel)]="searchText" type="text" placeholder="Search..." /> -->
        
       </div>
       <div class="list-area">
@@ -16,8 +16,10 @@
           [(dataDetail)]="dataDetail"
           [(dataDetailId)]="dataDetailId"
           [expandDetail]="expandDetail"
+          [paymentDetails]="true"
           (sortChanged)="sortChanged($event)"
           (pageChanged)="pageChanged($event)"
+          (paymentEmit)="paymentForId($event)"
         >
         </app-table>
       </div>
