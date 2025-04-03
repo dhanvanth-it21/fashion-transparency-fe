@@ -86,7 +86,6 @@ export class ApiUsageComponent {
     { name: "Start Date", class: "", sortBy: "billingCycleStart", sortDirection: "asc" },
     { name: "End Date", class: "", sortBy: "billingCycleEnd", sortDirection: "asc" },
     { name: "Total Amount", class: "", sortBy: "totalAmount", sortDirection: "asc" },
-    { name: "Payment Status", class: "", sortBy: "payment", sortDirection: "asc" },
   ]
 
 
